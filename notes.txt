@@ -1,0 +1,32 @@
+not listesi:
+
+önemli linkler:
+
+1- https://simpleisbetterthancomplex.com/tips/2018/02/10/django-tip-22-designing-better-models.html
+2- https://simpleisbetterthancomplex.com/tips/2016/07/25/django-tip-8-blank-or-null.html
+3- https://betterprogramming.pub/clean-code-principles-in-django-b0563a4e12f5
+4- https://betterprogramming.pub/refactors-you-need-to-know-to-for-your-django-project-8a56b0dee34f
+
+bildiğimden emin olmam gerekenler : 
+
+How to create a Django project
+Django App
+Django Model
+Django Migration
+View
+Template
+URL
+Django Admin
+Django Form
+Bootstrap
+Authentication
+Django ORM
+Class Based Views (never use function based system in project)
+Generic Class-Based View (Learn it but do not use them in your project. Do not use CreateView, UpdateView, ListView  etc.)
+Paginator
+Decorators & Mixins
+Deployment
+
+
+hedef proje "4.0"  ilerlemesi:
+modellenenler = courses, semesters, rooms,
