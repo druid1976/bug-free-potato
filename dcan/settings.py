@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # Application definition
 
@@ -38,11 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "qa",
-    "rooms",
-    "semesters",
     "accounts",
     "courses",
-    "cc",
 ]
 
 MIDDLEWARE = [
@@ -60,8 +58,8 @@ ROOT_URLCONF = 'dcan.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [r"C:\Users\erenk\PycharmProjects\dcan\templates"]
-        ,
+        'DIRS': [r"C:\Users\erenk\PycharmProjects\dcan\templates"],
+
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -83,8 +81,8 @@ WSGI_APPLICATION = 'dcan.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "my_database",
-        "USER": "my_users_database",
+        "NAME": "datta_baseu",
+        "USER": "postgres",
         "PASSWORD": "asli",
         "HOST": "127.0.0.1",
         "PORT": "5432",

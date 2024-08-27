@@ -7,6 +7,9 @@ not listesi:
 3- https://betterprogramming.pub/clean-code-principles-in-django-b0563a4e12f5
 4- https://betterprogramming.pub/refactors-you-need-to-know-to-for-your-django-project-8a56b0dee34f
 
+5- https://docs.djangoproject.com/en/5.1/topics/auth/customizing/#referencing-the-user-model  //for referencing the user
+
+
 bildiğimden emin olmam gerekenler : 
 
 How to create a Django project
@@ -27,6 +30,30 @@ Paginator
 Decorators & Mixins
 Deployment
 
+             related_name tersine işlemler için var. Nasıl yani?
+
+class Ogrenci(models.Model):
+    ad = models.CharField(max_length=100)
+
+class Ders(models.Model):
+    baslik = models.CharField(max_length=200)
+    ogrenciler = models.ManyToManyField(Ogrenci, related_name='kayitli_dersler')
+
+ogrenci = Ogrenci.objects.get(id=1)
+dersler = ogrenci.kayitli_dersler.all()
+
+             bunun sonucunda 1 numaralı öğrenci objesinin kayıtlı olduğu bütün derslere erişebiliyoruz
+
+
+
+
+Null: It is database-related. Defines if a given database column will accept null values or not.
+Blank: It is validation-related. It will be used during forms validation, when calling form.is_valid()
+
+
+
+
 
 hedef proje "4.0"  ilerlemesi:
 modellenenler = courses, semesters, rooms,
+foreignkey = a blog linked to its user
