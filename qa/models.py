@@ -16,6 +16,8 @@ class Question(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
     tags = models.ManyToManyField("Tags", blank=True)
+    up_votes = models.IntegerField(default=0)
+    down_votes = models.IntegerField(default=0)
 
     class Meta:
         ordering = ['-created_on']
@@ -33,6 +35,8 @@ class CustomText(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='texts_by_student')
     type = IntegerField(choices=ATOM, default=0)
     text = models.TextField()
+    up_votes = models.IntegerField(default=0)
+    down_votes = models.IntegerField(default=0)
 
 
 class Tags(models.Model):

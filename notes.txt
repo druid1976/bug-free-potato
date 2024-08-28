@@ -57,3 +57,18 @@ Blank: It is validation-related. It will be used during forms validation, when c
 hedef proje "4.0"  ilerlemesi:
 modellenenler = courses, semesters, rooms,
 foreignkey = a blog linked to its user
+
+
+
+DJANGO REQUEST NASIL PROCESSLIYOR:
+
+https://docs.djangoproject.com/en/5.1/topics/http/urls/
+
+
+
+Hatırlamalık bazı komutlar:
+
+
+python manage.py magemigrations APP_NAME (olmasa da olur appname)
+python manage.py sqlmigrate APP_NAME MIGRATION_NUMBER
+python manage.py migrate
