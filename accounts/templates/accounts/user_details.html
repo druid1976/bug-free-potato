@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+    <!-- Bootstrap CSS for styling -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">User Details</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">{{ user.get_full_name }}</h4>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Username:</strong> {{ user.username }}</p>
+                        <p><strong>Email:</strong> {{ user.email }}</p>
+                        <p><strong>Student Number:</strong> {{ user.student_number }}</p>
+                        <p><strong>Status:</strong> {{ user.get_status_display }}</p>
+                        <p><strong>Year:</strong> {{ user.get_year_of_student_display }}</p>
+                        <p><strong>Semester:</strong> {{ user.semester_of_student }}</p>
+                        <p><strong>Study:</strong> {{ user.get_study_display }}</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <!-- Link to edit user details -->
+                        <a href="{% url 'user_update' user.student_number %}" class="btn btn-primary">Edit Details</a>
+                        <!-- Link to go back to the dashboard -->
+                        <a href="{% url 'blank' %}" class="btn btn-secondary">Back to Blank</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

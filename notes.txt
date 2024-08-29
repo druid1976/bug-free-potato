@@ -13,12 +13,12 @@ not listesi:
 bildiğimden emin olmam gerekenler : 
 
 How to create a Django project
-Django App
-Django Model
-Django Migration
-View
-Template
-URL
+Django App -> düz app?
+Django Model -> modeller database logic
+Django Migration ->
+View -> application logic
+Template -> yazdırıldığı yer
+URL ->
 Django Admin
 Django Form
 Bootstrap
@@ -72,3 +72,9 @@ Hatırlamalık bazı komutlar:
 python manage.py magemigrations APP_NAME (olmasa da olur appname)
 python manage.py sqlmigrate APP_NAME MIGRATION_NUMBER
 python manage.py migrate
+
+
+
+
+basit account özelliklerini view - template kullanarak yaptım ve yapıyorum
+complex şekil şukul şeyleri apiview react kullanarak yapacağım
