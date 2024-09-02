@@ -3,23 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blank</title>
+    <title>Semester List</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
     <div class="container mt-5">
-        <h2 class="text-center">Blank</h2>
+        <h2 class="text-center">List of Semesters</h2>
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <ul class="list-group">
-                    {% for link in section_links %}
+                    {% for semester in semesters %}
                     <li class="list-group-item">
-                        <a href="{{ link.url }}">{{ link.name }}</a>
+                        {{ semester.name }}
                     </li>
                     {% endfor %}
                 </ul>
             </div>
         </div>
     </div>
+    <div>
+        <a href="{% url 'accounts:blank' %}" class="btn btn-secondary">Back to Blank</a>
+    </div>
+
 </body>
 </html>

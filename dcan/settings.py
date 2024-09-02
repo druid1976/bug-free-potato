@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'dcan.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "datta_baseu",
+        "NAME": "datta_baseuk",
         "USER": "postgres",
         "PASSWORD": "asli",
         "HOST": "127.0.0.1",

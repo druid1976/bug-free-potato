@@ -1,14 +1,14 @@
 from django.urls import path
-
+from courses.views import SemesterListView
 from accounts import views
-'''
 
-/* urlpatterns = [
-    path('courses/', , name='courses'),
+app_name = 'courses'
+urlpatterns = [
+    path('semester/', SemesterListView.as_view(), name='semester_list'),
+
 ]
 
 
-courseların genel sayfasına ait url
 
 
-'''
+

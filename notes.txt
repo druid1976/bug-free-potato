@@ -72,9 +72,43 @@ Hatırlamalık bazı komutlar:
 python manage.py magemigrations APP_NAME (olmasa da olur appname)
 python manage.py sqlmigrate APP_NAME MIGRATION_NUMBER
 python manage.py migrate
-
-
+.set_password("")
 
 
 basit account özelliklerini view - template kullanarak yaptım ve yapıyorum
 complex şekil şukul şeyleri apiview react kullanarak yapacağım
+
+
+02.09 Hedef:: My Courses, General Courses, Semester List ve
+
+
+'''
+Correct. This doesn’t work because you’re explicitly setting the password
+field to the plain-text password. You need to leave the password field
+blank when you create the User object, then use the set_password
+function to set the password to its hashed value before calling save on that object.
+'''
+
+
+
+
+
+    def get(self, request, student_number):
+        if request.user.student_number == student_number:
+            user = get_object_or_404(CustomUser, student_number=student_number)
+            form = self.form_class()
+            return render(request, self.template_name, {'form': form, 'user': user})
+        else:
+            return redirect('login')
+
+    def post(self, request, student_number):
+        if request.user.student_number == student_number:
+            user = get_object_or_404(CustomUser, student_number=student_number)
+            form = self.form_class(request.POST)
+            if form.is_valid():
+                user = form.save()
+                user.save()
+                return redirect(reverse('blank.html'))
+
+
+                ek düşünce : semester da academic dream'a eklenebilir. Çünkü neden olmasın

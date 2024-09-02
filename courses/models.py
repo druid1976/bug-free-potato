@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import IntegerField, TimeField, OneToOneField, SET_NULL
+from django.db.models import IntegerField, TimeField, SET_NULL, ForeignKey
 from accounts.models import CustomUser
 # from datetime import time --> this is for creating time(9,0)
 # Create your models here.
@@ -73,6 +73,6 @@ class Semester(models.Model):
 
 
 class AcademicDream(models.Model):
-    student = OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='academic_dream', null=True)
+    student = ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='academic_dream', null=True)
     courses = models.ForeignKey(Course, related_name='user_in_course', on_delete=SET_NULL, blank=True, null=True)
     grade = models.IntegerField(null=True, blank=True)

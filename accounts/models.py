@@ -61,7 +61,6 @@ class CustomUser(AbstractUser):
 """ 
 According to status value courses = taker or giver
 
-
 An abstract base class implementing a fully featured User model with
 admin-compliant permissions.
 

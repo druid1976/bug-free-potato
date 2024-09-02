@@ -26,10 +26,8 @@
                         <p><strong>Study:</strong> {{ user.get_study_display }}</p>
                     </div>
                     <div class="card-footer text-center">
-                        <!-- Link to edit user details -->
-                        <a href="{% url 'user_update' user.student_number %}" class="btn btn-primary">Edit Details</a>
-                        <!-- Link to go back to the dashboard -->
-                        <a href="{% url 'blank' %}" class="btn btn-secondary">Back to Blank</a>
+                        <a href="{% url 'accounts:user_update' user.student_number %}" class="btn btn-primary">Edit Details</a>
+                        <a href="{% url 'accounts:blank' %}" class="btn btn-secondary">Back to Blank</a>
                     </div>
                 </div>
             </div>
