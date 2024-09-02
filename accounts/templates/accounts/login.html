@@ -1,46 +1,113 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/98.css" />
+    <style>
+        body {
+            background-image: url("{% static 'accounts/starry.jpg' %}");
+        }
+
+        h2 {
+            color: lightcyan;
+            text-align: center;
+        }
+
+        .container {
+            width: 400px;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+
+        .window {
+            padding: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.5rem;
+            background-color: white;
+            border: 1px solid #000;
+        }
+
+        .btn-primary {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            background-color: white;
+            border: 1px solid #000;
+            text-align: center;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #c3c3c3;
+        }
+
+        .text-danger {
+            color: red;
+        }
+
+        .text-center p {
+            margin-top: 1rem;
+            color: lightcyan;
+        }
+
+        .btn-link {
+            color: blue;
+            text-decoration: underline;
+        }
+
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h2 class="text-center">Sign In</h2>
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <form method="post" novalidate>
-                    {% csrf_token %}
-                    <div class="form-group">
-                        {{ form.username.label_tag }}
-                        {{ form.username }}
-                        {% if form.username.errors %}
-                            <div class="text-danger">
-                                {{ form.username.errors }}
-                            </div>
-                        {% endif %}
-                    </div>
-                    <div class="form-group">
-                        {{ form.password.label_tag }}
-                        {{ form.password }}
-                        {% if form.password.errors %}
-                            <div class="text-danger">
-                                {{ form.password.errors }}
-                            </div>
-                        {% endif %}
-                    </div>
-                    {% if form.non_field_errors %}
+    <div class="container window">
+        <div class="title-bar">
+            <div class="title-bar-text">Sign In</div>
+        </div>
+        <div class="window-body">
+            <form method="post" novalidate>
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.username.label_tag }}
+                    {{ form.username }}
+                    {% if form.username.errors %}
                         <div class="text-danger">
-                            {{ form.non_field_errors }}
+                            {{ form.username.errors }}
                         </div>
                     {% endif %}
-                    <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                </form>
-                <div class="text-center mt-3">
-                    <p>Don't have an account? <a href="{% url 'accounts:signup' %}" class="btn btn-link">Sign Up</a></p>
                 </div>
+                <div class="form-group">
+                    {{ form.password.label_tag }}
+                    {{ form.password }}
+                    {% if form.password.errors %}
+                        <div class="text-danger">
+                            {{ form.password.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+                {% if form.non_field_errors %}
+                    <div class="text-danger">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+                <button type="submit" class="btn-primary">Sign In</button>
+            </form>
+            <div class="text-center mt-3">
+                <p>Don't have an account? <a href="{% url 'accounts:signup' %}" class="btn-link">Sign Up</a></p>
             </div>
         </div>
     </div>

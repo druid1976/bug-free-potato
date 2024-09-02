@@ -5,27 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0cce1db-1d13-4a70-acfb-88e0dc584203" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/accounts/templates/accounts/my_courses.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/bf1b9160-8ae8-47d9-9936-8822708fb5e8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/bf1b9160-8ae8-47d9-9936-8822708fb5e8.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/bf1b9160-8ae8-47d9-9936-8822708fb5e8/storage_v2/_src_/database/datta_baseu.CfwfrQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/bf1b9160-8ae8-47d9-9936-8822708fb5e8/storage_v2/_src_/database/datta_baseu.CfwfrQ/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/bf1b9160-8ae8-47d9-9936-8822708fb5e8.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/bf1b9160-8ae8-47d9-9936-8822708fb5e8/storage_v2/_src_/database/datta_baseu.CfwfrQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/bf1b9160-8ae8-47d9-9936-8822708fb5e8/storage_v2/_src_/database/datta_baseu.CfwfrQ/schema/public.abK9xQ.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/blank.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/blank.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/courses.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/my_courses.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/my_courses.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/signup.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/user_details.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/user_details.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/user_update.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/user_update.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/courses/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/courses/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/courses/templates/courses/course.html" beforeDir="false" afterPath="$PROJECT_DIR$/courses/templates/courses/course_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/courses/templates/courses/semester_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/courses/templates/courses/semester_list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/courses/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/courses/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/courses/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/courses/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dcan/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/dcan/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dcan/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/dcan/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/notes.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +65,7 @@
     "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/erenk/PycharmProjects/dcan/courses/static/courses",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -85,7 +81,11 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\erenk\PycharmProjects\dcan\courses\static\courses" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\erenk\PycharmProjects\dcan\accounts\static\accounts" />
       <recent name="C:\Users\erenk\PycharmProjects\dcan\accounts\templates\accounts" />
       <recent name="C:\Users\erenk\PycharmProjects\dcan\courses\templates\courses" />
     </key>
@@ -138,7 +138,8 @@
       <workItem from="1724838062867" duration="13656000" />
       <workItem from="1724916375780" duration="19898000" />
       <workItem from="1725124316216" duration="1252000" />
-      <workItem from="1725261247929" duration="22252000" />
+      <workItem from="1725261247929" duration="22399000" />
+      <workItem from="1725297035322" duration="9564000" />
     </task>
     <servers />
   </component>

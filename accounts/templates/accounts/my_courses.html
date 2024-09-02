@@ -1,24 +1,78 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blank</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>My Courses</title>
+    <link rel="stylesheet" href="https://unpkg.com/98.css" />
+    <style>
+        body {
+            background-image: url("{% static 'courses/starry.jpg' %}");
+        }
+
+        h2 {
+            color: lavenderblush;
+            text-align: center;
+        }
+
+        .container {
+            width: 400px;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+
+        .window {
+            padding: 1rem;
+        }
+
+        .list-group-item {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: block;
+        }
+
+        .list-group-item a {
+            display: block;
+            padding: 5px;
+            background-color: white;
+            border: 1px solid #000;
+            text-decoration: none;
+            color: black;
+            text-align: center;
+        }
+
+        .list-group-item a:hover {
+            background-color: #c3c3c3;
+        }
+
+        p {
+            text-align: center;
+            color: lavenderblush;
+        }
+
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h2 class="text-center">My Courses</h2>
-        <div class="row justify-content-center">
-            <div class="col-md-6">
+    <div class="container window">
+        <div class="title-bar">
+            <div class="title-bar-text">My Courses</div>
+        </div>
+        <div class="window-body">
+            {% if courses %}
                 <ul class="list-group">
                     {% for course in courses %}
                     <li class="list-group-item">
-                        {{ course.name }}
+                        <a href="{% url 'courses:course_detail' course.course_code %}">
+                            {{ course.title }}
+                        </a>
                     </li>
                     {% endfor %}
                 </ul>
-            </div>
+            {% else %}
+                <p>You are not enrolled in any courses.</p>
+            {% endif %}
         </div>
     </div>
 </body>

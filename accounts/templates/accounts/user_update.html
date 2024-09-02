@@ -1,45 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Profile</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- 98.css for retro styling -->
+    <link rel="stylesheet" href="https://unpkg.com/98.css" />
+    <style>
+        body {
+            background-image: url("{% static 'accounts/starry.jpg' %}");
+        }
+
+        h2 {
+            color: lavender;
+            text-align: center;
+        }
+
+        .container {
+            width: 400px;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+
+        .window {
+            padding: 1rem;
+        }
+
+        .alert {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            color: #721c24;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.5rem;
+            background-color: white;
+            border: 1px solid #000;
+        }
+
+        .btn-primary {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            background-color: white;
+            border: 1px solid #000;
+            text-align: center;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #c3c3c3;
+        }
+
+        .text-danger {
+            color: red;
+            font-size: 0.875rem;
+        }
+
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h2 class="text-center">Update Your Profile</h2>
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <form method="post" novalidate>
-                    {% csrf_token %}
-                    {% if form.errors %}
-                        <div class="alert alert-danger">
-                            <ul>
-                                {% for field in form %}
-                                    {% for error in field.errors %}
-                                        <li>{{ error }}</li>
-                                    {% endfor %}
+    <div class="container window">
+        <div class="title-bar">
+            <div class="title-bar-text">Update Your Profile</div>
+        </div>
+        <div class="window-body">
+            <form method="post" novalidate>
+                {% csrf_token %}
+                {% if form.errors %}
+                    <div class="alert">
+                        <ul>
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
                                 {% endfor %}
-                            </ul>
-                        </div>
-                    {% endif %}
-                    {% for field in form %}
-                        <div class="form-group">
-                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                            {{ field }}
-                            {% if field.errors %}
-                                <div class="text-danger">
-                                    {% for error in field.errors %}
-                                        <small>{{ error }}</small>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-                    <button type="submit" class="btn btn-primary">Update Profile</button>
-                </form>
-            </div>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="text-danger">
+                                {% for error in field.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn-primary">Update Profile</button>
+            </form>
         </div>
     </div>
 </body>
