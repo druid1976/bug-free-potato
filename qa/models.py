@@ -5,8 +5,8 @@ from accounts.models import CustomUser
 
 
 class Question(models.Model):
-    STATUS = ((1, "OPEN"),
-              (2, "CLOSED")
+    STATUS = ((0, "OPEN"),
+              (1, "CLOSED")
               )
 
     question = models.CharField(max_length=200, unique=True)
@@ -44,4 +44,3 @@ class Tags(models.Model):
 
     def __str__(self):
         return self.tag
-

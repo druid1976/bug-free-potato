@@ -9,11 +9,14 @@ from .models import CustomUser
 
 # Create your views here.
 
+
 class BlankView(LoginRequiredMixin, View):
     template_name = 'accounts/blank.html'
     login_url = 'accounts:login'
 
     def get(self, request):
+        who = CustomUser.objects.get(student_number = request.user.student_number)
+
         context = {
             'section_links': [
                 {'name': 'Profile',
@@ -22,6 +25,8 @@ class BlankView(LoginRequiredMixin, View):
                  'url': reverse('accounts:my_courses', kwargs={'student_number': request.user.student_number})},
                 {'name': 'Semester List',
                  'url': reverse('courses:semester_list')},
+                {'name': 'Curriculum',
+                 'url': reverse('courses:courses_curriculum', kwargs={'program_code': who.study})},
             ]
         }
         return render(request, self.template_name, context)
@@ -87,7 +92,7 @@ class UserUpdateView(LoginRequiredMixin, View):
             form = self.form_class(instance=user)
             return render(request, self.template_name, {'form': form, 'user': user})
         else:
-            return redirect('accounts:login')
+            return redirect(reverse('accounts:login'))
 
     def post(self, request, student_number):
         if request.user.student_number == student_number:
@@ -106,11 +111,15 @@ class CoursesView(LoginRequiredMixin, View):
     login_url = 'accounts:login'
 
     def get(self, request, student_number):
-        pear = []
-        user = get_object_or_404(CustomUser, student_number=student_number)
-        dreams = AcademicDream.objects.filter(student=user)
-        for dream in dreams:
-            pear.append(dream.courses)
-        context = {'courses': pear,
-                   'url': reverse('accounts:my_courses', kwargs={'student_number': request.user.student_number})}
-        return render(request, self.template_name, context)
+        if request.user.student_number == student_number  and not None:
+            pear = []
+            user = get_object_or_404(CustomUser, student_number=student_number)
+            dreams = AcademicDream.objects.filter(student=user)
+            for dream in dreams:
+                pear.append(dream.courses)
+            context = {'courses': pear,
+                       'url': reverse('accounts:my_courses', kwargs={'student_number': request.user.student_number})}
+            return render(request, self.template_name, context)
+        else:
+            return redirect(reverse('accounts:login'))
+

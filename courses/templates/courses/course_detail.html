@@ -13,7 +13,7 @@
         }
 
         h2, h3 {
-            color: lightcyan;
+            color: darkslateblue;
             text-align: center;
         }
 
@@ -25,6 +25,7 @@
 
         .window {
             padding: 1rem;
+            background-color: lightsteelblue;
         }
 
         .section {
@@ -37,10 +38,18 @@
         .section-title {
             font-weight: bold;
             margin-bottom: 0.5rem;
+            font-size: 17px;
         }
 
         .section-content {
             margin-bottom: 0.5rem;
+            font-size: 15px;
+        }
+
+        .section-content-2 {
+            margin-bottom: 0.5rem;
+            font-size: 15px;
+            color: darkmagenta;
         }
 
         .btn-back {
@@ -56,7 +65,7 @@
         }
 
         .btn-back:hover {
-            background-color: #c3c3c3;
+            background-color: lightsteelblue;
         }
 
     </style>
@@ -94,13 +103,14 @@
             </div>
             <div class="section">
                 <h3>Sections:</h3>
-                <ul>
+                <ul class = "section-content-2">
                     {% for section in course.sections.all %}
                     <li>{{ section.section_number }} - {{ section.day_display }}: {{ section.starting_hour }} to {{ section.ending_hour }} ({{ section.room_name }}, {{ section.building_name }} {{ section.floor_name }})</li>
                     {% endfor %}
                 </ul>
             </div>
-            <a href="{% url 'courses:course_list' %}" class="btn-back">Back to Courses</a>
+            <a href="{% url 'courses:course_list' %}" class="btn-back">Go to Courses</a>
+        <a href = "{% url  'accounts:my_courses' user.student_number  %}" class = "btn-back"> Back to My Courses</a>
         </div>
     </div>
 </body>

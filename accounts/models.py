@@ -1,6 +1,5 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.db.models import IntegerField
 
 # Create your models here.
 
@@ -23,7 +22,7 @@ class CustomUser(AbstractUser):
                )
 
     SUBJECT_CHOICES = (
-        ("CS", "Computer Science"),
+        ("CENG", "Computer Science"),
         ("ENG", "Engineering"),
         ("BIO", "Biology"),
     )
@@ -34,7 +33,7 @@ class CustomUser(AbstractUser):
     year_of_student = models.IntegerField(choices=NUMBERS, default=1, null=True, blank=True)
     # daha sonra ilk kayıt olduğu anda yılını belirttiği
     # vakit normal zaman diliminden semestrı belirtilebilir
-    semester_of_student = IntegerField(default=1, null=True, blank=True)
+    semester_of_student = models.IntegerField(default=1, null=True, blank=True)
     """"
     For some reason doesn't work!
      semester = ForeignKey("Semester", null=True, blank=True,

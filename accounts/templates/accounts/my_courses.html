@@ -24,23 +24,25 @@
 
         .window {
             padding: 1rem;
+            background-color: lightsteelblue;
         }
 
         .list-group-item {
             list-style: none;
-            margin: 0;
+            margin: 5px;
             padding: 0;
             display: block;
         }
 
         .list-group-item a {
             display: block;
-            padding: 5px;
+            padding: 10px;
             background-color: white;
             border: 1px solid #000;
             text-decoration: none;
             color: black;
             text-align: center;
+            font-size: medium;
         }
 
         .list-group-item a:hover {
@@ -52,9 +54,37 @@
             color: lavenderblush;
         }
 
+        .tab-bar {
+            display: flex;
+            background-color: lightsteelblue;
+            padding: 4px;
+            border-bottom: 3px solid #000;
+        }
+
+        .tab-bar a {
+            text-decoration: brown;
+            color: black;
+            padding: 5px 10px;
+            border: 1px solid #000;
+            background-color: white;
+            margin-right: 5px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .tab-bar a:hover {
+            background-color: lightsteelblue;
+        }
+
+        .container {
+            margin-top: 100px;
+        }
+
     </style>
 </head>
 <body>
+    <div class="tab-bar">
+        <a href="{% url 'accounts:blank' %}">Back to MAC</a>
+    </div>
     <div class="container window">
         <div class="title-bar">
             <div class="title-bar-text">My Courses</div>

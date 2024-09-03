@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from django.views import View
 
 from .models import *
@@ -29,7 +30,25 @@ class CourseDetailView(View):
         course = get_object_or_404(Course, course_code=course_code)
         return render(request, self.template_name, {'course': course})
 
+
 class CourseListView(View):
+    template_name = 'courses/course_list.html'
+
     def get(self, request):
         courses = Course.objects.all()
-        return render(request, 'courses/course_list.html', {'courses': courses})
+        return render(request, self.template_name, {'courses': courses})
+
+
+class CurriculumView(LoginRequiredMixin, View):
+    template_name = 'courses/curriculum.html'
+    login_url = 'accounts:login'
+
+    def get(self, request, program_code):
+        if request.user.study == "CENG" and not None:
+            curr = Curriculum.objects.get(program_code=program_code)
+            courses = curr.courses.all()
+            context = {'courses': courses, 'program_code': program_code}
+            return render(request, self.template_name, context)
+        else:
+            return redirect(reverse('accounts:login'))
+
