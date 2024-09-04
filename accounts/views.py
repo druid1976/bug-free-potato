@@ -9,13 +9,14 @@ from .models import CustomUser
 
 # Create your views here.
 
+# can be made into app !?
+
 
 class BlankView(LoginRequiredMixin, View):
     template_name = 'accounts/blank.html'
     login_url = 'accounts:login'
 
     def get(self, request):
-        who = CustomUser.objects.get(student_number = request.user.student_number)
 
         context = {
             'section_links': [
@@ -25,8 +26,9 @@ class BlankView(LoginRequiredMixin, View):
                  'url': reverse('accounts:my_courses', kwargs={'student_number': request.user.student_number})},
                 {'name': 'Semester List',
                  'url': reverse('courses:semester_list')},
-                {'name': 'Curriculum',
-                 'url': reverse('courses:courses_curriculum', kwargs={'program_code': who.study})},
+                {'name': 'My Curriculum',
+                 'url': reverse('courses:courses_curriculum', kwargs={'program_code': request.user.study})},
+                {'name': 'QBank', 'url': reverse('qa:all_questions')}
             ]
         }
         return render(request, self.template_name, context)
@@ -111,15 +113,12 @@ class CoursesView(LoginRequiredMixin, View):
     login_url = 'accounts:login'
 
     def get(self, request, student_number):
-        if request.user.student_number == student_number  and not None:
-            pear = []
+        if request.user.student_number == student_number and not None:
             user = get_object_or_404(CustomUser, student_number=student_number)
             dreams = AcademicDream.objects.filter(student=user)
-            for dream in dreams:
-                pear.append(dream.courses)
+            pear = [dreams.courses for dreams in dreams]
             context = {'courses': pear,
                        'url': reverse('accounts:my_courses', kwargs={'student_number': request.user.student_number})}
             return render(request, self.template_name, context)
         else:
             return redirect(reverse('accounts:login'))
-

@@ -1,3 +1,5 @@
+from tkinter.constants import CHORD
+
 from django.db import models
 from django.db.models import IntegerField
 from accounts.models import CustomUser
@@ -44,3 +46,21 @@ class Tags(models.Model):
 
     def __str__(self):
         return self.tag
+
+
+class Voter(models.Model):
+
+    UPnDOWN = ((0, "NO"),
+              (-1, "DOWN"),
+              (1, "UP"))
+
+    voter = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='voter')
+    voted = models.IntegerField(default=0, choices=UPnDOWN)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='voters')
+    CustomText = models.ForeignKey(CustomText, on_delete=models.CASCADE, related_name='voters')
+
+    def __str__(self):
+        return self.voter
+
+    def vote_it(self):
+        user = request.user

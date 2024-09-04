@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Detail</title>
+    <link rel="stylesheet" href="https://unpkg.com/98.css" />
+    <style>
+        body {
+            background-image: url("{% static 'qa/starry.jpg' %}");
+
+        }
+
+        .container {
+            width: 800px;
+            margin: 50px auto 0;
+        }
+
+        .window {
+            padding: 1rem;
+            background-color: lightsteelblue;
+        }
+
+        h2 {
+            color: lightcyan;
+            text-align: center;
+        }
+
+        .content {
+            padding: 10px;
+            background-color: white;
+            border: 1px solid #000;
+            margin-bottom: 10px;
+            color: black;
+            font-size: 16px;
+        }
+
+        .meta {
+            font-size: 14px;
+            color: darkslategray;
+            margin-bottom: 5px;
+        }
+
+        .tags {
+            font-size: 12px;
+            color: darkgreen;
+        }
+
+        .answer-item {
+            padding: 10px;
+            background-color: white;
+            border: 1px solid #000;
+            margin-top: 10px;
+            color: black;
+        }
+
+        .tab-bar {
+            display: flex;
+            background-color: lightsteelblue;
+            padding: 4px;
+            border-bottom: 3px solid #000;
+        }
+
+        .tab-bar a {
+            text-decoration: none;
+            color: black;
+            padding: 5px 10px;
+            border: 1px solid #000;
+            background-color: white;
+            margin-right: 5px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .tab-bar a:hover {
+            background-color: lightsteelblue;
+        }
+    </style>
+</head>
+<body>
+    <div class="tab-bar">
+        <a href="{% url 'qa:all_questions' %}">All Questions</a>
+        <a href="{% url 'accounts:blank' %}">MAC</a>
+    </div>
+    <div class="container window">
+        <div class="title-bar">
+            <div class="title-bar-text">{{ question.question }}</div>
+        </div>
+        <div class="window-body">
+            <div class="content">
+                {{ question.content }} <!-- Corrected from question.text to question.content -->
+            </div>
+            <div class="meta">
+                Asked by: {{ question.author }} | Votes: Up {{ question.up_votes }} | Down {{ question.down_votes }}
+            </div>
+            <div class="tags">
+                Tags:
+                <ul>
+                {% for tag in question.tags.all %} <!-- Corrected from tags to question.tags.all -->
+                    <li>{{ tag.tag }}</li> <!-- Corrected from tag.name to tag.tag based on your model -->
+                {% endfor %}
+                </ul>
+            </div>
+            <h2>Answers</h2>
+            {% for answer in question.answers.all %}
+                <div class="answer-item">
+                    {{ answer.text }} <!-- Assuming you want to display the text from the CustomText model -->
+                    <div class="meta">
+                        Answered by: {{ answer.author }} | Votes: Up {{ answer.up_votes }} | Down {{ answer.down_votes }}
+                    </div>
+                </div>
+            {% empty %}
+                <p>No answers yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>

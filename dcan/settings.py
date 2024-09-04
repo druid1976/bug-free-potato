@@ -41,7 +41,11 @@ INSTALLED_APPS = [
     "qa",
     "accounts",
     "courses",
+    'rest_framework',
 ]
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

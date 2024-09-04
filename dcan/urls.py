@@ -17,11 +17,14 @@ Including another URLconf
 
 
 from django.contrib import admin
-from django.urls import path, include
+from django.http import HttpResponseRedirect
+from django.urls import path, include, reverse
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(('accounts.urls', 'accounts'), namespace='accounts')),
-    path('c/', include(('courses.urls', 'courses'), namespace='courses')),
+    path('', lambda request: HttpResponseRedirect(reverse("accounts:blank"))),
+    path('accounts/', include(('accounts.urls', 'accounts'), namespace='accounts')),
+    path('course/', include(('courses.urls', 'courses'), namespace='courses')),
+    path('questionaire/', include(('qa.urls', 'qa'), namespace='qa')),
 ]
 

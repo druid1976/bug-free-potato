@@ -111,4 +111,30 @@ function to set the password to its hashed value before calling save on that obj
                 return redirect(reverse('blank.html'))
 
 
-                ek düşünce : semester da academic dream'a eklenebilir. Çünkü neden olmasın
+                ek düşünce : semester da academic dream'a eklenebilir. Çünkü neden olmasın7
+
+Yapı amaçları :
+
+         CustomUser = Öğrenci ve Öğretmen için template oluşturmak
+         Courses = Bir dersin hayal edebileceğim her özelliği
+         Section = dersten bağımsız yeni class farklı bir erişim stili için
+         Curriculumn = Bir Konu için gerekli olan ders listesi
+         AcademicDream = birey alınan ders + grade takip classı
+         Question = soru sistemi
+         CustomText = cevap / yorum sistemi
+
+
+
+Bugün yapılacaklar:
+
+    5 - qa 0dan yazma sayfası 
+    3 - hesaptan yazdığın qa'leri görmek viewer tamam
+     1 - bütün qa'leri görmek viewer tamam
+    4 - yorum yazma sayfası 
+    2 - bütün yazdığın yorumları görmek viewer tamam
+
+paginator eklendi + 
+
+
+
+student id unique + 
