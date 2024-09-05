@@ -34,11 +34,6 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
-}
-
 
 
 # Application definition
@@ -53,8 +48,6 @@ INSTALLED_APPS = [
     "qa",
     "accounts",
     "courses",
-    'rest_framework',
-    'corsheaders',
 ]
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
@@ -77,7 +70,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [r"C:\Users\erenk\PycharmProjects\dcan\templates",
-                 r'C:\Users\erenk\PycharmProjects\dcan\frontend\templates'],
+                 ],
 
         'APP_DIRS': True,
         'OPTIONS': {
