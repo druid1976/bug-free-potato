@@ -28,7 +28,7 @@ class BlankView(LoginRequiredMixin, View):
                  'url': reverse('courses:semester_list')},
                 {'name': 'My Curriculum',
                  'url': reverse('courses:courses_curriculum', kwargs={'program_code': request.user.study})},
-                {'name': 'QBank', 'url': reverse('qa:all_questions')}
+                {'name': 'QBank', 'url': reverse('qa:questions')}
             ]
         }
         return render(request, self.template_name, context)
@@ -122,3 +122,10 @@ class CoursesView(LoginRequiredMixin, View):
             return render(request, self.template_name, context)
         else:
             return redirect(reverse('accounts:login'))
+
+
+'''
+        pager = Paginator(questions, 5)
+        page_number = request.GET.get('page', 1)
+        questions = pager.page(page_number)
+'''

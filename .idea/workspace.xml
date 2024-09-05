@@ -6,16 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="d0cce1db-1d13-4a70-acfb-88e0dc584203" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/blank.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/blank.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/courses/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/courses/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/courses/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/courses/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dcan/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/dcan/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dcan/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/dcan/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/notes.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qa/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/qa/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qa/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/qa/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qa/templates/qa/detailed_question.html" beforeDir="false" afterPath="$PROJECT_DIR$/qa/templates/qa/detailed_question.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qa/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/qa/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qa/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/qa/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -68,6 +66,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.lookFeel",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PyCharm 2024.2.0.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -82,6 +81,8 @@
       <recent name="C:\Users\erenk\PycharmProjects\dcan\courses\static\courses" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\erenk\PycharmProjects\dcan\qa\media" />
+      <recent name="C:\Users\erenk\PycharmProjects\dcan\qa" />
       <recent name="C:\Users\erenk\PycharmProjects\dcan\courses\templates\courses" />
       <recent name="C:\Users\erenk\PycharmProjects\dcan\accounts\static\accounts" />
       <recent name="C:\Users\erenk\PycharmProjects\dcan\accounts\templates\accounts" />
@@ -141,7 +142,9 @@
       <workItem from="1725347440406" duration="4600000" />
       <workItem from="1725352091201" duration="18592000" />
       <workItem from="1725378138651" duration="1239000" />
-      <workItem from="1725433457183" duration="19900000" />
+      <workItem from="1725433457183" duration="20518000" />
+      <workItem from="1725474838831" duration="68000" />
+      <workItem from="1725520948327" duration="20971000" />
     </task>
     <servers />
   </component>

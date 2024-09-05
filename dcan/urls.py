@@ -15,10 +15,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.urls import path, include, reverse
+from django.conf.urls.static import static
+
+from dcan import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,5 +28,5 @@ urlpatterns = [
     path('accounts/', include(('accounts.urls', 'accounts'), namespace='accounts')),
     path('course/', include(('courses.urls', 'courses'), namespace='courses')),
     path('questionaire/', include(('qa.urls', 'qa'), namespace='qa')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

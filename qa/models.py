@@ -1,8 +1,10 @@
-from tkinter.constants import CHORD
-
+# bu ne be: from tkinter.constants import CHORD
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.db.models import IntegerField
 from accounts.models import CustomUser
+
+
 # Create your models here.
 
 
@@ -21,6 +23,8 @@ class Question(models.Model):
     up_votes = models.IntegerField(default=0)
     down_votes = models.IntegerField(default=0)
 
+    image = models.ImageField(upload_to='questions/', null=True, blank=True)
+
     class Meta:
         ordering = ['-created_on']
 
@@ -28,39 +32,52 @@ class Question(models.Model):
         return f"{self.question} | {self.author}"
 
 
-class CustomText(models.Model):
-    ATOM = ((0, "Answer"),
-            (1, "Comment")
-            )
-
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers_for_question')
-    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='texts_by_student')
-    type = IntegerField(choices=ATOM, default=0)
-    text = models.TextField()
+class Answer(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='answers')
+    content = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
     up_votes = models.IntegerField(default=0)
     down_votes = models.IntegerField(default=0)
 
+    def __str__(self):
+        return f"Answer by {self.author} to {self.question}"
+
+
+class Comment(models.Model):
+    object_id = models.PositiveIntegerField()
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='comments')
+    content = models.TextField()
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now_add=True)
+    up_votes = models.IntegerField(default=0)
+    down_votes = models.IntegerField(default=0)
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+    def __str__(self):
+        return f"Comment by {self.author}"
+
 
 class Tags(models.Model):
-    tag = models.CharField(max_length=100, unique=True)
+    tag = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.tag
 
 
-class Voter(models.Model):
+class Vote(models.Model):
+    VOTE_CHOICES = (
+        (0, 'None'),
+        (1, 'Upvote'),
+        (-1, 'Downvote'),
+    )
 
-    UPnDOWN = ((0, "NO"),
-              (-1, "DOWN"),
-              (1, "UP"))
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='votes', null=True, blank=True)
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='votes', null=True, blank=True)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='votes', null=True, blank=True)
+    vote = models.IntegerField(choices=VOTE_CHOICES, default=0)
 
-    voter = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='voter')
-    voted = models.IntegerField(default=0, choices=UPnDOWN)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='voters')
-    CustomText = models.ForeignKey(CustomText, on_delete=models.CASCADE, related_name='voters')
-
-    def __str__(self):
-        return self.voter
-
-    def vote_it(self):
-        user = request.user
+    class Meta:
+        unique_together = [('user', 'question'), ('user', 'answer'), ('user', 'comment')]

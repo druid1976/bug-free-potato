@@ -1,10 +1,10 @@
 from django.urls import path
-
-from qa.views import *
+from .views import QuestionAPIView, QuestionDetailAPIView, AnswerAPIView, CommentAPIView, VoteAPIView
 
 urlpatterns = [
-
-    path('qbank', QuestionViewer.as_view(), name='all_questions'),
-    path('my_questions', MyQuestionViewer.as_view(), name='my_questions'),
-    path('<int:question_id>/details', QuestionDetailedViewer.as_view(), name='question_detail'),
+    path('questions/', QuestionAPIView.as_view(), name='questions'),
+    path('questions/<int:pk>/', QuestionDetailAPIView.as_view(), name='question_detail'),
+    path('questions/<int:question_id>/answers/', AnswerAPIView.as_view(), name='answers'),
+    path('comments/<int:content_type_id>/<int:object_id>/', CommentAPIView.as_view(), name='comments'),
+    path('votes/', VoteAPIView.as_view(), name='votes'),
 ]

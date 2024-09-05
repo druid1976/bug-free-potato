@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,7 +27,19 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CORS_ALLOW_ALL_ORIGINS = True
+
 AUTH_USER_MODEL = 'accounts.CustomUser'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
+
+
 
 # Application definition
 
@@ -42,12 +54,14 @@ INSTALLED_APPS = [
     "accounts",
     "courses",
     'rest_framework',
+    'corsheaders',
 ]
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -62,7 +76,8 @@ ROOT_URLCONF = 'dcan.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [r"C:\Users\erenk\PycharmProjects\dcan\templates"],
+        'DIRS': [r"C:\Users\erenk\PycharmProjects\dcan\templates",
+                 r'C:\Users\erenk\PycharmProjects\dcan\frontend\templates'],
 
         'APP_DIRS': True,
         'OPTIONS': {

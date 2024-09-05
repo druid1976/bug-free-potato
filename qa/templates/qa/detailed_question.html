@@ -88,7 +88,7 @@
         </div>
         <div class="window-body">
             <div class="content">
-                {{ question.content }} <!-- Corrected from question.text to question.content -->
+                {{ question.content }}
             </div>
             <div class="meta">
                 Asked by: {{ question.author }} | Votes: Up {{ question.up_votes }} | Down {{ question.down_votes }}
@@ -96,15 +96,15 @@
             <div class="tags">
                 Tags:
                 <ul>
-                {% for tag in question.tags.all %} <!-- Corrected from tags to question.tags.all -->
-                    <li>{{ tag.tag }}</li> <!-- Corrected from tag.name to tag.tag based on your model -->
+                {% for tag in question.tags.all %}
+                    <li>{{ tag.tag }}</li>
                 {% endfor %}
                 </ul>
             </div>
             <h2>Answers</h2>
             {% for answer in question.answers.all %}
                 <div class="answer-item">
-                    {{ answer.text }} <!-- Assuming you want to display the text from the CustomText model -->
+                    {{ answer.text }}
                     <div class="meta">
                         Answered by: {{ answer.author }} | Votes: Up {{ answer.up_votes }} | Down {{ answer.down_votes }}
                     </div>
