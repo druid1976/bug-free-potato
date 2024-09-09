@@ -1,5 +1,5 @@
 # bu ne be: from tkinter.constants import CHORD
-from django.contrib.contenttypes.fields import GenericForeignKey
+from PIL import Image
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from accounts.models import CustomUser
@@ -23,7 +23,17 @@ class Question(models.Model):
     up_votes = models.IntegerField(default=0)
     down_votes = models.IntegerField(default=0)
 
-    image = models.ImageField(upload_to='questions/', null=True, blank=True)
+    image = models.ImageField(upload_to='qa/', null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.image is not None:
+            img = Image.open(self.image)
+            if img.height > 400 or img.width > 400:
+                output_size = (400, 400)
+                img.thumbnail(output_size)
+                img.save(self.image.path)
+
 
     class Meta:
         ordering = ['-created_on']
@@ -32,28 +42,26 @@ class Question(models.Model):
         return f"{self.question} | {self.author}"
 
 
-class Answer(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
-    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='answers')
-    content = models.TextField()
-    created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
-    up_votes = models.IntegerField(default=0)
-    down_votes = models.IntegerField(default=0)
-
-    def __str__(self):
-        return f"Answer by {self.author} to {self.question}"
-
-
 class Comment(models.Model):
-    object_id = models.PositiveIntegerField()
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='comments')
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='comments')
     content = models.TextField()
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
+    answer = models.BooleanField(default=False)
     up_votes = models.IntegerField(default=0)
     down_votes = models.IntegerField(default=0)
-    content_object = GenericForeignKey('content_type', 'object_id')
+
+    image = models.ImageField(upload_to='comments/', null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.image is not None:
+            img = Image.open(self.image)
+            if img.height > 400 or img.width > 400:
+                output_size = (400, 400)
+                img.thumbnail(output_size)
+                img.save(self.image.path)
+
 
     def __str__(self):
         return f"Comment by {self.author}"
@@ -68,16 +76,18 @@ class Tags(models.Model):
 
 class Vote(models.Model):
     VOTE_CHOICES = (
-        (0, 'None'),
-        (1, 'Upvote'),
-        (-1, 'Downvote'),
+        (0, 'none'),
+        (1, 'up_votes'),
+        (-1, 'down_votes'),
     )
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='votes', null=True, blank=True)
-    answer = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='votes', null=True, blank=True)
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='votes', null=True, blank=True)
     vote = models.IntegerField(choices=VOTE_CHOICES, default=0)
 
     class Meta:
-        unique_together = [('user', 'question'), ('user', 'answer'), ('user', 'comment')]
+        unique_together = [('user', 'question'), ('user', 'comment')]
+
+
+

@@ -4,17 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Question Detail</title>
+    <title>{{ question.question }}</title>
     <link rel="stylesheet" href="https://unpkg.com/98.css" />
+
     <style>
         body {
-            background-image: url("{% static 'qa/starry.jpg' %}");
-
+            background-image: url("{% static 'accounts/starry.jpg' %}");
         }
 
         .container {
             width: 800px;
-            margin: 50px auto 0;
+            margin: 50px auto;
         }
 
         .window {
@@ -22,37 +22,68 @@
             background-color: lightsteelblue;
         }
 
-        h2 {
-            color: lightcyan;
-            text-align: center;
+        .question-title {
+            color: darkslateblue;
+            font-size: 24px;
+            font-weight: bold;
         }
 
-        .content {
-            padding: 10px;
-            background-color: white;
-            border: 1px solid #000;
-            margin-bottom: 10px;
-            color: black;
-            font-size: 16px;
+        .question-content {
+            margin: 15px 0;
+            font-size: 18px;
+            line-height: 1.5;
         }
 
-        .meta {
-            font-size: 14px;
-            color: darkslategray;
-            margin-bottom: 5px;
-        }
-
-        .tags {
-            font-size: 12px;
-            color: darkgreen;
-        }
-
-        .answer-item {
-            padding: 10px;
-            background-color: white;
-            border: 1px solid #000;
+        .votes {
             margin-top: 10px;
-            color: black;
+            font-size: 16px;
+            color: darkslategray;
+        }
+
+        .votes button {
+            margin-right: 10px;
+            padding: 8px 15px;
+            background-color: lightblue;
+            border: 1px solid #000;
+            cursor: pointer;
+        }
+
+        .votes button:hover {
+            background-color: #c3c3c3;
+        }
+
+        .comments {
+            margin-top: 30px;
+        }
+
+        .comment-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid #000;
+        }
+
+        .comment-form {
+            margin-top: 20px;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #000;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        .comment-form button {
+            padding: 10px 15px;
+            background-color: lightsteelblue;
+            border: 1px solid #000;
+            cursor: pointer;
+        }
+
+        .comment-form button:hover {
+            background-color: #c3c3c3;
         }
 
         .tab-bar {
@@ -60,6 +91,7 @@
             background-color: lightsteelblue;
             padding: 4px;
             border-bottom: 3px solid #000;
+            margin-bottom: 20px;
         }
 
         .tab-bar a {
@@ -76,44 +108,111 @@
             background-color: lightsteelblue;
         }
     </style>
+    <script>
+        function sendVote(voteType, questionId) {
+    const csrfToken = '{{ csrf_token }}';
+
+    fetch(`/questionaire/question/${questionId}/vote/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': csrfToken,
+        },
+        body: new URLSearchParams({
+            'vote_type': voteType
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('upvote-count').innerText = data.up_votes;
+        document.getElementById('downvote-count').innerText = data.down_votes;
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+    </script>
 </head>
 <body>
     <div class="tab-bar">
-        <a href="{% url 'qa:all_questions' %}">All Questions</a>
-        <a href="{% url 'accounts:blank' %}">MAC</a>
+        <a href="{% url 'qa:all_questions' %}">Back to All Questions</a>
     </div>
+
     <div class="container window">
         <div class="title-bar">
             <div class="title-bar-text">{{ question.question }}</div>
         </div>
         <div class="window-body">
-            <div class="content">
-                {{ question.content }}
+        {% if question.image != Null %}
+        <img src = "{{ question.image.url }}" alt = "Uploaded Image fr Quest">
+        {% endif %}
+            <h2 class="question-title">{{ question.question }}</h2>
+            <p class="question-content">{{ question.content }}</p>
+
+            <div class="votes">
+                Upvotes: <span id="upvote-count">{{ question.up_votes }}</span> |
+                Downvotes: <span id="downvote-count">{{ question.down_votes }}</span>
+
+                <button onclick="sendVote('upvote', {{ question.id }})">Upvote</button>
+                <button onclick="sendVote('downvote', {{ question.id }})">Downvote</button>
             </div>
-            <div class="meta">
-                Asked by: {{ question.author }} | Votes: Up {{ question.up_votes }} | Down {{ question.down_votes }}
-            </div>
-            <div class="tags">
-                Tags:
-                <ul>
-                {% for tag in question.tags.all %}
-                    <li>{{ tag.tag }}</li>
-                {% endfor %}
-                </ul>
-            </div>
-            <h2>Answers</h2>
-            {% for answer in question.answers.all %}
-                <div class="answer-item">
-                    {{ answer.text }}
-                    <div class="meta">
-                        Answered by: {{ answer.author }} | Votes: Up {{ answer.up_votes }} | Down {{ answer.down_votes }}
-                    </div>
+
+            <div class="comments">
+    <h3>Comments</h3>
+
+    <ul>
+        {% for comment in comments %}
+        <li class="comment-item" id="comment-{{ comment.id }}">
+            <strong>{{ comment.author }}</strong>: {{ comment.content }}
+            {% if comment.author == request.user %}
+            <a href="javascript:void(0);" class="delete-comment" data-comment-id="{{ comment.id }}">
+                <img src="{% static 'qa/15.gif' %}" alt="Delete" style="width: 16px; height: 16px;">
+            </a>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<script>
+    document.querySelectorAll('.delete-comment').forEach(function(deleteBtn) {
+        deleteBtn.addEventListener('click', function() {
+            const commentId = this.getAttribute('data-comment-id');
+            const csrfToken = '{{ csrf_token }}';
+
+            if (confirm('Are you sure you want to delete this comment?')) {
+                fetch(`/comment/${commentId}/delete/`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Remove the comment from the DOM
+                    document.getElementById(`comment-${commentId}`).remove();
+                } else {
+                    alert('Error deleting comment.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error deleting comment.');
+            });
+        }
+    });
+});
+</script>
+                <div class="comment-form">
+                    <h4>Add a Comment</h4>
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ comment_form.as_p }}
+                        <button name="comment_submit" type="submit">Add Comment</button>
+                    </form>
                 </div>
-            {% empty %}
-                <p>No answers yet.</p>
-            {% endfor %}
+            </div>
         </div>
     </div>
 </body>
-
 </html>

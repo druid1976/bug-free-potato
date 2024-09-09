@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import View
@@ -52,3 +53,43 @@ class CurriculumView(LoginRequiredMixin, View):
         else:
             return redirect(reverse('accounts:login'))
 
+
+class CourseSeachPage(LoginRequiredMixin, View):
+
+    template_name = 'courses/my_courses.html'
+    login_url = 'accounts:login'
+    def get(self, request):
+        return render(request, self.template_name)
+
+
+class CourseSearchView(View):
+
+    def get(self, request):
+        courses = Course.objects.all()
+        titles = []
+        sections = []
+        for course in courses:
+            titles.append(course.title)
+            sections.append(course.section)
+
+        context = {'courses': courses, 'titles': titles,
+                   'sections': sections}
+
+
+        return JsonResponse(context)
+
+
+class CourseSectionsView(LoginRequiredMixin, View):
+    login_url = 'accounts:login'
+
+    def get(self, request, course_code):
+        course = get_object_or_404(Course, course_code=course_code)
+        sections = Section.objects.filter(course=course)
+
+        return JsonResponse({'courses': sections})
+
+
+class Dexter(View):
+
+    def get(self, request):
+        return render(request, 'courses/dexter.html')

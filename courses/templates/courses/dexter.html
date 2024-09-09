@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timetable</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .timetable, .selected-courses {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr); /* 6 columns for 5 days + time */
+            grid-template-rows: auto;
+            gap: 5px;
+            max-width: 800px;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+        }
+        .time, .day, .course-item {
+            background-color: #f0f0f0;
+            text-align: center;
+            font-weight: bold;
+            padding: 10px;
+        }
+        .subject {
+            background-color: #e0e7ff;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        .subject:hover {
+            background-color: #c7d2fe;
+        }
+        .search-results {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            display: none; /* Initially hidden */
+        }
+        .search-bar {
+            text-align: center;
+            margin: 20px;
+        }
+        .search-result-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        .search-result-item:hover {
+            background-color: #f9f9f9;
+        }
+        .selected-courses {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="search-bar">
+        <input type="text" id="courseSearch" placeholder="Search for courses..." oninput="searchCourses()">
+        <div class="search-results" id="searchResults"></div>
+    </div>
+
+    <div class="selected-courses" id="selectedCourses">
+        <div class="time"></div>
+        <div class="course-item">Selected Courses</div>
+    </div>
+
+
+    <h2 style="text-align: center;">Class Timetable</h2>
+
+    <div class="timetable">
+
+
+        <div class="time"></div>
+        <div class="day">Monday</div>
+        <div class="day">Tuesday</div>
+        <div class="day">Wednesday</div>
+        <div class="day">Thursday</div>
+        <div class="day">Friday</div>
+
+        <div class="time">09:30 - 10:20</div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+
+
+        <div class="time">10:30 - 11:20</div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+
+
+        <div class="time">11.30 - 12.20</div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+
+
+        <div class="time">12:30 - 13:20</div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+
+
+        <div class="time">13:30 - 14:20</div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+
+        <div class="time">14:30 - 15:20</div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+        <div class="subject"></div>
+    </div>
+
+    <script src="searchCourses.js"></script>
+
+</body>
+</html>

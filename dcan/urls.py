@@ -28,5 +28,6 @@ urlpatterns = [
     path('accounts/', include(('accounts.urls', 'accounts'), namespace='accounts')),
     path('course/', include(('courses.urls', 'courses'), namespace='courses')),
     path('questionaire/', include(('qa.urls', 'qa'), namespace='qa')),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

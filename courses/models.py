@@ -74,7 +74,7 @@ class Semester(models.Model):
 class Curriculum(models.Model):
     program_name = models.CharField(max_length=200)
     program_code = models.CharField(max_length=100)
-    semester = models.ForeignKey("Semester", on_delete=models.CASCADE, related_name='curricula')
+    semester = models.ManyToManyField("Semester", related_name='curricula')
     courses = models.ManyToManyField(Course, related_name='curricula')
 
     def __str__(self):

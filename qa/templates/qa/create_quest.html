@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Question</title>
+    <link rel="stylesheet" href="https://unpkg.com/98.css" />
+
+    <style>
+        body {
+            background-image: url("{% static 'accounts/starry.jpg' %}");
+        }
+
+        h2 {
+            color: lightcyan;
+            text-align: center;
+        }
+
+        .container {
+            width: 800px;
+            margin: 50px auto 0;
+        }
+
+        .window {
+            padding: 1rem;
+            background-color: lightsteelblue;
+        }
+
+        form {
+            padding: 10px;
+            background-color: white;
+            border: 1px solid #000;
+            font-size: 17px;
+        }
+
+        form label {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        form input, form textarea, form select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #000;
+            box-sizing: border-box;
+        }
+
+        form button {
+            padding: 10px 15px;
+            background-color: lightsteelblue;
+            border: 1px solid #000;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #c3c3c3;
+        }
+
+        .tab-bar {
+            display: flex;
+            background-color: lightsteelblue;
+            padding: 4px;
+            border-bottom: 3px solid #000;
+        }
+
+        .tab-bar a {
+            text-decoration: none;
+            color: black;
+            padding: 5px 10px;
+            border: 1px solid #000;
+            background-color: white;
+            margin-right: 5px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .tab-bar a:hover {
+            background-color: lightsteelblue;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="tab-bar">
+        <a href="{% url 'qa:all_questions' %}">Back to All Questions</a>
+    </div>
+    <div class="container window">
+        <div class="title-bar">
+            <div class="title-bar-text">Ask a Question</div>
+        </div>
+        <div class="window-body">
+            <h2>Ask a Question</h2>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

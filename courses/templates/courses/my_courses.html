@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Search</title>
+    <link rel="stylesheet" href="https://unpkg.com/98.css" />
+
+    <style>
+        body {
+            background-image: url("{% static 'accounts/starry.jpg' %}");
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            width: 800px;
+            margin: 50px auto;
+        }
+
+        .window {
+            padding: 1rem;
+            background-color: lightsteelblue;
+        }
+
+        .tab-bar {
+            display: flex;
+            background-color: lightsteelblue;
+            padding: 4px;
+            border-bottom: 3px solid #000;
+            margin-bottom: 20px;
+        }
+
+        .tab-bar a {
+            text-decoration: none;
+            color: black;
+            padding: 5px 10px;
+            border: 1px solid #000;
+            background-color: white;
+            margin-right: 5px;
+        }
+
+        .tab-bar a:hover {
+            background-color: lightsteelblue;
+        }
+
+        #courseSearch {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #000;
+            box-sizing: border-box;
+        }
+
+        #courseList {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #courseList li {
+            padding: 8px;
+            background-color: white;
+            border: 1px solid #000;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        #courseList li:hover {
+            background-color: lightsteelblue;
+        }
+
+        #sectionTable {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        #sectionTable th, #sectionTable td {
+            padding: 10px;
+            border: 1px solid #000;
+            text-align: left;
+        }
+
+        #sectionTable th {
+            background-color: darkslateblue;
+            color: white;
+        }
+
+        #sectionTable td {
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Tab Bar -->
+        <div class="tab-bar">
+            <a href="{% url 'accounts:blank' %}">MAC</a>
+        </div>
+
+        <!-- Window Container -->
+        <div class="window">
+            <!-- Search bar for courses -->
+            <input type="text" id="courseSearch" placeholder="Search for courses...">
+            <ul id="courseList"></ul>
+
+            <!-- Table for displaying course sections -->
+            <table id="sectionTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Section Number</th>
+                        <th>Instructor</th>
+                        <th>Time Slot</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('courseSearch').addEventListener('input', function() {
+            const searchTerm = this.value.trim();
+            if (searchTerm.length > 2) {
+                fetch(`/search-courses/?q=${encodeURIComponent(searchTerm)}`)
+                    .then(response => response.json())
+                    .then(courses => {
+                        let courseList = document.getElementById('courseList');
+                        courseList.innerHTML = '';
+                        if (courses.length > 0) {
+                            courses.forEach(course => {
+                                let li = document.createElement('li');
+                                li.innerText = course.title;
+                                li.dataset.courseId = course.id;
+                                li.addEventListener('click', showSections);
+                                courseList.appendChild(li);
+                            });
+                        } else {
+                            courseList.innerHTML = '<li>No courses found.</li>';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching courses:', error);
+                        document.getElementById('courseList').innerHTML = '<li>Error fetching courses.</li>';
+                    });
+            } else {
+                document.getElementById('courseList').innerHTML = '';
+                document.getElementById('sectionTable').style.display = 'none';
+            }
+        });
+
+        function showSections(event) {
+            const courseId = event.target.dataset.courseId;
+            fetch(`/courses/${courseId}/sections/`)
+                .then(response => response.json())
+                .then(sections => {
+                    let sectionTable = document.getElementById('sectionTable');
+                    sectionTable.style.display = 'block';
+                    let tbody = sectionTable.querySelector('tbody');
+                    tbody.innerHTML = '';
+                    if (sections.length > 0) {
+                        sections.forEach(section => {
+                            let row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${section.section_number}</td>
+                                <td>${section.instructor__username}</td>
+                                <td>${section.time_slot}</td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+                    } else {
+                        tbody.innerHTML = '<tr><td colspan="3">No sections available.</td></tr>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching sections:', error);
+                    let sectionTable = document.getElementById('sectionTable');
+                    sectionTable.style.display = 'block';
+                    let tbody = sectionTable.querySelector('tbody');
+                    tbody.innerHTML = '<tr><td colspan="3">Error fetching sections.</td></tr>';
+                });
+        }
+    </script>
+
+</body>
+</html>

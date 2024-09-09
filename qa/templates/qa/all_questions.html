@@ -102,12 +102,12 @@
         .tab-bar a:hover {
             background-color: lightsteelblue;
         }
-
     </style>
 </head>
 <body>
     <div class="tab-bar">
         <a href="{% url 'accounts:blank' %}">Back to MAC</a>
+        <a href=" {% url 'qa:create_quest' %}"> New Question</a>
     </div>
     <div class="container window">
         <div class="title-bar">
@@ -117,7 +117,7 @@
             <ul class="list-group">
                 {% for question in questions %}
                 <li class="question-item">
-                    <a href="{% url 'qa:question_detail' question.id %}">
+                    <a href="{% url 'qa:detailed_question' question.id %}">
                         {{ question.question }}
                     </a>
                     <div class="question-meta">
@@ -129,7 +129,7 @@
                     <div class="tags">
                         Tags:
                         {% for tag in question.tags.all %}
-                            <span>{{ tag.name }}</span>{% if not forloop.last %}, {% endif %}
+                            <span>{{ tag.tag }}</span>{% if not forloop.last %}, {% endif %}
                         {% endfor %}
                     </div>
                     {% endif %}
