@@ -113,21 +113,28 @@
     const csrfToken = '{{ csrf_token }}';
 
     fetch(`/questionaire/question/${questionId}/vote/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-CSRFToken': csrfToken,
-        },
-        body: new URLSearchParams({
-            'vote_type': voteType
-        })
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRFToken': csrfToken,
+    },
+    body: new URLSearchParams({
+        'vote_type': voteType
     })
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById('upvote-count').innerText = data.up_votes;
-        document.getElementById('downvote-count').innerText = data.down_votes;
-    })
-    .catch(error => console.error('Error:', error));
+})
+.then(response => {
+    if (response.ok) {
+        return response.json();
+    } else {
+        throw new Error('Failed to fetch valid JSON response');
+    }
+})
+.then(data => {
+    document.getElementById('upvote-count').innerText = data.up_votes;
+    document.getElementById('downvote-count').innerText = data.down_votes;
+})
+.catch(error => console.error('Error:', error));
+
 }
 
     </script>
@@ -142,9 +149,12 @@
             <div class="title-bar-text">{{ question.question }}</div>
         </div>
         <div class="window-body">
-        {% if question.image != Null %}
-        <img src = "{{ question.image.url }}" alt = "Uploaded Image fr Quest">
-        {% endif %}
+            {% if question.image %}
+                <img src="{{ question.image.url }}" alt="Uploaded Image for Question">
+            {% else %}
+                <p>No image available for this question.</p>
+            {% endif %}
+
             <h2 class="question-title">{{ question.question }}</h2>
             <p class="question-content">{{ question.content }}</p>
 
@@ -164,7 +174,8 @@
         <li class="comment-item" id="comment-{{ comment.id }}">
             <strong>{{ comment.author }}</strong>: {{ comment.content }}
             {% if comment.author == request.user %}
-            <a href="javascript:void(0);" class="delete-comment" data-comment-id="{{ comment.id }}">
+            <a href="javascript:void(0);" class="delete-comment" data-question-id = "{{ question.id }} "
+            data-comment-id="{{ comment.id }}">
                 <img src="{% static 'qa/15.gif' %}" alt="Delete" style="width: 16px; height: 16px;">
             </a>
             {% endif %}
@@ -175,33 +186,35 @@
 
 <script>
     document.querySelectorAll('.delete-comment').forEach(function(deleteBtn) {
-        deleteBtn.addEventListener('click', function() {
-            const commentId = this.getAttribute('data-comment-id');
-            const csrfToken = '{{ csrf_token }}';
+    deleteBtn.addEventListener('click', function() {
+        const commentId = this.getAttribute('data-comment-id').trim();
+        const questionId = this.getAttribute('data-question-id').trim();
+        const csrfToken = '{{ csrf_token }}';
 
-            if (confirm('Are you sure you want to delete this comment?')) {
-                fetch(`/comment/${commentId}/delete/`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': csrfToken
+        if (confirm('Are you sure you want to delete this comment?')) {
+
+            fetch(`/questionaire/question/${questionId}/${commentId}/delete/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
                 }
             })
             .then(response => {
                 if (response.ok) {
-                    // Remove the comment from the DOM
                     document.getElementById(`comment-${commentId}`).remove();
                 } else {
-                    alert('Error deleting comment.');
+                    alert('Error deleting comment1.');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Error deleting comment.');
+                alert('Error deleting comment2.');
             });
         }
     });
 });
+
 </script>
                 <div class="comment-form">
                     <h4>Add a Comment</h4>

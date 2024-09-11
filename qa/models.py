@@ -55,13 +55,12 @@ class Comment(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        if self.image is not None:
+        if self.image and hasattr(self.image, 'file'):
             img = Image.open(self.image)
             if img.height > 400 or img.width > 400:
                 output_size = (400, 400)
                 img.thumbnail(output_size)
                 img.save(self.image.path)
-
 
     def __str__(self):
         return f"Comment by {self.author}"

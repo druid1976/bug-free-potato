@@ -24,43 +24,51 @@ class QuestionCreateView(LoginRequiredMixin, View):
             question.author = request.user
             question.save()
             form.save_m2m()  # saves tags separately
-            return redirect('detailed_question', question_id=question.id)
+            return redirect('qa:detailed_question', question_id=question.id)
         return render(request, 'qa/create_quest.html', {'form': form})
 
 
 class QuestionVoteView(View):
-    @staticmethod
-    def post(request, question_id):
-        question = get_object_or_404(Question, id=question_id)
-        user = request.user
+    def post(self, request, question_id):
+        try:
+            question = get_object_or_404(Question, id=question_id)
+            user = request.user
 
-        if not user.is_authenticated:
-            return JsonResponse({'error': 'User not authenticated'}, status=403)
+            if not user.is_authenticated:
+                return JsonResponse({'error': 'User not authenticated'}, status=403)
 
-        vote_type = request.POST.get('vote_type')
+            vote_type = request.POST.get('vote_type')
 
-        vote, created = Vote.objects.get_or_create(user=user, question=question)
+            vote, created = Vote.objects.get_or_create(user=user, question=question)
 
-        if vote_type == 'upvote':
-            if vote.vote != 1:
-                question.up_votes += 1
-                if vote.vote == -1:
-                    question.down_votes -= 1
-                vote.vote = 1
-        elif vote_type == 'downvote':
-            if vote.vote != -1:
-                question.down_votes += 1
-                if vote.vote == 1:
-                    question.up_votes -= 1
-                vote.vote = -1
+            if vote_type == 'upvote':
+                if vote.vote != 1:
+                    question.up_votes += 1
+                    if vote.vote == -1:
+                        question.down_votes -= 1
+                    vote.vote = 1
+            elif vote_type == 'downvote':
+                if vote.vote != -1:
+                    question.down_votes += 1
+                    if vote.vote == 1:
+                        question.up_votes -= 1
+                    vote.vote = -1
 
-        vote.save()
-        question.save()
+            vote.save()
+            question.save()
 
-        return JsonResponse({
-            'up_votes': question.up_votes,
-            'down_votes': question.down_votes
-        })
+            return JsonResponse({
+                'up_votes': question.up_votes,
+                'down_votes': question.down_votes
+            })
+
+        except FileNotFoundError as e:
+            print(f"File not found: {str(e)}")
+            return JsonResponse({'error': 'File not found, missing image'}, status=404)
+
+        except Exception as e:
+            print(f"Error: {str(e)}")
+            return JsonResponse({'error': str(e)}, status=500)
 
 
 class QuestionAllView(View):
@@ -115,134 +123,12 @@ class CommentDeleteView(LoginRequiredMixin, View):
 
     @staticmethod
     def get(request, question_id, comment_id):
-        comment = get_object_or_404(Comment, id=comment_id, question_id=question_id)
-
-        if comment.author != request.user:
-            return HttpResponseForbidden("Yalnız kardeşim onu sen silemezsin")
-        comment.delete()
-        return JsonResponse({'message': 'Comment deleted succeessfullly!'})
-
-
-'''
-class QuestionAPIView(APIView):
-
-    def get(self, request):
-        questions = Question.objects.all()
-        serializer = QuestionSerializer(questions, many=True)
-        return Response(serializer.data)
-
-    def post(self, request):
-        serializer = QuestionSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class QuestionDetailAPIView(APIView):
-
-    def get(self, request, pk):
         try:
-            question = Question.objects.get(pk=pk)
-        except Question.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-        serializer = QuestionSerializer(question)
-        return Response(serializer.data)
-
-    def put(self, request, pk):
-        try:
-            question = Question.objects.get(pk=pk)
-        except Question.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-        serializer = QuestionSerializer(question, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk):
-        try:
-            question = Question.objects.get(pk=pk)
-        except Question.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-        question.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-class AnswerAPIView(APIView):
-
-    def get(self, request, question_id):
-        try:
-            answers = Answer.objects.filter(question_id=question_id)
-        except Answer.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-        serializer = AnswerSerializer(answers, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, question_id):
-        try:
-            question = Question.objects.get(pk=question_id)
-        except Question.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-        data = request.data
-        data['question'] = question.id
-        serializer = AnswerSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class CommentAPIView(APIView):
-
-    def get(self, request, content_type_id, object_id):
-        try:
-            content_type = ContentType.objects.get_for_id(content_type_id)
-            comments = Comment.objects.filter(content_type=content_type, object_id=object_id)
-        except ContentType.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-        serializer = CommentSerializer(comments, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, content_type_id, object_id):
-        try:
-            content_type = ContentType.objects.get_for_id(content_type_id)
-        except ContentType.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-        data = request.data
-        data['content_type'] = content_type.id
-        data['object_id'] = object_id
-        serializer = CommentSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class VoteAPIView(APIView):
-
-    def post(self, request):
-        serializer = VoteSerializer(data=request.data)
-        if serializer.is_valid():
-            try:
-                existing_vote = Vote.objects.get(
-                    user=request.user,
-                    content_type_id=request.data['content_type'],
-                    object_id=request.data['object_id']
-                )
-                existing_vote.vote = request.data['vote']
-                existing_vote.save()
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            except Vote.DoesNotExist:
-                serializer.save(user=request.user)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-'''
+            comment = get_object_or_404(Comment, id=comment_id, author=request.user)
+            comment.delete()
+            return JsonResponse({'message': 'Comment deleted'})
+        except Comment.DoesNotExist:
+            return JsonResponse({'message': 'Comment not found'}, status=404)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+        

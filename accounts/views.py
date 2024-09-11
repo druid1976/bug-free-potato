@@ -22,10 +22,6 @@ class BlankView(LoginRequiredMixin, View):
             'section_links': [
                 {'name': 'Profile',
                  'url': reverse('accounts:user_details', kwargs={'student_number': request.user.student_number})},
-                {'name': 'My Courses',
-                 'url': reverse('courses:path_finder')},
-                {'name': 'Semester List',
-                 'url': reverse('courses:semester_list')},
                 {'name': 'My Curriculum',
                  'url': reverse('courses:courses_curriculum', kwargs={'program_code': request.user.study})},
                 {'name': 'QBank',
