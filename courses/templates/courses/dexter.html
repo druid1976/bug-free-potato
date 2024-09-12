@@ -12,7 +12,7 @@
         }
         .timetable, .selected-courses {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(6, 2fr);
             grid-template-rows: auto;
             gap: 5px;
             max-width: 800px;
@@ -52,7 +52,7 @@
             margin-bottom: 20px;
         }
 
-        .blurling {
+        .potato {
             background-color: #f39c12; /* Light up sections */
             cursor: pointer;
         }
@@ -119,7 +119,7 @@
         <div class="day">Thursday</div>
         <div class="day">Friday</div>
 
-        <div class="time">09:30 - 10:20</div>
+        <div class="time">09:30 - 10:20 <br>1</div>
         <div class="subject" data-day = "1" data-hour="09:30:00"></div>
         <div class="subject" data-day = "2"  data-hour="09:30:00"></div>
         <div class="subject" data-day = "3" data-hour="09:30:00"></div>
@@ -127,7 +127,7 @@
         <div class="subject" data-day = "5" data-hour="09:30:00"></div>
 
 
-        <div class="time">10:30 - 11:20</div>
+        <div class="time">10:30 - 11:20 <br>2</div>
         <div class="subject" data-day = "1" data-hour="10:30:00"></div>
         <div class="subject" data-day = "2" data-hour="10:30:00"></div>
         <div class="subject" data-day = "3" data-hour="10:30:00" ></div>
@@ -135,7 +135,7 @@
         <div class="subject" data-day = "5" data-hour="10:30:00"></div>
 
 
-        <div class="time">11.30 - 12.20</div>
+        <div class="time">11.30 - 12.20 <br>3</div>
         <div class="subject" data-day = "1" data-hour="11:30:00"></div>
         <div class="subject" data-day = "2" data-hour="11:30:00"></div>
         <div class="subject" data-day = "3" data-hour="11:30:00" ></div>
@@ -143,7 +143,7 @@
         <div class="subject" data-day = "5" data-hour="11:30:00" ></div>
 
 
-        <div class="time">12:30 - 13:20</div>
+        <div class="time">12:30 - 13:20 <br>4</div>
         <div class="subject" data-day = "1" data-hour="12:30:00"></div>
         <div class="subject" data-day = "2" data-hour="12:30:00"></div>
         <div class="subject" data-day = "3" data-hour="12:30:00" ></div>
@@ -151,19 +151,69 @@
         <div class="subject" data-day = "5" data-hour="12:30:00" ></div>
 
 
-        <div class="time">13:30 - 14:20</div>
+        <div class="time">13:30 - 14:20 <br>5</div>
         <div class="subject" data-day = "1" data-hour="13:30:00" ></div>
         <div class="subject" data-day = "2" data-hour="13:30:00" ></div>
         <div class="subject" data-day = "3" data-hour="13:30:00" ></div>
         <div class="subject" data-day = "4" data-hour="13:30:00" ></div>
         <div class="subject" data-day = "5" data-hour="13:30:00" ></div>
 
-        <div class="time">14:30 - 15:20</div>
+        <div class="time">14:30 - 15:20 <br>6</div>
         <div class="subject" data-day = "1" data-hour="14:30:00"></div>
         <div class="subject" data-day = "2" data-hour="14:30:00" ></div>
         <div class="subject" data-day = "3" data-hour="14:30:00" ></div>
         <div class="subject" data-day = "4" data-hour="14:30:00" ></div>
         <div class="subject" data-day = "5" data-hour="14:30:00" ></div>
+
+
+        <div class="time">15:30 - 16:20 <br>7</div>
+        <div class="subject" data-day="1" data-hour="15:30:00"></div>
+        <div class="subject" data-day="2" data-hour="15:30:00"></div>
+        <div class="subject" data-day="3" data-hour="15:30:00"></div>
+        <div class="subject" data-day="4" data-hour="15:30:00"></div>
+        <div class="subject" data-day="5" data-hour="15:30:00"></div>
+
+
+        <div class="time">16:30 - 17:20 <br>8</div>
+        <div class="subject" data-day="1" data-hour="16:30:00"></div>
+        <div class="subject" data-day="2" data-hour="16:30:00"></div>
+        <div class="subject" data-day="3" data-hour="16:30:00"></div>
+        <div class="subject" data-day="4" data-hour="16:30:00"></div>
+        <div class="subject" data-day="5" data-hour="16:30:00"></div>
+
+
+        <div class="time">17:30 - 18:20 <br>9</div>
+        <div class="subject" data-day="1" data-hour="17:30:00"></div>
+        <div class="subject" data-day="2" data-hour="17:30:00"></div>
+        <div class="subject" data-day="3" data-hour="17:30:00"></div>
+        <div class="subject" data-day="4" data-hour="17:30:00"></div>
+        <div class="subject" data-day="5" data-hour="17:30:00"></div>
+
+
+        <div class="time">18:30 - 19:20 <br>10</div>
+        <div class="subject" data-day="1" data-hour="18:30:00"></div>
+        <div class="subject" data-day="2" data-hour="18:30:00"></div>
+        <div class="subject" data-day="3" data-hour="18:30:00"></div>
+        <div class="subject" data-day="4" data-hour="18:30:00"></div>
+        <div class="subject" data-day="5" data-hour="18:30:00"></div>
+
+
+        <div class="time">19:30 - 20:20 <br>11</div>
+        <div class="subject" data-day="1" data-hour="19:30:00"></div>
+        <div class="subject" data-day="2" data-hour="19:30:00"></div>
+        <div class="subject" data-day="3" data-hour="19:30:00"></div>
+        <div class="subject" data-day="4" data-hour="19:30:00"></div>
+        <div class="subject" data-day="5" data-hour="19:30:00"></div>
+
+
+        <div class="time">20:30 - 21:20 <br>12</div>
+        <div class="subject" data-day="1" data-hour="20:30:00"></div>
+        <div class="subject" data-day="2" data-hour="20:30:00"></div>
+        <div class="subject" data-day="3" data-hour="20:30:00"></div>
+        <div class="subject" data-day="4" data-hour="20:30:00"></div>
+        <div class="subject" data-day="5" data-hour="20:30:00"></div>
+
+
     </div>
 
 

@@ -113,26 +113,32 @@ function addCourseToSelected(course) {
   removeBtn.textContent = 'X';
 
   removeBtn.addEventListener('click', () => {
-    selectedCourses = selectedCourses.filter(selectedCourse => selectedCourse !== course);
-    selectedCoursesDiv.removeChild(courseDiv);
-
-  });
+  selectedCourses = selectedCourses.filter(selectedCourse => selectedCourse !== course);
+  selectedCoursesDiv.removeChild(courseDiv);
+  document.querySelector('.selected-section').innerHTML = ''; // Clear the data from the table
+});
   // COLORING OF SECTIONS
 
   const SectionBtn = document.createElement('button');
   SectionBtn.className = 'add-btn';
   SectionBtn.textContent = '!';
   SectionBtn.style.color = 'blue';
+  let sectionChosen = false;
 
   SectionBtn.addEventListener('click', () => {
-    coloredSection(course);
-
-  })
+    if (sectionChosen) {
+      // If the section has already been chosen, do something else
+      doSomethingElse();
+    } else {
+      // If the section has not been chosen, choose it
+      coloredSection(course);
+      SectionBtn.style.color = 'green';
+      SectionBtn.textContent = '✓';
+      sectionChosen = true; // Update the state variable
+    }
+  });
 
   // CHOOSING OF THE SECTIONS
-  const choosingBtn = document.createElement('button');
-  choosingBtn.className = 'choosing';
-
 
   courseDiv.appendChild(removeBtn);
   courseDiv.appendChild(SectionBtn);
@@ -153,20 +159,70 @@ function coloredSection(course) {
         const divDay = div.getAttribute('data-day');
         const divHour = div.getAttribute('data-hour');
         if (divDay === String(section.day) && divHour === section.starting_hour) {
-          // MANIPULATION TIME
-          choosingSection(course);
-          div.classList.add('blurling');
-          console.log("help");
+          // MANIPULATION TIME className={'wrapper searchDiv ' + this.state.something}
+
+          let noc = courses.findIndex(x => x.title === course.title);
+          div.classList.add('potato' + noc);
+          console.log("added 1 potato");
+
+          div.addEventListener('click', () => {
+            choosingSection(div, course, section);
+          });
+
         }
       });
 
     });
 
 }
+// SEÇİLEN SECTION'U YENI DIV YAPARAK YAZDIRIR VE LISTENER'I KALDIRIR
 
-function choosingSection(course) {
-  choosingBtn.addEventListener('click', () => {
+function choosingSection(div, course, section) {
+  div.innerHTML = '';
+  const courseInfo = document.createElement('div');
+  courseInfo.className = 'course-info';
+  courseInfo.innerHTML = `
+    <strong>${course.title}</strong>  <br>
+    <strong>Section: </strong> ${section.section_number} <br>
+    <strong>Building: </strong> ${section.building_name} <br>
+    <strong>Room: </strong> ${section.room_name} <br>
+    <strong>Floor: </strong> ${section.floor_name}
+  `;
 
-  })
+  div.appendChild(courseInfo);
+  div.classList.add('selected-section');
 
+  // Remove all listeners from potato elements after the section is selected
+  removePotato();
 }
+
+// O AN AKTİF OLAN LISTENER'I KALDIRIR
+
+function removePotato() {
+
+  const potatoDivs = document.getElementsByClassName('potato ');
+
+  Array.from(potatoDivs).forEach((div) => {
+    div.
+    if (course ==  ) {
+      const newElement = div.cloneNode(true);
+      div.parentNode.replaceChild(newElement, div);
+      newElement.classList.remove('potato');
+      console.log("potato, list_element & listener removed");
+    } else {
+
+    }
+  });
+}
+
+
+ /*
+doSomethingElse = () => {
+  const choice = confirm("You have chosen a section already, do you wish to change it?");
+  if (choice) {
+
+    }
+  div = document.querySelector('.selected-section');
+  console.log("help");
+};
+*/
