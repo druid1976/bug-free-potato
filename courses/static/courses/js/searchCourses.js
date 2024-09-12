@@ -162,7 +162,8 @@ function coloredSection(course) {
           // MANIPULATION TIME className={'wrapper searchDiv ' + this.state.something}
 
           let noc = courses.findIndex(x => x.title === course.title);
-          div.classList.add('potato' + noc);
+          div.classList.add('potato');
+          div.classList.add(noc.toString());
           console.log("added 1 potato");
 
           div.addEventListener('click', () => {
@@ -193,26 +194,23 @@ function choosingSection(div, course, section) {
   div.classList.add('selected-section');
 
   // Remove all listeners from potato elements after the section is selected
-  removePotato();
+  removePotato(course);
 }
 
 // O AN AKTİF OLAN LISTENER'I KALDIRIR
 
-function removePotato() {
+function removePotato(course) {
+  noc = courses.findIndex(x => x.title === course.title);
 
-  const potatoDivs = document.getElementsByClassName('potato ');
+  const potatoDivs = document.getElementsByClassName('potato');
+  const potatoDiver = potatoDivs.getElementsByClassName(noc.toString());
 
-  Array.from(potatoDivs).forEach((div) => {
-    div.
-    if (course ==  ) {
-      const newElement = div.cloneNode(true);
-      div.parentNode.replaceChild(newElement, div);
-      newElement.classList.remove('potato');
-      console.log("potato, list_element & listener removed");
-    } else {
-
-    }
-  });
+  Array.from(potatoDiver).forEach((div) => {
+    const newElement = div.cloneNode(true);
+    div.parentNode.replaceChild(newElement, div);
+    newElement.classList.remove('potato');
+    console.log("potato, list_element & listener removed");
+});
 }
 
 
