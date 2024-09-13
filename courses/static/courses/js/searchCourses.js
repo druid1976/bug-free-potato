@@ -20,6 +20,11 @@ class Course {
 
 let courses = [];
 let selectedCourses = [];
+
+// JUST FOR DELETION
+let clickedDiv = null
+let clickedCourse = null
+
 // Event listener to the search bar after the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
   fetchCourses();
@@ -99,28 +104,31 @@ function addCourseToSelected(course) {
   courseDiv.innerHTML = `${course.title}`;
 
   // REMOVAL BUTTON CREATION
-
   const removeBtn = document.createElement('button');
   removeBtn.className = 'remove-btn';
   removeBtn.textContent = 'X';
 
   removeBtn.addEventListener('click', () => {
-    if (!(selectedCourses.includes(course)) {
+    if (!(selectedCourses.includes(course))) {
       alert("This course is not selected.");
     }
     else {
-      selectedCourses.pop(course);
-      selectedCoursesDiv.removeChild(courseDiv);
       console.log( course + "removed the course inside selectedCourses")
       console.log("Also removed from the course class")
-      if (){}
+      console.log("remove button clicked")
+      //deletes from array
+      selectedCourses = selectedCourses.filter(selectedCourse => selectedCourse !== course);
+      //deletes the visuals
+      selectedCoursesDiv.removeChild(courseDiv);
+      let noc = courses.findIndex(x => x.title === course.title);
+      const hero = document.getElementsByClassName(noc.toString())
+      Array.from(hero).forEach((div) => {
+          // !!!
+      })
+      // if (){}
     }
 
-    console.log("remove button clicked")
-    selectedCourses = selectedCourses.filter(selectedCourse => selectedCourse !== course);
-    selectedCoursesDiv.removeChild(courseDiv);
-    document.querySelector('.selected-section').innerHTML = '';
-    courseDiv.classList.remove("selected-section")// Clear the data from the table
+// SİLME İŞLEMİ CLİCK ATTRİBUTE KIYASLAMA ŞEKLİNDE DE YAPILABİLİR?
 });
 
 
@@ -151,8 +159,11 @@ function addCourseToSelected(course) {
 }
 
 
-// COLORRRRERRR
+// POTATO MAKER AND EVENTLISTENER ADDER FOR FUTURE CHOOSING OF THE ITEM
+// BURADA COURSE NUMARASI DA EKLENİYOR
+
 function coloredSection(course) {
+  let me = []
   course.sections.forEach(section => {
     // Now search for matching divs in the DOM based on section's day and starting hour
     const divs = document.getElementsByClassName('subject');
@@ -161,25 +172,42 @@ function coloredSection(course) {
       const divDay = div.getAttribute('data-day');
       const divHour = div.getAttribute('data-hour');
       if (divDay === String(section.day) && divHour === section.starting_hour) {
+        me.push(div)
+        let noc = courses.findIndex(x => x.title === course.title);
+        div.classList.add(noc.toString());
         div.classList.add('potato');
         console.log("added 1 potato (coloring) ");
         div.addEventListener('click', () => {
+          console.log("aaa")
           choosingSection(div, course, section);
+          clickedDiv = div
+          clickedCourse = course
         });
       }
+
     });
+     letMeBe(me, clickedDiv, clickedCourse)
   });
 }
 
 
+function letMeBe(me, clickedDiv, clickedCourse) {
+
+  let noc = courses.findIndex(x => x.title === clickedCourse.title);
+  Array.from(me).forEach((div) => {
+    if (div !== clickedDiv) {
+      div.replaceWith(div.cloneNode(true));  // Replace div with a clone to remove event listeners
+      div.classList.remove('potato');
+      div.classList.remove(noc.toString());
+    }
+  })
+}
+
 // SEÇİLEN SECTION'U YENI DIV YAPARAK YAZDIRIR VE LISTENER'I KALDIRIR
 function choosingSection(div, course, section) {
   div.innerHTML = ''; //iç boşaltırıcı
-  let noc = courses.findIndex(x => x.title === course.title);
-  div.classList.add(noc.toString());
   const courseInfo = document.createElement('div');
   courseInfo.className = 'course-info';
-  courseInfo.classList.add(noc.toString()); // HANGİ DERSE AİT OLDUĞUNUN TAKİBİ İÇİN
   courseInfo.innerHTML = `
     <strong>${course.title}</strong>  <br>
     <strong>Section: </strong> ${section.section_number} <br>
@@ -189,31 +217,11 @@ function choosingSection(div, course, section) {
   `;
 
   div.appendChild(courseInfo);
-  // Remove all listeners from potato elements after the section is selected
-  removePotato(course);
-}
-
-
-// O AN AKTİF OLAN LISTENER'I KALDIRIR
-function removePotato(course) {
-  noc = courses.findIndex(x => x.title === course.title);
-  const potatoDivs = document.getElementsByClassName('potato');
-  for (let i = 0; i < potatoDivs.length; i++) {
-    if (potatoDivs[i].classList.contains(noc.toString())) {
-      // do something with element have 'potato' and 'noc' classes
-      const div = potatoDivs[i];
-      newElement.classList.remove('potato');
-      newElement.classList.remove(noc.toString());
-      console.log("potato, noc & listener removed");
-    }
-    else {
-      console.log("potato found, but not noc");
-    }
-  }
 }
 
 
 doSomethingElse = () => {
+  let noc = courses.findIndex(x => x.title === clickedCourse.title);
   choice = confirm("This section is already chosen. Do you want to remove it?");
   if (choice) {
     div.classList.remove('potato');
