@@ -18,15 +18,15 @@ Django Model -> modeller database logic
 Django Migration ->
 View -> application logic
 Template -> yazdırıldığı yer
-URL ->
-Django Admin
-Django Form
-Bootstrap
-Authentication
-Django ORM
-Class Based Views (never use function based system in project)
+URL -> sayfalarda hangi view'ın kullanılacağı yol
+Django Admin -> kontrol paneli /admin/
+Django Form -> BUNA BAKILACAK
+Bootstrap -> Basit css
+Authentication -> CSFR LoginRequiredMixin
+Django ORM -> Kodlama query
+Class Based Views (never use function based system in project) -> yaptığım bütün viewlar
 Generic Class-Based View (Learn it but do not use them in your project. Do not use CreateView, UpdateView, ListView  etc.)
-Paginator
+Paginator -> sayfalama
 Decorators & Mixins
 Deployment
 
@@ -127,11 +127,10 @@ Yapı amaçları :
 
 Bugün yapılacaklar:
 
-    5 - qa 0dan yazma sayfası 
-    3 - hesaptan yazdığın qa'leri görmek viewer tamam
-     1 - bütün qa'leri görmek viewer tamam
-    4 - yorum yazma sayfası 
-    2 - bütün yazdığın yorumları görmek viewer tamam
+    1 - Javascript ilerleme
+    2 - My questions sayfası (paginator eklenebilir)
+     3 - chat sayfası potansiyel reklam (topluluklar için)
+    4 - Css ile güzelleme
 
 paginator eklendi + 
 

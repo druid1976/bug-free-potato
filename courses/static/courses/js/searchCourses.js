@@ -23,7 +23,7 @@ let selectedCourses = [];
 // Event listener to the search bar after the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
   fetchCourses();
-  // Attach the event listener for searching
+  // added event linstener
   const searchBar = document.getElementById('courseSearchBar');
   searchBar.addEventListener('input', handleSearch);
 });
@@ -59,14 +59,15 @@ function displayCourses(coursesToDisplay) {
   courseResults.innerHTML = ''; // Clear previous results
 
   if (coursesToDisplay.length === 0) {
-    courseResults.style.display = 'none'; // Hide the results if no courses match
+    courseResults.style.display = 'none'; // Hide the results if match == none
     return;
   }
 
-  // Show the course results container
+  // Course result shower :)
   courseResults.style.display = 'block';
 
   coursesToDisplay.forEach(course => {
+    console.log("showing courses")
     const courseDiv = document.createElement('div');
     courseDiv.className = 'search-result-item';
     courseDiv.innerHTML = `<strong>${course.title}</strong>`;
@@ -99,12 +100,13 @@ function addCourseToSelected(course) {
     return;
   }
   selectedCourses.push(course);
+  console.log( course + "added the course inside selectedCourses")
 
   const selectedCoursesDiv = document.getElementById('selectedCourses');
 
   const courseDiv = document.createElement('div');
   courseDiv.className = 'course-item';
-  courseDiv.innerHTML = `<strong>${course.title}</strong>`;
+  courseDiv.innerHTML = `${course.title}`;
 
   // REMOVAL BUTTON CREATION
 
@@ -113,9 +115,12 @@ function addCourseToSelected(course) {
   removeBtn.textContent = 'X';
 
   removeBtn.addEventListener('click', () => {
-  selectedCourses = selectedCourses.filter(selectedCourse => selectedCourse !== course);
-  selectedCoursesDiv.removeChild(courseDiv);
-  document.querySelector('.selected-section').innerHTML = ''; // Clear the data from the table
+    if ( courseDiv.classList.contains("selected-section")) {
+    console.log("remove button clicked")
+    selectedCourses = selectedCourses.filter(selectedCourse => selectedCourse !== course);
+    selectedCoursesDiv.removeChild(courseDiv);
+    document.querySelector('.selected-section').innerHTML = '';
+    courseDiv.classList.remove("selected-section")// Clear the data from the table
 });
   // COLORING OF SECTIONS
 
@@ -161,10 +166,10 @@ function coloredSection(course) {
         if (divDay === String(section.day) && divHour === section.starting_hour) {
           // MANIPULATION TIME className={'wrapper searchDiv ' + this.state.something}
 
-          let noc = courses.findIndex(x => x.title === course.title);
+          let noc = selectedCourses.findIndex(x => x.title === course.title);
           div.classList.add('potato');
           div.classList.add(noc.toString());
-          console.log("added 1 potato");
+          console.log("added 1 potato (coloring) ");
 
           div.addEventListener('click', () => {
             choosingSection(div, course, section);
@@ -200,19 +205,21 @@ function choosingSection(div, course, section) {
 // O AN AKTİF OLAN LISTENER'I KALDIRIR
 
 function removePotato(course) {
-  noc = courses.findIndex(x => x.title === course.title);
+  noc = selectedCourses.findIndex(x => x.title === course.title);
 
   const potatoDivs = document.getElementsByClassName('potato');
-  const potatoDiver = potatoDivs.getElementsByClassName(noc.toString());
-
-  Array.from(potatoDiver).forEach((div) => {
-    const newElement = div.cloneNode(true);
-    div.parentNode.replaceChild(newElement, div);
-    newElement.classList.remove('potato');
-    console.log("potato, list_element & listener removed");
-});
+  for (let i = 0; i < potatoDivs.length; i++) {
+    if (potatoDivs[i].classList.contains(noc.toString())) {
+      // do something with the element that has both 'potato' and 'noc' classes
+      const div = potatoDivs[i];
+      const newElement = div.cloneNode(true);
+      div.parentNode.replaceChild(newElement, div);
+      newElement.classList.remove('potato');
+      newElement.classList.remove(noc.toString());
+      console.log("potato, noc & listener removed");
+    }
+  }
 }
-
 
  /*
 doSomethingElse = () => {
