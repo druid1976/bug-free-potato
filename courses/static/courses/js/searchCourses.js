@@ -115,7 +115,17 @@ function addCourseToSelected(course) {
   removeBtn.textContent = 'X';
 
   removeBtn.addEventListener('click', () => {
-    if ( courseDiv.classList.contains("selected-section")) {
+    if (!(selectedCourses.includes(course)) {
+      alert("This course is not selected.");
+    } else {
+      selectedCourses.pop(course);
+      selectedCoursesDiv.removeChild(courseDiv);
+      console.log( course + "removed the course inside selectedCourses")
+      console.log("Also removed from the course class")
+      if (){}
+    }
+
+
     console.log("remove button clicked")
     selectedCourses = selectedCourses.filter(selectedCourse => selectedCourse !== course);
     selectedCoursesDiv.removeChild(courseDiv);
@@ -166,7 +176,7 @@ function coloredSection(course) {
         if (divDay === String(section.day) && divHour === section.starting_hour) {
           // MANIPULATION TIME className={'wrapper searchDiv ' + this.state.something}
 
-          let noc = selectedCourses.findIndex(x => x.title === course.title);
+          let noc = courses.findIndex(x => x.title === course.title);
           div.classList.add('potato');
           div.classList.add(noc.toString());
           console.log("added 1 potato (coloring) ");
@@ -205,18 +215,21 @@ function choosingSection(div, course, section) {
 // O AN AKTİF OLAN LISTENER'I KALDIRIR
 
 function removePotato(course) {
-  noc = selectedCourses.findIndex(x => x.title === course.title);
+  noc = courses.findIndex(x => x.title === course.title);
 
   const potatoDivs = document.getElementsByClassName('potato');
   for (let i = 0; i < potatoDivs.length; i++) {
     if (potatoDivs[i].classList.contains(noc.toString())) {
-      // do something with the element that has both 'potato' and 'noc' classes
+      // do something with element have 'potato' and 'noc' classes
       const div = potatoDivs[i];
       const newElement = div.cloneNode(true);
       div.parentNode.replaceChild(newElement, div);
       newElement.classList.remove('potato');
       newElement.classList.remove(noc.toString());
       console.log("potato, noc & listener removed");
+    }
+    else {
+      console.log("potato found, but not noc");
     }
   }
 }
