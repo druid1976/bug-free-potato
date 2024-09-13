@@ -131,12 +131,15 @@ Bugün yapılacaklar:
     2 - My questions sayfası (paginator eklenebilir)
      3 - chat sayfası potansiyel reklam (topluluklar için)
     4 - Css ile güzelleme
+    5- 10 ile 20 arası potato seviyesi olabilir, şu anda çakışan sectionlar hakkında bir şey yapmıyorum
 
-paginator eklendi + 
+nav red
+nav white
 
+he CSS above does style the color of the text red and not white even if the navbar class is in the HTML markup listed first.
+The latest / last defined CSS is important. There are more rules which define the priority of the stylings based on CSS selectors.
+I would suggest that you put some time in reading here because you need to build up some basic knowledge on how CSS works.
 
-
-student id unique + 
 
 flashpoint
 justice league 3000
