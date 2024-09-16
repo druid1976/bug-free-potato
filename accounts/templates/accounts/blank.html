@@ -10,6 +10,7 @@
     <style>
         body {
             background-image: url("{% static 'accounts/starry.jpg' %}");
+            margin: 100px;
             padding: 20px;
         }
 
@@ -71,8 +72,8 @@
         .list-group-item a:hover {
             color: darkblue;
         }
-
     </style>
+
 </head>
 <body>
     <div class="container window">
@@ -81,10 +82,25 @@
             <div class="title-bar-controls">
                 <button aria-label="Minimize"></button>
                 <button aria-label="Maximize"></button>
-                <form method="POST" action="{% url 'accounts:logout' %}" style="display: inline;">
-                    {% csrf_token %}
-                    <button type="submit" aria-label="Close"></button>
-                </form>
+                <button aria-label="Close" onclick="logout()"></button>
+                <script>
+                    function logout() {
+
+                        if(confirm("Do you wish to log-out?")) {
+                            let form = document.createElement('form');
+                            form.method = 'POST';
+                            form.action = "{% url 'accounts:logout' %}";
+                            let csrfToken = document.createElement('input');
+                            csrfToken.type = 'hidden';
+                            csrfToken.name = 'csrfmiddlewaretoken';
+                            csrfToken.value = '{{ csrf_token }}'; // Pass the CSRF token from Django context!?!?
+                            form.appendChild(csrfToken);
+                            document.body.appendChild(form);
+                            form.submit();
+                        }
+
+                    }
+                </script>
 
             </div>
         </div>

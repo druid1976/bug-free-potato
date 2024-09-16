@@ -6,108 +6,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
     <link rel="stylesheet" href="https://unpkg.com/98.css" />
+
     <style>
         body {
-            background-color: #c0c0c0;
-            padding: 20px;
+            background-image: url("{% static 'accounts/starry.jpg' %}");
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 100px;
         }
 
         .container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .window {
-            border: 2px solid #000;
+            max-width: 500px;
+            width: 100%;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
 
         .title-bar {
             background-color: #00008B;
             color: #fff;
-            padding: 8px;
-        }
-
-        .title-bar-text {
-            font-size: 1.4rem;
+            padding: 12px 16px;
+            font-size: 1.5rem;
+            text-align: center;
         }
 
         .window-body {
             padding: 20px;
-            background-color: #f0f0f0;
-            border-top: 2px solid #000;
         }
 
         .form-group {
             margin-bottom: 15px;
         }
 
-        label {
-            display: block;
+        .form-group label {
             font-weight: bold;
-            margin-bottom: 5px;
+            font-size: 1.1rem;
+            color: #00008B;
         }
 
-        input, select, textarea {
+        .form-group input,
+        .form-group select {
             width: 100%;
-            padding: 8px;
-            border: 2px solid #000;
+            padding: 10px;
+            margin-top: 5px;
+            border: 2px solid #00008B;
             border-radius: 4px;
-            box-sizing: border-box;
+            font-size: 1rem;
         }
 
         .text-danger {
             color: red;
+            font-size: 0.9rem;
             margin-top: 5px;
         }
 
         .alert {
-            background-color: #ffcccb;
+            background-color: #f8d7da;
+            color: #721c24;
             padding: 10px;
-            border: 2px solid #ff0000;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             border-radius: 4px;
-        }
-
-        .alert ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .button-group {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
+            border: 1px solid #f5c6cb;
         }
 
         .btn-primary {
+            display: block;
+            width: 100%;
             background-color: #00008B;
-            color: white;
-            padding: 10px 20px;
+            color: #fff;
+            border: none;
+            padding: 12px;
             border-radius: 4px;
-            border: 2px solid #000;
-            font-size: 1rem;
+            font-size: 1.1rem;
             cursor: pointer;
+            margin-top: 10px;
+            text-align: center;
         }
 
         .btn-primary:hover {
-            background-color: darkblue;
+            background-color: #003580;
         }
 
         .btn-secondary {
-            color: #000;
-            background-color: #d3d3d3;
-            padding: 10px 20px;
+            display: block;
+            width: 100%;
+            background-color: #6c757d;
+            color: #fff;
+            border: none;
+            padding: 12px;
             border-radius: 4px;
-            text-decoration: none;
-            border: 2px solid #000;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            text-align: center;
         }
 
         .btn-secondary:hover {
-            background-color: #b0b0b0;
+            background-color: #5a6268;
         }
+
+        .button-group {
+            margin-top: 20px;
+        }
+
     </style>
 </head>
 <body>

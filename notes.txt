@@ -143,6 +143,9 @@ Bugün yapılacaklar:
         2.4- Özel section listeleri oluşturan bir backtrack algo
         2.5- log out ekle
         2.6- upvote downvote şekillerini değiştir
+        2.7- Tags uzat create
+        2.8 edit question
+
 
 
     3- Websocket toplu not alma

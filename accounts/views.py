@@ -70,7 +70,7 @@ class SignUpView(View):
         if form.is_valid():
             user = form.save()
             login(request, user)  # logger
-            return redirect(reverse('accounts:user_details'))
+            return redirect(reverse('accounts:blank'))
         return render(request, self.template_name, {'form': form})
 
 
@@ -114,6 +114,6 @@ class UserUpdateView(LoginRequiredMixin, View):
 class LogoutView(LoginRequiredMixin, View):
     login_url = 'accounts:login'
 
-    def get(self, request):
+    def post(self, request):
         logout(request)
         return redirect(reverse('accounts:login'))
