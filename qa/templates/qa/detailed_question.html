@@ -7,19 +7,167 @@
     <title>{{ question.question }}</title>
     <link rel="stylesheet" href="https://unpkg.com/98.css" />
 
+    <style>
+        body {
+            background-image: url("{% static 'accounts/starry.jpg' %}");
+            padding: 20px;
+            margin: 0;
+        }
+
+        .tab-bar {
+            background-color: #00008B;
+            padding: 10px;
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .tab-bar a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            background-color: #003580;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab-bar a:hover {
+            background-color: #000066;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .title-bar {
+            background-color: #00008B;
+            color: #fff;
+            padding: 12px 16px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .window-body {
+            padding: 20px;
+        }
+
+        h2.question-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #00008B;
+        }
+
+        .question-content {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .votes {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .votes button {
+            padding: 8px 12px;
+            margin-left: 10px;
+            background-color: #00008B;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .votes button:hover {
+            background-color: #003580;
+        }
+
+        .comments {
+            margin-top: 30px;
+        }
+
+        .comments h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #00008B;
+        }
+
+        .comment-item {
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .comment-item strong {
+            color: #00008B;
+        }
+
+        .comment-form h4 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #00008B;
+        }
+
+        .comment-form form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .comment-form input,
+        .comment-form textarea {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #00008B;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .comment-form button {
+            width: 100px;
+            padding: 10px;
+            background-color: #00008B;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .comment-form button:hover {
+            background-color: #003580;
+        }
+
+        .delete-comment img {
+            cursor: pointer;
+        }
+    </style>
 
 </head>
 <body>
     <div class="tab-bar">
         <a href="{% url 'qa:all_questions' %}">Back to All Questions</a>
-
     </div>
 
     <div class="container window">
-
         <div class="title-bar">
             <div class="title-bar-text">{{ question.question }}</div>
         </div>
+
         <div class="window-body">
             {% if question.image %}
                 <img src="{{ question.image.url }}" alt="Uploaded Image for Question">
@@ -38,92 +186,91 @@
                 <button onclick="sendVote('downvote', {{ question.id }})">Downvote</button>
             </div>
 
-<script>
-        function sendVote(voteType, questionId) {
-    const csrfToken = '{{ csrf_token }}';
+            <script>
+                function sendVote(voteType, questionId) {
+                    const csrfToken = '{{ csrf_token }}';
 
-    fetch(`/questionaire/question/${questionId}/vote/`, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'X-CSRFToken': csrfToken,
-    },
-    body: new URLSearchParams({
-        'vote_type': voteType
-    })
-})
-.then(response => {
-    if (response.ok) {
-        return response.json();
-    } else {
-        throw new Error('Failed to fetch valid JSON response');
-    }
-})
-.then(data => {
-    document.getElementById('upvote-count').innerText = data.up_votes;
-    document.getElementById('downvote-count').innerText = data.down_votes;
-})
-.catch(error => console.error('Error:', error));
-
-}
-</script>
+                    fetch(`/questionaire/question/${questionId}/vote/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-CSRFToken': csrfToken,
+                        },
+                        body: new URLSearchParams({
+                            'vote_type': voteType
+                        })
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error('Failed to fetch valid JSON response');
+                        }
+                    })
+                    .then(data => {
+                        document.getElementById('upvote-count').innerText = data.up_votes;
+                        document.getElementById('downvote-count').innerText = data.down_votes;
+                    })
+                    .catch(error => console.error('Error:', error));
+                }
+            </script>
 
             <div class="comments">
-    <h3>Comments</h3>
-    <ul>
-        {% for comment in comments %}
-        <li class="comment-item" id="comment-{{ comment.id }}">
-            <strong>{{ comment.author }}</strong>: {{ comment.content }}
-            {% if comment.author == request.user %}
-            <a href="javascript:void(0);" class="delete-comment" data-question-id = "{{ question.id }} "
-            data-comment-id="{{ comment.id }}">
-                <img src="{% static 'qa/15.gif' %}" alt="Delete" style="width: 16px; height: 16px;">
-            </a>
-            {% endif %}
-        </li>
-        {% endfor %}
-    </ul>
-</div>
+                <h3>Comments</h3>
+                <ul>
+                    {% for comment in comments %}
+                    <li class="comment-item" id="comment-{{ comment.id }}">
+                        <strong>{{ comment.author }}</strong>: {{ comment.content }}
+                        {% if comment.author == request.user %}
+                        <a href="javascript:void(0);" class="delete-comment" data-question-id="{{ question.id }}"
+                            data-comment-id="{{ comment.id }}">
+                            <img src="{% static 'qa/15.gif' %}" alt="Delete" style="width: 16px; height: 16px;">
+                        </a>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
 
-<script>
-    document.querySelectorAll('.delete-comment').forEach(function(deleteBtn) {
-    deleteBtn.addEventListener('click', function() {
-        const commentId = this.getAttribute('data-comment-id').trim();
-        const questionId = this.getAttribute('data-question-id').trim();
-        const csrfToken = '{{ csrf_token }}';
+            <script>
+                document.querySelectorAll('.delete-comment').forEach(function(deleteBtn) {
+                    deleteBtn.addEventListener('click', function() {
+                        const commentId = this.getAttribute('data-comment-id').trim();
+                        const questionId = this.getAttribute('data-question-id').trim();
+                        const csrfToken = '{{ csrf_token }}';
 
-        if (confirm('Are you sure you want to delete this comment?')) {
+                        if (confirm('Are you sure you want to delete this comment?')) {
 
-            fetch(`/questionaire/question/${questionId}/${commentId}/delete/`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    document.getElementById(`comment-${commentId}`).remove();
-                } else {
-                    alert('Error deleting comment1.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Error deleting comment2.');
-            });
-        }
-    });
-});
-</script>
-                <div class="comment-form">
-                    <h4>Add a Comment</h4>
-                    <form method="post">
-                        {% csrf_token %}
-                        {{ comment_form.as_p }}
-                        <button name="comment_submit" type="submit">Add Comment</button>
-                    </form>
-                </div>
+                            fetch(`/questionaire/question/${questionId}/${commentId}/delete/`, {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRFToken': csrfToken
+                                }
+                            })
+                            .then(response => {
+                                if (response.ok) {
+                                    document.getElementById(`comment-${commentId}`).remove();
+                                } else {
+                                    alert('Error deleting comment.');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('Error deleting comment.');
+                            });
+                        }
+                    });
+                });
+            </script>
+
+            <div class="comment-form">
+                <h4>Add a Comment</h4>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ comment_form.as_p }}
+                    <button name="comment_submit" type="submit">Add Comment</button>
+                </form>
             </div>
         </div>
     </div>
