@@ -5,15 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0cce1db-1d13-4a70-acfb-88e0dc584203" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dcan.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dcan.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/blank.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/blank.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/signup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/user_details.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/user_details.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qa/templates/qa/all_questions.html" beforeDir="false" afterPath="$PROJECT_DIR$/qa/templates/qa/all_questions.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qa/templates/qa/create_quest.html" beforeDir="false" afterPath="$PROJECT_DIR$/qa/templates/qa/create_quest.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qa/templates/qa/detailed_question.html" beforeDir="false" afterPath="$PROJECT_DIR$/qa/templates/qa/detailed_question.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -174,7 +165,7 @@
       <workItem from="1726418202749" duration="51000" />
       <workItem from="1726418543836" duration="13759000" />
       <workItem from="1726471287854" duration="18917000" />
-      <workItem from="1726493643009" duration="2246000" />
+      <workItem from="1726493643009" duration="2705000" />
     </task>
     <servers />
   </component>
