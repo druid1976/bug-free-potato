@@ -7,6 +7,84 @@
     <title>User Details</title>
     <link rel="stylesheet" href="https://unpkg.com/98.css" />
     <style>
+        body {
+            background-image: url("{% static 'accounts/starry.jpg' %}");
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card {
+            padding: 10px;
+            background-color: #fff;
+            border: 2px solid #000;
+            border-radius: 4px;
+        }
+
+        .card-header {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-bottom: 2px solid #000;
+        }
+
+        .card-title {
+            margin: 0;
+            font-size: 1.4rem;
+        }
+
+        .card-body {
+            padding: 10px;
+        }
+
+        .card-body p {
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .card-footer {
+            padding: 10px;
+            border-top: 2px solid #000;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-primary {
+            color: white;
+            background-color: #00008B;
+            padding: 5px 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            border: 2px solid #000;
+            font-size: 0.9rem;
+        }
+
+        .btn-secondary {
+            color: #000;
+            background-color: #d3d3d3;
+            padding: 5px 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            border: 2px solid #000;
+            font-size: 0.9rem;
+        }
+
+        #delete-button {
+            background-color: red;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        #delete-button:hover {
+            background-color: darkred;
+        }
     </style>
 </head>
 <body>
@@ -37,9 +115,5 @@
             </div>
         </div>
     </div>
-
-    {% csrf_token %}
-
-    <script src="{% static 'accounts/js/delete.js' %}"></script>
 </body>
 </html>

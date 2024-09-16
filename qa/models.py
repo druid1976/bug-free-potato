@@ -27,16 +27,18 @@ class Question(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        if self.image is not None:
+        if self.image:
             img = Image.open(self.image)
             if img.height > 400 or img.width > 400:
                 output_size = (400, 400)
                 img.thumbnail(output_size)
                 img.save(self.image.path)
 
-
     class Meta:
         ordering = ['-created_on']
+    # Ordering is not a free operation. Each field you add to the ordering incurs a cost to your database.
+    # Each foreign key you add will implicitly include all of its default orderings as well.
+    # Order kullanma class metadan kurtulmak istiyoruz.
 
     def __str__(self):
         return f"{self.question} | {self.author}"
@@ -55,7 +57,7 @@ class Comment(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        if self.image and hasattr(self.image, 'file'):
+        if self.image:
             img = Image.open(self.image)
             if img.height > 400 or img.width > 400:
                 output_size = (400, 400)
@@ -87,6 +89,3 @@ class Vote(models.Model):
 
     class Meta:
         unique_together = [('user', 'question'), ('user', 'comment')]
-
-
-

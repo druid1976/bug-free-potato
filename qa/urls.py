@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import *
-# from .views import QuestionAPIView, QuestionDetailAPIView, AnswerAPIView, CommentAPIView, VoteAPIView
+
 
 urlpatterns = [
 
@@ -9,4 +9,5 @@ urlpatterns = [
     path('question/<int:question_id>/', QuestionDetailView.as_view(), name='detailed_question'),
     path('question/<int:question_id>/vote/', QuestionVoteView.as_view(), name='question_vote'),
     path('question/<int:question_id>/<int:comment_id>/delete/', CommentDeleteView.as_view(), name='delete_comment'),
+    path("question/<int:question_id>/delete/", QuestionDeleteView.as_view(), name="delete_question"),
 ]

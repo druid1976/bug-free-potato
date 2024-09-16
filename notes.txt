@@ -126,12 +126,30 @@ Yapı amaçları :
 
 
 Bugün yapılacaklar:
-
-    1 - Javascript ilerleme
+    1- question delete
     2 - My questions sayfası (paginator eklenebilir)
-     3 - chat sayfası potansiyel reklam (topluluklar için)
-    4 - Css ile güzelleme
+    3 - chat sayfası potansiyel reklam (topluluklar için)
     5- 10 ile 20 arası potato seviyesi olabilir, şu anda çakışan sectionlar hakkında bir şey yapmıyorum
+
+
+3 haftalık yapılacaklar listesi:
+
+
+    1- Model isim ve özellik temizliği (en son)
+    2- Viewlerdeki eksiklikleri temizlemek:
+        2.1- Öğrenci derslerini takip edebilmeli - Courses
+        2.2- Kendi bütün sorularına bakabilmeli - Questions
+        2.3- Dexter'da yapılan tablo kayıt altına alınmıyor almalı, - AcademicDreams
+        2.4- Özel section listeleri oluşturan bir backtrack algo
+        2.5- log out ekle
+        2.6- upvote downvote şekillerini değiştir
+
+
+    3- Websocket toplu not alma
+
+MAC sadece adlara tıklanabiliyor genel basılabilir yapılabilir
+
+
 
 nav red
 nav white
@@ -144,3 +162,7 @@ I would suggest that you put some time in reading here because you need to build
 flashpoint
 justice league 3000
 earth 2
+
+
+collab not alma?!
+websocket

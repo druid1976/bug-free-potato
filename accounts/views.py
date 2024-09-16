@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -110,3 +110,10 @@ class UserUpdateView(LoginRequiredMixin, View):
         else:
             return redirect('accounts:login')
 
+
+class LogoutView(LoginRequiredMixin, View):
+    login_url = 'accounts:login'
+
+    def get(self, request):
+        logout(request)
+        return redirect(reverse('accounts:login'))

@@ -108,7 +108,39 @@
             background-color: lightsteelblue;
         }
     </style>
-    <script>
+
+
+</head>
+<body>
+    <div class="tab-bar">
+        <a href="{% url 'qa:all_questions' %}">Back to All Questions</a>
+
+    </div>
+
+    <div class="container window">
+
+        <div class="title-bar">
+            <div class="title-bar-text">{{ question.question }}</div>
+        </div>
+        <div class="window-body">
+            {% if question.image %}
+                <img src="{{ question.image.url }}" alt="Uploaded Image for Question">
+            {% else %}
+                <p>No image available for this question.</p>
+            {% endif %}
+
+            <h2 class="question-title">{{ question.question }}</h2>
+            <p class="question-content">{{ question.content }}</p>
+
+            <div class="votes">
+                Upvotes: <span id="upvote-count">{{ question.up_votes }}</span> |
+                Downvotes: <span id="downvote-count">{{ question.down_votes }}</span>
+
+                <button onclick="sendVote('upvote', {{ question.id }})">Upvote</button>
+                <button onclick="sendVote('downvote', {{ question.id }})">Downvote</button>
+            </div>
+
+<script>
         function sendVote(voteType, questionId) {
     const csrfToken = '{{ csrf_token }}';
 
@@ -136,39 +168,10 @@
 .catch(error => console.error('Error:', error));
 
 }
-    </script>
-
-</head>
-<body>
-    <div class="tab-bar">
-        <a href="{% url 'qa:all_questions' %}">Back to All Questions</a>
-    </div>
-
-    <div class="container window">
-        <div class="title-bar">
-            <div class="title-bar-text">{{ question.question }}</div>
-        </div>
-        <div class="window-body">
-            {% if question.image %}
-                <img src="{{ question.image.url }}" alt="Uploaded Image for Question">
-            {% else %}
-                <p>No image available for this question.</p>
-            {% endif %}
-
-            <h2 class="question-title">{{ question.question }}</h2>
-            <p class="question-content">{{ question.content }}</p>
-
-            <div class="votes">
-                Upvotes: <span id="upvote-count">{{ question.up_votes }}</span> |
-                Downvotes: <span id="downvote-count">{{ question.down_votes }}</span>
-
-                <button onclick="sendVote('upvote', {{ question.id }})">Upvote</button>
-                <button onclick="sendVote('downvote', {{ question.id }})">Downvote</button>
-            </div>
+</script>
 
             <div class="comments">
     <h3>Comments</h3>
-
     <ul>
         {% for comment in comments %}
         <li class="comment-item" id="comment-{{ comment.id }}">
@@ -214,11 +217,10 @@
         }
     });
 });
-
 </script>
                 <div class="comment-form">
                     <h4>Add a Comment</h4>
-                    <form method="POST">
+                    <form method="post">
                         {% csrf_token %}
                         {{ comment_form.as_p }}
                         <button name="comment_submit" type="submit">Add Comment</button>

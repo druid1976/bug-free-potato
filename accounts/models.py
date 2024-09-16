@@ -9,7 +9,7 @@ class CustomUser(AbstractUser):
     WHO = ((1, "STUDENT"),
            (2, "INSTRUCTOR")
            )
-
+#integer choices
     NUMBERS = ((1, "1st"),
                (2, "2nd"),
                (3, "3rd"),
@@ -36,6 +36,8 @@ class CustomUser(AbstractUser):
 
     # daha sonra ilk kayıt olduğu anda yılını belirttiği
     # vakit normal zaman diliminden semestrı belirtilebilir
+
+#null kaldır!!!
 
     semester_of_student = models.IntegerField(default=1, null=True, blank=True)
     """"

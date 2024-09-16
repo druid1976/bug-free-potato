@@ -3,7 +3,7 @@ from accounts.models import CustomUser
 # from datetime import time --> this is for creating time(9,0)
 # Create your models here.
 
-
+#auth model
 class Course(models.Model):
     title = models.CharField(max_length=200)
     course_description = models.TextField()
