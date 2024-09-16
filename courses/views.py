@@ -54,16 +54,6 @@ class CurriculumView(LoginRequiredMixin, View):
             return redirect(reverse('accounts:login'))
 
 
-class CourseSectionsView(LoginRequiredMixin, View):
-    login_url = 'accounts:login'
-
-    def get(self, request, course_code):
-        course = get_object_or_404(Course, course_code=course_code)
-        sections = Section.objects.filter(course=course)
-
-        return JsonResponse({'courses': sections})
-
-
 class CourseSearchView(LoginRequiredMixin, View):
     login_url = 'accounts:login'
 

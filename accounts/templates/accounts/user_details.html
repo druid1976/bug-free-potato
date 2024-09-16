@@ -5,68 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Details</title>
-    <!-- 98.css for retro styling -->
     <link rel="stylesheet" href="https://unpkg.com/98.css" />
     <style>
-        body {
-            background-image: url("{% static 'accounts/starry.jpg' %}");
-        }
-
-        h2 {
-            color: lightcyan;
-            text-align: center;
-        }
-
-        .container {
-            width: 400px;
-            margin: 100px auto 0;
-        }
-
-        .window {
-            padding: 1rem;
-            background: lightsteelblue;
-        }
-
-        .card {
-            border: none;
-            padding: 1rem;
-        }
-
-        .card-header, .card-footer {
-            text-align: center;
-            background: #c3c3c3;
-            padding: 0.5rem;
-            border: 1px solid #000;
-        }
-
-        .card-title {
-            margin: 0;
-            font-size: 1.5rem;
-        }
-
-        .card-body p {
-            margin: 0.5rem 0;
-            font-size: 1rem;
-        }
-
-        .btn-primary, .btn-secondary {
-            display: block;
-            width: 100%;
-            padding: 0.5rem;
-            background-color: white;
-            border: 1px solid #000;
-            text-align: center;
-            cursor: pointer;
-            margin: 5px;
-            text-decoration: none;
-            color: black;
-            font-size: medium;
-        }
-
-        .btn-primary:hover, .btn-secondary:hover {
-            background-color: #c3c3c3;
-        }
-
     </style>
 </head>
 <body>
@@ -90,10 +30,16 @@
                 </div>
                 <div class="card-footer">
                     <a href="{% url 'accounts:user_update' user.student_number %}" class="btn-primary">Edit Details</a>
-                    <a href="{% url 'accounts:blank' %}" class="btn-secondary">Back to Blank</a>
+                    <a href="{% url 'accounts:blank' %}" class="btn-secondary">Back to MAC</a>
+                    <!-- Add the delete button -->
+                    <button id="delete-button" class="btn-secondary" data-user-id="{{ user.id }}">Delete Account</button>
                 </div>
             </div>
         </div>
     </div>
+
+    {% csrf_token %}
+
+    <script src="{% static 'accounts/js/delete.js' %}"></script>
 </body>
 </html>

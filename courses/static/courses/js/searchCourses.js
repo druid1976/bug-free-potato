@@ -1,3 +1,6 @@
+
+// EVENT DELEGATION - https://www.freecodecamp.org/news/event-delegation-javascript/
+
 class Section {
   constructor(section_number, day, starting_hour, room_name, building_name, floor_name) {
     this.section_number = section_number;
@@ -17,24 +20,29 @@ class Course {
   }
 }
 
-
+// global variables because why not ( I couldn't find another way to do it )
 let courses = [];
 let selectedCourses = [];
+let me = {};
 
-// JUST FOR DELETION
-let clickedDiv = null
-let clickedCourse = null
 
 // Event listener to the search bar after the DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-  fetchCourses();
-  // added event linstener
-  const searchBar = document.getElementById('courseSearchBar');
-  searchBar.addEventListener('input', handleSearch);
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    await fetchCourses();
+
+    // Initialize search bar after courses are fetched successfully because why do it backwards?
+
+    const searchBar = document.getElementById('courseSearchBar');
+    searchBar.addEventListener('input', handleSearch);
+  } catch (error) {
+    console.error('Error fetching courses:', error);
+  }
 });
 
 
 async function fetchCourses() {
+
   try {
     const response = await fetch('/course/search/');
     const data = await response.json();
@@ -49,14 +57,15 @@ async function fetchCourses() {
       ));
       return new Course(courseData.title, sections);
     });
-    displayCourses(courses);
   } catch (error) {
     console.error('Error fetching the JSON:', error);
   }
 }
 
 
+
 function displayCourses(coursesToDisplay) {
+
   const courseResults = document.getElementById('courseResults');
   courseResults.innerHTML = ''; // Clear previous results
   if (coursesToDisplay.length === 0) {
@@ -78,9 +87,18 @@ function displayCourses(coursesToDisplay) {
 
 
 // Function to handle search input and filter courses
+
 function handleSearch(event) {
-  const searchTerm = event.target.value.toLowerCase();
-  // Filter courses based on the search term
+
+  const searchTerm = event.target.value.toLowerCase().trim();
+  const courseResults = document.getElementById('courseResults');
+  //hiding the results if nothing is seached initially
+  if (searchTerm === '') {
+    courseResults.innerHTML = '';
+    courseResults.style.display = 'none';
+    return;
+  }
+  //filterer
   const filteredCourses = courses.filter(course =>
     course.title.toLowerCase().includes(searchTerm)
   );
@@ -90,6 +108,8 @@ function handleSearch(event) {
 
 
 // ADD COURSE TO SELECTED COURSES LIST IN THE LIST AND CREATE THE VISUALS FOR THE PAGE ALSO REMOVAL
+
+
 function addCourseToSelected(course) {
   if (selectedCourses.includes(course)) {
     alert("This course is already selected.");
@@ -104,6 +124,7 @@ function addCourseToSelected(course) {
   courseDiv.innerHTML = `${course.title}`;
 
   // REMOVAL BUTTON CREATION
+
   const removeBtn = document.createElement('button');
   removeBtn.className = 'remove-btn';
   removeBtn.textContent = 'X';
@@ -113,45 +134,50 @@ function addCourseToSelected(course) {
       alert("This course is not selected.");
     }
     else {
-      console.log( course + "removed the course inside selectedCourses")
-      console.log("Also removed from the course class")
-      console.log("remove button clicked")
+      console.log("remove button clicked");
       //deletes from array
       selectedCourses = selectedCourses.filter(selectedCourse => selectedCourse !== course);
+      console.log( course + "removed the course inside selectedCourses");
       //deletes the visuals
       selectedCoursesDiv.removeChild(courseDiv);
-      let noc = courses.findIndex(x => x.title === course.title);
-      const hero = document.getElementsByClassName(noc.toString())
-      Array.from(hero).forEach((div) => {
-          // !!!
-      })
-      // if (){}
+      console.log("Also removed from the course class");
+      removeTable(course);
+      console.log("removed from the table");
     }
 
 // SİLME İŞLEMİ CLİCK ATTRİBUTE KIYASLAMA ŞEKLİNDE DE YAPILABİLİR?
 });
 
 
-  // COLORING OF SECTIONS
-  const sectionBtn = document.createElement('button');
-  sectionBtn.className = 'add-btn';
-  sectionBtn.textContent = '!';
-  sectionBtn.style.color = 'blue';
-  let sectionChosen = false;
+// SECTION CHOOSE BUTTON CREATION
 
-  sectionBtn.addEventListener('click', () => {
-    if (sectionChosen) {
-      doSomethingElse();
-    }
-    else {
-      // If the section has not been chosen, choose it
+const sectionBtn = document.createElement('button');
+sectionBtn.className = 'add-btn';
+sectionBtn.textContent = '!';
+sectionBtn.style.color = 'blue';
+sectionBtn.sectionChosen = false;
+
+sectionBtn.addEventListener('click', () => {
+  if (sectionBtn.sectionChosen) {
+    const choice = confirm("This section is already chosen. Do you want to remove it and choose another?");
+    if (choice) {
+      removeTable(course);
+      //re-color it
       coloredSection(course);
-      sectionBtn.style.color = 'green';
-      sectionBtn.textContent = '✓';
-      sectionChosen = true; // Update the state variable
+      // Reset button appearance
+      sectionBtn.style.color = 'blue';
+      sectionBtn.textContent = '!';
+      sectionBtn.sectionChosen = false; // Update the state variable
+    } else {
+      console.log("Nothing happened.");
     }
-  });
-
+  } else {
+    coloredSection(course);
+    sectionBtn.style.color = 'green';
+    sectionBtn.textContent = '✓';
+    sectionBtn.sectionChosen = true;
+  }
+});
   // CHOOSING OF THE SECTIONS
   courseDiv.appendChild(removeBtn);
   courseDiv.appendChild(sectionBtn);
@@ -163,45 +189,29 @@ function addCourseToSelected(course) {
 // BURADA COURSE NUMARASI DA EKLENİYOR
 
 function coloredSection(course) {
-  let me = []
+  let noc = courses.findIndex(x => x.title === course.title);
+  if (!me[noc]) {
+    me[noc] = []; // Initializing array of sectionas for each course
+  }
   course.sections.forEach(section => {
-    // Now search for matching divs in the DOM based on section's day and starting hour
     const divs = document.getElementsByClassName('subject');
-    // Convert HTMLCollection to array to use forEach
     Array.from(divs).forEach((div) => {
       const divDay = div.getAttribute('data-day');
       const divHour = div.getAttribute('data-hour');
       if (divDay === String(section.day) && divHour === section.starting_hour) {
-        me.push(div)
-        let noc = courses.findIndex(x => x.title === course.title);
+        me[noc].push({ div: div });
         div.classList.add(noc.toString());
         div.classList.add('potato');
-        console.log("added 1 potato (coloring) ");
+        console.log("added 1 potato (coloring)");
         div.addEventListener('click', () => {
-          console.log("aaa")
+          console.log("entering event listener");
           choosingSection(div, course, section);
-          clickedDiv = div
-          clickedCourse = course
         });
       }
-
     });
-     letMeBe(me, clickedDiv, clickedCourse)
   });
 }
 
-
-function letMeBe(me, clickedDiv, clickedCourse) {
-
-  let noc = courses.findIndex(x => x.title === clickedCourse.title);
-  Array.from(me).forEach((div) => {
-    if (div !== clickedDiv) {
-      div.replaceWith(div.cloneNode(true));  // Replace div with a clone to remove event listeners
-      div.classList.remove('potato');
-      div.classList.remove(noc.toString());
-    }
-  })
-}
 
 // SEÇİLEN SECTION'U YENI DIV YAPARAK YAZDIRIR VE LISTENER'I KALDIRIR
 function choosingSection(div, course, section) {
@@ -215,22 +225,51 @@ function choosingSection(div, course, section) {
     <strong>Room: </strong> ${section.room_name} <br>
     <strong>Floor: </strong> ${section.floor_name}
   `;
-
+  let clickedDiv = div;
   div.appendChild(courseInfo);
+  letMeBe(course, clickedDiv);
 }
 
 
-doSomethingElse = () => {
-  let noc = courses.findIndex(x => x.title === clickedCourse.title);
-  choice = confirm("This section is already chosen. Do you want to remove it?");
-  if (choice) {
-    div.classList.remove('potato');
-    div.classList.remove(noc.toString());
-    console.log("removed 1 potato (coloring) ");
-    div.innerHTML = '';
-    div.classList.remove("selected-section")
-  }
-  else {
-    console.log("nothing happened");
+function letMeBe(course, clickedDiv) {
+  console.log("letmebe working...");
+  let noc = courses.findIndex(x => x.title === course.title);
+  if (me[noc]) {
+    me[noc].forEach((item) => {
+      let div = item.div;
+      let newDiv = div.cloneNode(true);
+      newDiv.classList.remove('potato');
+      console.log("deleting potato");
+      if (div !== clickedDiv) {
+        newDiv.classList.remove(noc.toString());
+      }
+      div.replaceWith(newDiv);
+      // referansör kanks
+      item.div = newDiv;
+    });
   }
 }
+
+
+function removeTable(course) {
+  let noc = courses.findIndex(x => x.title === course.title);
+  if (me[noc]) {
+    me[noc].forEach((item) => {
+      let div = item.div; // Access the actual div
+      div.innerHTML = '';
+
+      let newDiv = div.cloneNode(true);
+
+      newDiv.classList.remove('potato', noc.toString());
+      console.log("RemoveTable works fine?");
+      div.replaceWith(newDiv);
+
+      // updating the REFERENCE in me[noc]
+      item.div = newDiv;
+    });
+    // Clean up 'me'
+    delete me[noc];
+  }
+}
+
+

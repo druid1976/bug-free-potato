@@ -3,7 +3,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views import View
-from courses.views import AcademicDream
 from .forms import *
 from .models import CustomUser
 
@@ -44,6 +43,11 @@ class LoginView(View):
     def post(self, request):
         form = self.form_class(data=request.POST)
         if form.is_valid():
+
+            # form.cleaned_data returns a dictionary of validated form input fields and their values,
+            # where string primary keys are returned as objects.
+            # or so they say
+
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(request, username=username, password=password)
@@ -106,26 +110,3 @@ class UserUpdateView(LoginRequiredMixin, View):
         else:
             return redirect('accounts:login')
 
-'''
-
-class CoursesView(LoginRequiredMixin, View):
-    template_name = 'accounts/my_courses.html'
-    login_url = 'accounts:login'
-
-    def get(self, request, student_number):
-        if request.user.student_number == student_number and not None:
-            user = get_object_or_404(CustomUser, student_number=student_number)
-            dreams = AcademicDream.objects.filter(student=user)
-            pear = [dreams.courses for dreams in dreams]
-            context = {'courses': pear,
-                       'url': reverse('accounts:my_courses', kwargs={'student_number': request.user.student_number})}
-            return render(request, self.template_name, context)
-        else:
-            return redirect(reverse('accounts:login'))
-
-
-
-        pager = Paginator(questions, 5)
-        page_number = request.GET.get('page', 1)
-        questions = pager.page(page_number)
-'''

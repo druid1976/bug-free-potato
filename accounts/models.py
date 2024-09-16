@@ -29,10 +29,14 @@ class CustomUser(AbstractUser):
 
     student_number = models.CharField(unique=True, blank=True, null=True)
     status = models.IntegerField(choices=WHO, default=1)
+
     # is_student = models.BooleanField(default=True)
+
     year_of_student = models.IntegerField(choices=NUMBERS, default=1, null=True, blank=True)
+
     # daha sonra ilk kayıt olduğu anda yılını belirttiği
     # vakit normal zaman diliminden semestrı belirtilebilir
+
     semester_of_student = models.IntegerField(default=1, null=True, blank=True)
     """"
     For some reason doesn't work!

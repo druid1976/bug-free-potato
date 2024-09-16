@@ -5,68 +5,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timetable</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/98.css">
+
     <style>
         body {
-            font-family: Arial, sans-serif;
+            margin: 200px;
+            background-image: url("{% static 'accounts/starry.jpg' %}");
         }
+
+        .window {
+            width: 85%;
+            margin: 20px auto;
+        }
+
+        .window-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            background-color: #000080;
+            color: white;
+        }
+
+        .window-body {
+            background-color: cadetblue;
+            padding: 1rem;
+        }
+
         .timetable, .selected-courses {
             display: grid;
-            grid-template-columns: repeat(6, 2fr);
+            grid-template-columns: repeat(6, 1fr);
             grid-template-rows: auto;
             gap: 5px;
-            max-width: 800px;
             margin: 20px auto;
-            border: 1px solid #ddd;
         }
+
         .time, .day, .course-item {
-            background-color: #f0f0f0;
+            background-color: #000080;
+            color : white;
             text-align: center;
             font-weight: bold;
             padding: 10px;
+            border: 1px solid #808080;
         }
+
         .subject {
-            background-color: #e0e7ff;
+            background-color: whitesmoke;
             padding: 10px;
             text-align: center;
-            border: 1px solid #ddd;
+            border: 1px solid #808080;
         }
+
         .subject:hover {
-            background-color: #c7d2fe;
+            background-color: white;
         }
+
         .search-results {
             max-width: 800px;
             margin: 20px auto;
             padding: 10px;
             border: 1px solid #ccc;
         }
+
         .search-result-item {
             padding: 10px;
             border-bottom: 1px solid #eee;
             cursor: pointer;
         }
+
         .search-result-item:hover {
             background-color: #f9f9f9;
         }
+
         .selected-courses {
             margin-bottom: 20px;
         }
 
         .potato {
-            background-color: #f39c12; /* Light up sections */
+            background-color: #f39c12;
             cursor: pointer;
+        }
+        .potato:hover {
+            background-color: #e67e22;
+            color: #fff;
+            font-weight: bold;
         }
 
         .subject.fixed {
-            background-color: #27ae60; /* Selected section */
+            background-color: #27ae60;
             color: #fff;
             font-weight: bold;
-            text-align: center;
-            padding: 10px;
-        }
-
-        .exclamation-btn {
-            font-size: 18px;
         }
 
         .remove-btn {
@@ -91,33 +119,40 @@
             margin-left: auto;
             margin-right: auto;
         }
-
-
     </style>
 </head>
 <body>
-    <div class="search-bar">
-        <input type="text" id="courseSearchBar" placeholder="Search for courses...">
-        <div class="search-results" id="courseResults"></div>
+
+<div class="window">
+    <div class="window-header">
+        <span>Class Timetable</span>
+        <div class="window-controls">
+            <a href="{% url 'accounts:blank' %}">
+            <button class="minimize">Back to MAC</button>
+            </a>
+            <button class="maximize"></button>
+            <button class="close"></button>
+        </div>
     </div>
+    <div class="window-body">
+        <div class="search-bar">
+            <input type="text" id="courseSearchBar" placeholder="Search for courses...">
+            <div class="search-results" id="courseResults"></div>
+        </div>
 
-    <div class="selected-courses" id="selectedCourses">
-        <div class="time"></div>
-        <div class="course-item">Selected Courses</div>
-    </div>
+        <div class="selected-courses" id="selectedCourses">
+            <div class="course-item">Selected Courses</div>
+        </div>
 
 
-    <h2 style="text-align: center;">Class Timetable</h2>
 
-    <div class="timetable">
-
-
-        <div class="time"></div>
-        <div class="day">Monday</div>
-        <div class="day">Tuesday</div>
-        <div class="day">Wednesday</div>
-        <div class="day">Thursday</div>
-        <div class="day">Friday</div>
+        <div class="timetable" id="timetable">
+            <div class="time"></div>
+            <div class="day">Monday</div>
+            <div class="day">Tuesday</div>
+            <div class="day">Wednesday</div>
+            <div class="day">Thursday</div>
+            <div class="day">Friday</div>
 
         <div class="time">09:30 - 10:20 <br>1</div>
         <div class="subject" data-day = "1" data-hour="09:30:00"></div>
@@ -212,15 +247,12 @@
         <div class="subject" data-day="3" data-hour="20:30:00"></div>
         <div class="subject" data-day="4" data-hour="20:30:00"></div>
         <div class="subject" data-day="5" data-hour="20:30:00"></div>
-
-
+        </div>
     </div>
-
+</div>
 
 
 
 <script src="{% static 'courses/js/searchCourses.js' %}"></script>
-
-
 </body>
 </html>
