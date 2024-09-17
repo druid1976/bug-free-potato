@@ -12,8 +12,3 @@ urlpatterns = [
     path('curr/<str:program_code>/', CurriculumView.as_view(), name='courses_curriculum'),
 
 ]
-
-
-
-
-

@@ -9,14 +9,23 @@
 
     <style>
         body {
-            margin: 200px;
-            background-image: url("{% static 'accounts/starry.jpg' %}");
-        }
+    margin: 100px;
+    padding: 20px;
+    background-image: url("{% static 'accounts/starry.jpg' %}");
+}
+
+
 
         .window {
-            width: 85%;
-            margin: 20px auto;
-        }
+    width: 85%;
+    max-width: 900px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
 
         .window-header {
             display: flex;
@@ -28,37 +37,41 @@
         }
 
         .window-body {
-            background-color: cadetblue;
-            padding: 1rem;
-        }
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
 
         .timetable, .selected-courses {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            grid-template-rows: auto;
-            gap: 5px;
-            margin: 20px auto;
-        }
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: auto;
+    gap: 10px;
+    margin: 20px auto;
+}
+
 
         .time, .day, .course-item {
-            background-color: #000080;
-            color : white;
-            text-align: center;
-            font-weight: bold;
-            padding: 10px;
-            border: 1px solid #808080;
-        }
+    background-color: #000080;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid #808080;
+}
 
-        .subject {
-            background-color: whitesmoke;
-            padding: 10px;
-            text-align: center;
-            border: 1px solid #808080;
-        }
+.subject {
+    background-color: whitesmoke;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #808080;
+    border-radius: 4px;
+}
 
-        .subject:hover {
-            background-color: white;
-        }
+.subject:hover {
+    background-color: #d0d0ff;
+}
+
 
         .search-results {
             max-width: 800px;

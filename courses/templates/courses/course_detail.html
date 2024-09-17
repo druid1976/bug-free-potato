@@ -5,112 +5,134 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ course.title }} Details</title>
-    <!-- 98.css for retro styling -->
     <link rel="stylesheet" href="https://unpkg.com/98.css" />
+
     <style>
         body {
             background-image: url("{% static 'courses/starry.jpg' %}");
-        }
-
-        h2, h3 {
-            color: darkslateblue;
-            text-align: center;
+            padding: 20px;
+            margin: 0;
         }
 
         .container {
-            width: 600px;
-            margin: 0 auto;
-            margin-top: 50px;
+            max-width: 800px;
+            margin: 200px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
 
-        .window {
-            padding: 1rem;
-            background-color: lightsteelblue;
+        .title-bar {
+            background-color: #00008B;
+            color: #fff;
+            padding: 12px 16px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .window-body {
+            padding: 20px;
         }
 
         .section {
-            margin-bottom: 1rem;
-            padding: 1rem;
-            border: 1px solid #000;
-            background-color: white;
+            margin-bottom: 20px;
         }
 
         .section-title {
             font-weight: bold;
-            margin-bottom: 0.5rem;
-            font-size: 17px;
+            color: #00008B;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
         }
 
         .section-content {
-            margin-bottom: 0.5rem;
-            font-size: 15px;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
 
         .section-content-2 {
-            margin-bottom: 0.5rem;
-            font-size: 15px;
-            color: darkmagenta;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .section-content-2 li {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
         }
 
         .btn-back {
-            display: block;
-            padding: 0.5rem;
-            width: 100%;
-            text-align: center;
-            background-color: white;
-            border: 1px solid #000;
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #00008B;
+            color: #fff;
             text-decoration: none;
-            color: black;
-            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
         }
 
         .btn-back:hover {
-            background-color: lightsteelblue;
+            background-color: #003580;
         }
-
     </style>
+
 </head>
 <body>
     <div class="container window">
         <div class="title-bar">
             <div class="title-bar-text">{{ course.title }} Details</div>
         </div>
+
         <div class="window-body">
             <h2>{{ course.title }}</h2>
+
             <div class="section">
                 <div class="section-title">Course Code:</div>
                 <div class="section-content">{{ course.course_code }}</div>
             </div>
+
             <div class="section">
                 <div class="section-title">Description:</div>
                 <div class="section-content">{{ course.course_description }}</div>
             </div>
+
             <div class="section">
                 <div class="section-title">Credit Points:</div>
                 <div class="section-content">{{ course.max_credit_points }}</div>
             </div>
+
             <div class="section">
                 <div class="section-title">Instructor:</div>
                 <div class="section-content">{{ course.instructor.get_full_name }}</div>
             </div>
+
             <div class="section">
                 <div class="section-title">Language:</div>
                 <div class="section-content">{{ course.language }}</div>
             </div>
+
             <div class="section">
                 <div class="section-title">Semester:</div>
                 <div class="section-content">{{ course.semester.name }} ({{ course.semester.start_date }} - {{ course.semester.end_date }})</div>
             </div>
+
             <div class="section">
                 <h3>Sections:</h3>
-                <ul class = "section-content-2">
+                <ul class="section-content-2">
                     {% for section in course.sections.all %}
                     <li>{{ section.section_number }} - {{ section.day_display }}: {{ section.starting_hour }} to {{ section.ending_hour }} ({{ section.room_name }}, {{ section.building_name }} {{ section.floor_name }})</li>
                     {% endfor %}
                 </ul>
             </div>
-            <a href="{% url 'courses:course_list' %}" class="btn-back">Go to Courses</a>
-        <a href = "{% url  'accounts:blank' %}" class = "btn-back"> Back to MAC</a>
+
+            <a href="javascript:window.history.back();" class="btn-back">Go back to my curriculum</a>
+            <a href="{% url 'accounts:blank' %}" class="btn-back">Back to MAC</a>
         </div>
     </div>
 </body>
