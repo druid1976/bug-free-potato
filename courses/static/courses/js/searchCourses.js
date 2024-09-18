@@ -117,7 +117,7 @@ function addCourseToSelected(course) {
   }
 
   selectedCourses.push(course);
-  console.log( course + "added the course inside selectedCourses")
+  console.log(" ${course.title} added the course inside selectedCourses")
   const selectedCoursesDiv = document.getElementById('selectedCourses');
   const courseDiv = document.createElement('div');
   courseDiv.className = 'course-item';
@@ -189,87 +189,120 @@ sectionBtn.addEventListener('click', () => {
 // BURADA COURSE NUMARASI DA EKLENİYOR
 
 function coloredSection(course) {
-  let noc = courses.findIndex(x => x.title === course.title);
-  if (!me[noc]) {
-    me[noc] = []; // Initializing array of sectionas for each course
-  }
-  course.sections.forEach(section => {
-    const divs = document.getElementsByClassName('subject');
-    Array.from(divs).forEach((div) => {
-      const divDay = div.getAttribute('data-day');
-      const divHour = div.getAttribute('data-hour');
-      if (divDay === String(section.day) && divHour === section.starting_hour) {
-        me[noc].push({ div: div });
-        div.classList.add(noc.toString());
-        div.classList.add('potato');
-        console.log("added 1 potato (coloring)");
-        div.addEventListener('click', () => {
-          console.log("entering event listener");
-          choosingSection(div, course, section);
+    let noc = courses.findIndex(x => x.title === course.title);
+
+    if (!me[noc]) {
+        me[noc] = []; // Initialize array of sections for each course
+    }
+
+    course.sections.forEach(section => {
+        const divs = document.getElementsByClassName('subject');
+
+        Array.from(divs).forEach((div) => {
+            const divDay = div.getAttribute('data-day');
+            const divHour = div.getAttribute('data-hour');
+
+            // Match the div with the section's day and starting hour
+            if (divDay === String(section.day) && divHour === section.starting_hour) {
+                // Push this div and section to the 'me' array for this course
+                me[noc].push({ div: div, section: section });
+
+                div.classList.add(noc.toString()); // Add a class based on course index
+                div.classList.add('potato');       // Add a 'potato' class for selected
+
+                console.log(`Added section ${section.section_number} for course ${course.title}`);
+
+                // Add click event for selecting section
+                div.addEventListener('click', () => {
+                    console.log("Selecting section");
+                    choosingSections(div, course, section);
+                });
+            }
         });
-      }
     });
-  });
 }
+
 
 
 // SEÇİLEN SECTION'U YENI DIV YAPARAK YAZDIRIR VE LISTENER'I KALDIRIR
-function choosingSection(div, course, section) {
-  div.innerHTML = ''; //iç boşaltırıcı
-  const courseInfo = document.createElement('div');
-  courseInfo.className = 'course-info';
-  courseInfo.innerHTML = `
-    <strong>${course.title}</strong>  <br>
-    <strong>Section: </strong> ${section.section_number} <br>
-    <strong>Building: </strong> ${section.building_name} <br>
-    <strong>Room: </strong> ${section.room_name} <br>
-    <strong>Floor: </strong> ${section.floor_name}
-  `;
-  let clickedDiv = div;
-  div.appendChild(courseInfo);
-  letMeBe(course, clickedDiv);
+// Function to select and display section details
+
+function choosingSections(course, section) {
+
+    // Clear the div and display the selected section's details
+    let noc = courses.findIndex(x => x.title === course.title);
+    console.log('Accessing me[' + noc + ']:', me[noc]);
+    me[noc].forEach((item) => {
+        if (section.section_number === item.section.section_number) {
+            let div = item.div;
+            div.innerHTML = '';
+            const courseInfo = document.createElement('div');
+            courseInfo.className = 'course-info';
+            courseInfo.innerHTML = `
+                <strong>${course.title}</strong>  <br>
+                <strong>Section: </strong> ${section.section_number} <br>
+                <strong>Building: </strong> ${section.building_name} <br>
+                <strong>Room: </strong> ${section.room_name} <br>
+                <strong>Floor: </strong> ${section.floor_name}
+`;
+            div.appendChild(courseInfo);
+        }
+
+        // adding the course info to the div
+    })
+
+    // for deletion purpose
+    letMeBe(course, section);
 }
+
 
 
 function letMeBe(course, clickedDiv) {
-  console.log("letmebe working...");
-  let noc = courses.findIndex(x => x.title === course.title);
-  if (me[noc]) {
-    me[noc].forEach((item) => {
-      let div = item.div;
-      let newDiv = div.cloneNode(true);
-      newDiv.classList.remove('potato');
-      console.log("deleting potato");
-      if (div !== clickedDiv) {
-        newDiv.classList.remove(noc.toString());
-      }
-      div.replaceWith(newDiv);
-      // referansör kanks
-      item.div = newDiv;
-    });
-  }
+    console.log("letMeBe working...");
+
+    let noc = courses.findIndex(x => x.title === course.title);
+
+    if (me[noc]) {
+        me[noc].forEach((item) => {
+            let div = item.div;
+            let newDiv = div.cloneNode(true); // Clone the current div for updating
+
+            // Remove 'potato' class from all except clickedDiv
+            newDiv.classList.remove('potato');
+            if (div !== clickedDiv) {
+                newDiv.classList.remove(noc.toString()); // Remove course-specific class
+            }
+
+            div.replaceWith(newDiv); // Replace old div with the updated div
+            item.div = newDiv; // Update the reference to the new div in the 'me' array
+        });
+    }
 }
+
 
 
 function removeTable(course) {
-  let noc = courses.findIndex(x => x.title === course.title);
-  if (me[noc]) {
-    me[noc].forEach((item) => {
-      let div = item.div; // Access the actual div
-      div.innerHTML = '';
+    let noc = courses.findIndex(x => x.title === course.title);
 
-      let newDiv = div.cloneNode(true);
+    if (me[noc]) {
+        me[noc].forEach((item) => {
+            let div = item.div; // Access the actual div
+            div.innerHTML = ''; // Clear the div content
 
-      newDiv.classList.remove('potato', noc.toString());
-      console.log("RemoveTable works fine?");
-      div.replaceWith(newDiv);
+            let newDiv = div.cloneNode(true); // Clone the div to update its appearance
 
-      // updating the REFERENCE in me[noc]
-      item.div = newDiv;
-    });
-    // Clean up 'me'
-    delete me[noc];
-  }
+            // Remove styles and reset the div
+            newDiv.classList.remove('potato', noc.toString());
+            console.log(`RemoveTable: Removed section for ${course.title}`);
+            div.replaceWith(newDiv); // Replace old div with updated div
+
+            item.div = newDiv; // Update the reference in 'me' array
+        });
+
+        // Clean up 'me' for this course
+        delete me[noc];
+    }
 }
+
 
 
