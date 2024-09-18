@@ -24,15 +24,29 @@ class SemesterListView(LoginRequiredMixin, View):
         return render(request, self.template_name, {'semesters': s[2:]})
 
 
-class CourseDetailView(View):
+class CourseDetailView(LoginRequiredMixin, View):
     template_name = 'courses/course_detail.html'
 
     def get(self, request, course_code):
         course = get_object_or_404(Course, course_code=course_code)
-        return render(request, self.template_name, {'course': course})
+
+        # Group sections via numero
+        sections_by_number = {}
+        for section in course.sections.all():
+            if section.section_number not in sections_by_number:
+                sections_by_number[section.section_number] = []
+            sections_by_number[section.section_number].append(section)
+
+        context = {
+            'course': course,
+            'sections_by_number': sections_by_number,
+        }
+        return render(request, self.template_name, context)
 
 
-class CourseListView(View):
+
+class CourseListView(LoginRequiredMixin, View):
+    login_url = 'accounts:login'
     template_name = 'courses/course_list.html'
 
     def get(self, request):
@@ -45,13 +59,38 @@ class CurriculumView(LoginRequiredMixin, View):
     login_url = 'accounts:login'
 
     def get(self, request, program_code):
-        if request.user.study == "CENG" and not None:
-            curr = Curriculum.objects.get(program_code=program_code)
-            courses = curr.courses.all()
-            context = {'courses': courses, 'program_code': program_code}
+        if request.user is not None:
+            student = request.user
+            curr = Curriculum.objects.get(program_code=student.study)
+            courses = curr.courses.all().order_by('semester__semester_id')
+
+            ACDC = AcademicDream.objects.filter(courses__in=courses, student=student)
+            ACDC_dict = {ad.courses.id: ad.grade for ad in ACDC}
+
+            courses_status = []
+            for course in courses:
+                if course.id in ACDC_dict:
+                    grade = ACDC_dict[course.id]
+                    if grade >= 50:
+                        status = 'passed'
+                    elif grade == -1:
+                        status = 'not_taken'
+                    else:
+                        status = 'failed'
+                else:
+                    status = 'not_taken'
+                courses_status.append({
+                    'course': course,
+                    'status': status
+                })
+            context = {
+                'courses_status': courses_status,
+                'program_code': program_code
+            }
             return render(request, self.template_name, context)
         else:
             return redirect(reverse('accounts:login'))
+
 
 
 class CourseSearchView(LoginRequiredMixin, View):

@@ -1,10 +1,12 @@
 {% extends 'qa/base_questions.html' %}
-{% block extra_tabs %}
-<a href="{% url 'qa:my_questions' %}">My Questions</a>
-{% endblock %}
-{% block title %}All Questions{% endblock %}
 
-{% block title_bar_text %}All Questions{% endblock %}
+{% block title %}My Questions{% endblock %}
+
+{% block title_bar_text %}My Questions{% endblock %}
+
+{% block extra_tabs %}
+<a href="{% url 'qa:all_questions' %}">All Questions</a>
+{% endblock %}
 
 {% block content %}
 <ul class="list-group">

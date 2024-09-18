@@ -47,18 +47,6 @@ class CustomUser(AbstractUser):
     """
     study = models.CharField(choices=SUBJECT_CHOICES, max_length=50, null=True, blank=True)
 
-    def get_full_name(self):
-        return f"{self.first_name} {self.last_name}"
-
-    def get_status_display(self):
-        return dict(self.WHO).get(self.status, "Unknown")
-
-    def get_year_of_student_display(self):
-        return dict(self.NUMBERS).get(self.year_of_student, "Unknown")
-
-    def get_study_display(self):
-        return dict(self.SUBJECT_CHOICES).get(self.study, "Unknown")
-
     def __str__(self):
         return self.get_full_name()
 

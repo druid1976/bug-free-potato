@@ -89,7 +89,23 @@ class QuestionAllView(View):
         page_number = request.GET.get('page')
         questions = paginator.get_page(page_number)
 
+
+
         return render(request, 'qa/all_questions.html', {'questions': questions})
+
+
+class MyQuestionAllView(View):
+
+    @staticmethod
+    def get(request):
+        questions = Question.objects.annotate(vote_score=F('up_votes') - F('down_votes')).order_by('-vote_score')
+        q = questions.filter(author=request.user)
+        paginator = Paginator(q, 5)
+        page_number = request.GET.get('page')
+
+        q = paginator.get_page(page_number)
+
+        return render(request, 'qa/myquestions.html', {'questions': q})
 
 
 class QuestionDetailView(View):
@@ -146,7 +162,6 @@ class CommentDeleteView(LoginRequiredMixin, View):
                 return JsonResponse({'message': 'Comment not found'}, status=404)
             except Exception as e:
                 return JsonResponse({'error': str(e)}, status=500)
-
 
 
 class QuestionDeleteView(LoginRequiredMixin, View):

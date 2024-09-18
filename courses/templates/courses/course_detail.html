@@ -80,6 +80,22 @@
         .btn-back:hover {
             background-color: #003580;
         }
+
+        /* Additional Styling for grouped sections */
+        .grouped-section {
+            margin-bottom: 15px;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 15px;
+        }
+
+        .grouped-section-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #00008B;
+        }
     </style>
 
 </head>
@@ -124,11 +140,20 @@
 
             <div class="section">
                 <h3>Sections:</h3>
-                <ul class="section-content-2">
-                    {% for section in course.sections.all %}
-                    <li>{{ section.section_number }} - {{ section.day_display }}: {{ section.starting_hour }} to {{ section.ending_hour }} ({{ section.room_name }}, {{ section.building_name }} {{ section.floor_name }})</li>
+                <div class="section-content">
+                    {% for section_number, sections in sections_by_number.items %}
+                        <div class="grouped-section">
+                            <div class="grouped-section-title">Section {{ section_number }}</div>
+                            <ul class="section-content-2">
+                                {% for section in sections %}
+                                    <li>
+                                        {{ section.day_display }}: {{ section.starting_hour }} to {{ section.ending_hour }} ({{ section.room_name }}, {{ section.building_name }} {{ section.floor_name }})
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     {% endfor %}
-                </ul>
+                </div>
             </div>
 
             <a href="javascript:window.history.back();" class="btn-back">Go back to my curriculum</a>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Questions{% endblock %}</title>
+    <link rel="stylesheet" href="https://unpkg.com/98.css" />
+    <style>
+        body {
+            background-image: url("{% static 'accounts/starry.jpg' %}");
+            padding: 20px;
+            margin: 0;
+        }
+
+        .tab-bar {
+            background-color: #00008B;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .tab-bar a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            background-color: #003580;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab-bar a:hover {
+            background-color: #000066;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .title-bar {
+            background-color: #00008B;
+            color: #fff;
+            padding: 12px 16px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .window-body {
+            padding: 20px;
+        }
+
+        /* Add your question-item and other styles here */
+        .question-item {
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+
+        .question-item a {
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: #00008B;
+        }
+
+        .question-item a:hover {
+            text-decoration: underline;
+        }
+
+        .question-meta {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .tags {
+            margin-top: 10px;
+        }
+
+        .tags span {
+            display: inline-block;
+            background-color: #00008B;
+            color: #fff;
+            padding: 5px 10px;
+            margin-right: 5px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            padding: 8px 16px;
+            background-color: #00008B;
+            color: #fff;
+            border-radius: 4px;
+            text-decoration: none;
+            margin: 0 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .pagination a:hover {
+            background-color: #003580;
+        }
+
+        .pagination span {
+            padding: 8px 16px;
+            background-color: #ccc;
+            color: #333;
+            border-radius: 4px;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="tab-bar">
+        <a href="{% url 'accounts:blank' %}">Back to MAC</a>
+        <a href="{% url 'qa:create_quest' %}">New Question</a>
+        {% block extra_tabs %}{% endblock %}
+    </div>
+
+    <div class="container window">
+        <div class="title-bar">
+            <div class="title-bar-text">{% block title_bar_text %}All Questions{% endblock %}</div>
+        </div>
+
+        <div class="window-body">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</body>
+</html>

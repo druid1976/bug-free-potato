@@ -63,12 +63,27 @@
         }
 
         .list-group-item {
-            background-color: #f9f9f9;
             border: 1px solid #ccc;
             padding: 12px;
             margin-bottom: 10px;
             border-radius: 4px;
             transition: background-color 0.3s ease;
+        }
+
+        /* Color the course based on status */
+        .passed {
+            background-color: #d4edda; /* green for passed */
+            color: #155724;
+        }
+
+        .failed {
+            background-color: #f8d7da; /* red for failed */
+            color: #721c24;
+        }
+
+        .not_taken {
+            background-color: #f9f9f9; /* colorless for not taken */
+            color: #666;
         }
 
         .list-group-item a {
@@ -95,10 +110,11 @@
         </div>
         <div class="window-body">
             <ul class="list-group">
-                {% for course in courses %}
-                <li class="list-group-item">
-                    <a href="{% url 'courses:course_detail' course.course_code %}">{{ course.title }}</a>
-                </li>
+                {% for course_item in courses_status %}
+                    <li class="list-group-item {{ course_item.status }}">
+                        <a href="{% url 'courses:course_detail' course_item.course.course_code %}">{{ course_item.course.title }}</a>
+                        <p>Semester: {{ course_item.course.semester.semester_id }}</p>
+                    </li>
                 {% endfor %}
             </ul>
         </div>
