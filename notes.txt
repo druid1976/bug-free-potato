@@ -137,8 +137,6 @@ Bugün yapılacaklar:
 
     1- Model isim ve özellik temizliği (en son)
     2- Viewlerdeki eksiklikleri temizlemek:
-        2.1- Öğrenci derslerini takip edebilmeli - Courses
-        2.2- Kendi bütün sorularına bakabilmeli - Questions
         2.3- Dexter'da yapılan tablo kayıt altına alınmıyor almalı, - AcademicDreams
         2.4- Özel section listeleri oluşturan bir backtrack algo777y
         2.5 all questions da arama bölümü eklenebilir
@@ -179,12 +177,3 @@ websocket
 
 
 
-
-
-SearchCourse:
-
-sct button()
-colored section() course atıyor
-ders seçilir selectedcourse listesine eklenir, bütün dersler potatolanır ve ders numarası yapıştırılır
-derslerden birine tıklanır
-choosingsection()

@@ -166,7 +166,7 @@ class QuestionDeleteView(LoginRequiredMixin, View):
     login_url = 'accounts:login'
 
     @staticmethod
-    def get(request, question_id):
+    def post(request, question_id):
         try:
             question = get_object_or_404(Question, id=question_id, author=request.user)
             question.delete()

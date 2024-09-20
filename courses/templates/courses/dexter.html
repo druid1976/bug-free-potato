@@ -8,24 +8,23 @@
     <link rel="stylesheet" href="https://unpkg.com/98.css">
 
     <style>
+
         body {
-    margin: 100px;
-    padding: 20px;
-    background-image: url("{% static 'accounts/starry.jpg' %}");
-}
-
-
+            margin: 100px;
+            padding: 20px;
+            background-image: url("{% static 'accounts/starry.jpg' %}");
+            display: flex;
+        }
 
         .window {
-    width: 85%;
-    max-width: 900px;
-    margin: 20px auto;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+            width: 85%;
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
 }
-
 
         .window-header {
             display: flex;
@@ -132,9 +131,52 @@
             margin-left: auto;
             margin-right: auto;
         }
+
+        .left-tables {
+            display: flex;
+            flex-direction: column;
+            margin-right: 20px;
+        }
+
+        .left-tables table {
+            width: 200px;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+
+        .left-tables th, .left-tables td {
+            border: 1px solid #808080;
+            padding: 10px;
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>
+
+    <div class="left-tables">
+        <table class="table window sunken-panel">
+            <thead>
+                <tr><th>Table 1 Header</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Row 1</td></tr>
+                <tr><td>Row 2</td></tr>
+                <tr><td>Row 3</td></tr>
+            </tbody>
+        </table>
+
+        <table class="table window sunken-panel">
+            <thead>
+                <tr><th>Table 2 Header</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Row 1</td></tr>
+                <tr><td>Row 2</td></tr>
+                <tr><td>Row 3</td></tr>
+            </tbody>
+        </table>
+    </div>
 
 <div class="window">
     <div class="window-header">
@@ -265,7 +307,7 @@
 </div>
 
 
-
 <script src="{% static 'courses/js/searchCourses.js' %}"></script>
+<script src="{% static 'courses/js/dexter.js' %}"></script>
 </body>
 </html>

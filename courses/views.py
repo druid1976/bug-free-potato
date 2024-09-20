@@ -44,7 +44,6 @@ class CourseDetailView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
 
-
 class CourseListView(LoginRequiredMixin, View):
     login_url = 'accounts:login'
     template_name = 'courses/course_list.html'
@@ -90,7 +89,6 @@ class CurriculumView(LoginRequiredMixin, View):
             return render(request, self.template_name, context)
         else:
             return redirect(reverse('accounts:login'))
-
 
 
 class CourseSearchView(LoginRequiredMixin, View):
