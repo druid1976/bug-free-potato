@@ -171,3 +171,20 @@ earth 2
 
 collab not alma?!
 websocket
+
+
+
+
+
+
+
+
+
+
+SearchCourse:
+
+sct button()
+colored section() course atıyor
+ders seçilir selectedcourse listesine eklenir, bütün dersler potatolanır ve ders numarası yapıştırılır
+derslerden birine tıklanır
+choosingsection()

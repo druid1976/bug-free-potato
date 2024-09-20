@@ -89,12 +89,10 @@ class QuestionAllView(View):
         page_number = request.GET.get('page')
         questions = paginator.get_page(page_number)
 
-
-
         return render(request, 'qa/all_questions.html', {'questions': questions})
 
 
-class MyQuestionAllView(View):
+class MyQuestionAllView(LoginRequiredMixin, View):
 
     @staticmethod
     def get(request):
