@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d0cce1db-1d13-4a70-acfb-88e0dc584203" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/notes.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qa/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/qa/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/courses/static/courses/js/searchCourses.js" beforeDir="false" afterPath="$PROJECT_DIR$/courses/static/courses/js/searchCourses.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +51,7 @@
     "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "com.codeium.enabled": "true",
-    "git-widget-placeholder": "jsforseach",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "C:/Users/erenk/PycharmProjects/dcan/accounts/static/accounts/css",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -177,7 +176,6 @@
       <workItem from="1726660503380" duration="5100000" />
       <workItem from="1726730498622" duration="4469000" />
       <workItem from="1726816522213" duration="1864000" />
-
     </task>
     <servers />
   </component>

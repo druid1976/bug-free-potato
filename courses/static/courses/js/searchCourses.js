@@ -211,11 +211,12 @@ function coloredSection(course) {
                 div.classList.add('potato');       // Add a 'potato' class for selected
 
                 console.log(`Added section ${section.section_number} for course ${course.title}`);
+                console.log('Sending me[' + noc + ']: to selection chamber', me[noc]);
 
                 // Add click event for selecting section
                 div.addEventListener('click', () => {
                     console.log("Selecting section");
-                    choosingSections(div, course, section);
+                    choosingSections( course, section);
                 });
             }
         });
@@ -234,6 +235,7 @@ function choosingSections(course, section) {
     console.log('Accessing me[' + noc + ']:', me[noc]);
     me[noc].forEach((item) => {
         if (section.section_number === item.section.section_number) {
+            console.log("section numbers match")
             let div = item.div;
             div.innerHTML = '';
             const courseInfo = document.createElement('div');
@@ -257,7 +259,7 @@ function choosingSections(course, section) {
 
 
 
-function letMeBe(course, clickedDiv) {
+function letMeBe(course, section) {
     console.log("letMeBe working...");
 
     let noc = courses.findIndex(x => x.title === course.title);
@@ -269,7 +271,7 @@ function letMeBe(course, clickedDiv) {
 
             // Remove 'potato' class from all except clickedDiv
             newDiv.classList.remove('potato');
-            if (div !== clickedDiv) {
+            if (div !== section) {
                 newDiv.classList.remove(noc.toString()); // Remove course-specific class
             }
 
