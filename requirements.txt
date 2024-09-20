@@ -5,3 +5,4 @@ sqlparse~=0.5.1
 asgiref~=3.8.1
 sqlparse~=0.5.1
 tzdata~=2024.1
+channels~=4.0.0

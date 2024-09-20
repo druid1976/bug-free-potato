@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-
+ASGI_APPLICATION = "dcan.asgi.application"
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 MEDIA_URL = '/media/'
@@ -39,6 +39,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     "qa",
     "accounts",
     "courses",
+    "chatroom",
 ]
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
