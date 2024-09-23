@@ -25,8 +25,10 @@ class BlankView(LoginRequiredMixin, View):
                  'url': reverse('courses:courses_curriculum', kwargs={'program_code': request.user.study})},
                 {'name': 'QBank',
                  'url': reverse('qa:all_questions')},
-                {'name': 'dexter',
+                {'name': 'Dexter',
                  'url': reverse('courses:dexter')},
+                {'name': 'Backrooms',
+                 'url': reverse('chatroom:index')},
             ]
         }
         return render(request, self.template_name, context)

@@ -31,6 +31,22 @@ ALLOWED_HOSTS = []
 ASGI_APPLICATION = "dcan.asgi.application"
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
+# just to try to find the reason of the error
+
+"""
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}
+
+"""
+
+
+
+
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -40,6 +56,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 INSTALLED_APPS = [
     "daphne",
+    "channels",
+    "channels_postgres",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -99,8 +117,17 @@ DATABASES = {
         "PASSWORD": "asli",
         "HOST": "127.0.0.1",
         "PORT": "5432",
-    }
+    },
+    'channels_postgres': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'password',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    },
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -149,3 +176,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
+
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_postgres.core.PostgresChannelLayer",
+        "CONFIG": {
+            'ENGINE': "django.db.backends.postgresqpsycopg2",
+            'HOST': "127.0.0.1",
+            'PORT': "5432",
+            'NAME': "datta_baseuk",      # DB name
+            'USER': "postgres",              # PostgreSQL username
+            'PASSWORD': "asli",              # PostgreSQL password
+            # "options": "-c search_path=public",
+            # "symetric_encryption_key": [SECRET_KEY],
+        },
+    },
+}

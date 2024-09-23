@@ -1,5 +1,8 @@
 
 // EVENT DELEGATION - https://www.freecodecamp.org/news/event-delegation-javascript/
+// BURASI SAYFADA ARAMA TARAMA SALLAMA YAPABİLMEK İÇİN VAR
+
+
 
 class Section {
   constructor(section_number, day, starting_hour, room_name, building_name, floor_name) {
@@ -28,39 +31,41 @@ let me = {};
 
 // Event listener to the search bar after the DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
-  try {
-    await fetchCourses();
-
-    // Initialize search bar after courses are fetched successfully because why do it backwards?
-
-    const searchBar = document.getElementById('courseSearchBar');
-    searchBar.addEventListener('input', handleSearch);
-  } catch (error) {
-    console.error('Error fetching courses:', error);
-  }
+    try {
+        await fetchCourses();
+        const searchBar = document.getElementById('courseSearchBar');
+        searchBar.disabled = false; // Enable the search bar after courses are fetched
+        searchBar.addEventListener('input', handleSearch);
+    } catch (error) {
+        console.error('Error fetching courses:', error);
+    }
 });
 
 
-async function fetchCourses() {
 
-  try {
-    const response = await fetch('/course/search/');
-    const data = await response.json();
-    courses = data.course_data.map(courseData => {
-      const sections = courseData.sections.map(sectionData => new Section(
-        sectionData.section_number,
-        sectionData.day,
-        sectionData.starting_hour,
-        sectionData.room_name,
-        sectionData.building_name,
-        sectionData.floor_name
-      ));
-      return new Course(courseData.title, sections);
-    });
-  } catch (error) {
-    console.error('Error fetching the JSON:', error);
-  }
+async function fetchCourses() {
+    try {
+        const response = await fetch('/course/search/');
+        const data = await response.json();
+        console.log("Fetched course data:", data); // Log the entire response
+        courses = data.course_data.map(courseData => {
+            const sections = courseData.sections.map(sectionData => new Section(
+                sectionData.section_number,
+                sectionData.day,
+                sectionData.starting_hour,
+                sectionData.room_name,
+                sectionData.building_name,
+                sectionData.floor_name
+            ));
+            return new Course(courseData.title, sections);
+        });
+        console.log("Courses populated:", courses); // Log the populated courses
+    } catch (error) {
+        console.error('Error fetching the JSON:', error);
+    }
 }
+
+
 
 
 
@@ -89,22 +94,28 @@ function displayCourses(coursesToDisplay) {
 // Function to handle search input and filter courses
 
 function handleSearch(event) {
+    const searchTerm = event.target.value.toLowerCase().trim();
+    const courseResults = document.getElementById('courseResults');
 
-  const searchTerm = event.target.value.toLowerCase().trim();
-  const courseResults = document.getElementById('courseResults');
-  //hiding the results if nothing is seached initially
-  if (searchTerm === '') {
-    courseResults.innerHTML = '';
-    courseResults.style.display = 'none';
-    return;
-  }
-  //filterer
-  const filteredCourses = courses.filter(course =>
-    course.title.toLowerCase().includes(searchTerm)
-  );
-  // Display the filtered courses
-  displayCourses(filteredCourses);
+    if (searchTerm === '') {
+        courseResults.innerHTML = '';
+        courseResults.style.display = 'none';
+        return;
+    }
+
+    if (!Array.isArray(courses) || courses.length === 0) {
+        console.error('No courses available for search.');
+        return;
+    }
+
+    const filteredCourses = courses.filter(course =>
+        course.title.toLowerCase().includes(searchTerm)
+    );
+    displayCourses(filteredCourses);
 }
+
+
+
 
 
 // ADD COURSE TO SELECTED COURSES LIST IN THE LIST AND CREATE THE VISUALS FOR THE PAGE ALSO REMOVAL
@@ -305,6 +316,5 @@ function removeTable(course) {
         delete me[noc];
     }
 }
-
 
 
