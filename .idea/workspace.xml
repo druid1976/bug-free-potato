@@ -5,26 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0cce1db-1d13-4a70-acfb-88e0dc584203" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/chatroom/consumers.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chatroom/holdmecon.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chatroom/routing.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chatroom/templates/chatroom/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chatroom/templates/chatroom/room.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chatroom/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chatroom/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chatroom/static/chatroom/js/file_upload_via_http.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/2660d1fb-5efc-4353-8a9a-40ffd9b1783a.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2660d1fb-5efc-4353-8a9a-40ffd9b1783a.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/2660d1fb-5efc-4353-8a9a-40ffd9b1783a/storage_v2/_src_/database/datta_baseuk.goXf9g/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2660d1fb-5efc-4353-8a9a-40ffd9b1783a/storage_v2/_src_/database/datta_baseuk.goXf9g/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatroom/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatroom/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatroom/consumers.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatroom/consumers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatroom/holdmecon.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatroom/holdmecon.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatroom/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatroom/migrations/0002_message_room.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/chatroom/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatroom/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatroom/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatroom/templates/chatroom/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/chatroom/templates/chatroom/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatroom/templates/chatroom/room.html" beforeDir="false" afterPath="$PROJECT_DIR$/chatroom/templates/chatroom/room.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatroom/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatroom/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chatroom/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatroom/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/courses/static/courses/js/dexter.js" beforeDir="false" afterPath="$PROJECT_DIR$/courses/static/courses/js/dexter.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/courses/static/courses/js/searchCourses.js" beforeDir="false" afterPath="$PROJECT_DIR$/courses/static/courses/js/searchCourses.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dcan/asgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/dcan/asgi.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dcan/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/dcan/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dcan/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/dcan/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/notes.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qa/serializers.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +55,10 @@
   <component name="ProjectId" id="2lBmB8W8pUif9VH8f1jsrEJDbKF" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="autoscrollToSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="openDirectoriesWithSingleClick" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">{
@@ -76,7 +77,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;swagger&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\PyCharm 2024.2.0.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
@@ -195,7 +196,13 @@
       <workItem from="1726730498622" duration="4469000" />
       <workItem from="1726816522213" duration="1864000" />
       <workItem from="1727028881656" duration="7003000" />
-      <workItem from="1727075691479" duration="19497000" />
+      <workItem from="1727075691479" duration="20221000" />
+      <workItem from="1727161959154" duration="17083000" />
+      <workItem from="1727253248558" duration="2040000" />
+      <workItem from="1727255331500" duration="2718000" />
+      <workItem from="1727260522587" duration="11157000" />
+      <workItem from="1727335173870" duration="1265000" />
+      <workItem from="1727336458381" duration="2831000" />
     </task>
     <servers />
   </component>

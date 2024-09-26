@@ -146,7 +146,7 @@ Bugün yapılacaklar:
         2.9 zaman olursa paginatorlar ajax yapılabilir
 
 
-
+Image ayrı bir model yapılsın!!!
 
     3- Websocket toplu not alma
 

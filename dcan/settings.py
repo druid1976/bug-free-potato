@@ -120,9 +120,9 @@ DATABASES = {
     },
     'channels_postgres': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
+        'NAME': 'datta_baseuk',
         'USER': 'postgres',
-        'PASSWORD': 'password',
+        'PASSWORD': 'asli',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     },

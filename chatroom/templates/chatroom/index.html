@@ -1,35 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- chat/templates/chat/index.html
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,25 +5,13 @@
     <title>Backrooms</title>
 </head>
 <body>
-    What chat room would you like to enter?<br>
-    <input id="room-name-input" type="text" size="100"><br>
-    <input id="room-name-submit" type="button" value="Enter">
-
-    <script>
-        document.querySelector('#room-name-input').focus();
-        document.querySelector('#room-name-input').onkeyup = function(e) {
-            if (e.keyCode === 13) {  // enter, return
-                document.querySelector('#room-name-submit').click();
-            }
-        };
-
-        document.querySelector('#room-name-submit').onclick = function(e) {
-            var roomName = document.querySelector('#room-name-input').value;
-            window.location.pathname = '/backrooms/' + roomName + '/';
-        };
-    </script>
+<div id="all-rooms">
+    <div id="rooms-list">
+        {% for room in rooms %}
+            <p><a href="/backrooms/{{ room.name }}">{{ room.name }}</a> <br>
+            {{ room.description }}</p>
+        {% endfor %}
+    </div>
+</div>
 </body>
 </html>
-
-
--->
