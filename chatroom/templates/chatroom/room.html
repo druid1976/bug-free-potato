@@ -7,11 +7,14 @@
 <body>
     <textarea id="chat-log" cols="100" rows="20" readonly></textarea><br>
     <input id="chat-message-input" type="text" size="100"><br>
+    <input type="checkbox" id="note">
+    <label for="note">This is a note</label>
     <input id="chat-message-submit" type="button" value="Send">
     {{ room_name|json_script:"room-name" }}
 
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        let note = 0
 
         // Create WebSocket connection
         const chatSocket = new WebSocket(
@@ -45,10 +48,20 @@
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
             chatSocket.send(JSON.stringify({
-                'message': message
+                'message': message,
+                'note': note
             }));
             messageInputDom.value = '';
         };
+
+        document.getElementById('note').onclick = function() {
+            if (note === 0) {
+                note = 1;
+            }
+            else {
+                note = 0;
+            }
+        }
     </script>
 </body>
 </html>

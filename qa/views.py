@@ -6,6 +6,7 @@ from django.core.paginator import Paginator
 from .models import *
 from .forms import *
 from django.db.models import F
+import json
 # Create your views here.
 
 
@@ -44,7 +45,8 @@ class QuestionVoteView(View):
             if not user.is_authenticated:
                 return JsonResponse({'error': 'User not authenticated'}, status=403)
 
-            vote_type = request.POST.get('vote_type')
+            data = json.loads(request.body.decode('utf-8'))
+            vote_type = data.get('vote_type')
 
             vote, created = Vote.objects.get_or_create(user=user, question=question)
 
@@ -120,32 +122,28 @@ class QuestionDetailView(View):
             'comment_form': comment_form,
         })
 
-    @staticmethod
-    def post(request, question_id):
+
+class CommentCreateView(LoginRequiredMixin, View):
+    login_url = 'accounts:login'
+
+    def post(self, request, question_id):
+
         question = get_object_or_404(Question, id=question_id)
         form = CommentForm(request.POST)
 
         if form.is_valid():
             comment = form.save(commit=False)
             comment.author = request.user
-            comment.question = question  # Linker of the comment to the question
+            comment.question = question
             comment.save()
-            return redirect('qa:detailed_question', question_id=question.id)
 
-        comments = Comment.objects.filter(question=question)
-
-        return render(request, 'qa/detailed_question.html', {
-            'question': question,
-            'comments': comments,
-            'comment_form': form,
-        })
-
+            return JsonResponse({'message': 'delete success'})
 
 class CommentDeleteView(LoginRequiredMixin, View):
     login_url = 'accounts:login'
 
     @staticmethod
-    def get(request, question_id, comment_id):
+    def post(request, question_id, comment_id):
         comment = get_object_or_404(Comment,
                                     question_id=question_id,
                                     id=comment_id,

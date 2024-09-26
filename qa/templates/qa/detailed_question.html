@@ -168,7 +168,6 @@
         <div class="title-bar">
             <div class="title-bar-text">{{ question.question }}</div>
 
-            <!-- Conditionally render the delete button for the author -->
             {% if question.author == request.user %}
             <button class="delete-btn" onclick="deleteQuestion({{ question.id }})">
                 <img src="{% static 'qa/15.gif' %}" alt="Delete">
@@ -194,31 +193,32 @@
 
             <script>
                 function sendVote(voteType, questionId) {
-                    const csrfToken = '{{ csrf_token }}';
+    const csrfToken = '{{ csrf_token }}';
 
-                    fetch(`/questionaire/question/${questionId}/vote/`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                            'X-CSRFToken': csrfToken,
-                        },
-                        body: new URLSearchParams({
-                            'vote_type': voteType
-                        })
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            return response.json();
-                        } else {
-                            throw new Error('Failed to fetch valid JSON response');
-                        }
-                    })
-                    .then(data => {
-                        document.getElementById('upvote-count').innerText = data.up_votes;
-                        document.getElementById('downvote-count').innerText = data.down_votes;
-                    })
-                    .catch(error => console.error('Error:', error));
-                }
+    fetch(`/questionaire/question/${questionId}/vote/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+        },
+        body: JSON.stringify({
+            'vote_type': voteType
+        })
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Failed to fetch valid JSON response');
+        }
+    })
+    .then(data => {
+        document.getElementById('upvote-count').innerText = data.up_votes;
+        document.getElementById('downvote-count').innerText = data.down_votes;
+    })
+    .catch(error => console.error('Error:', error));
+}
+
 
                 function deleteQuestion(questionId) {
                     const csrfToken = '{{ csrf_token }}';
@@ -244,6 +244,29 @@
                         });
                     }
                 }
+
+                function deleteComment(questionId, commentId) {
+                    const csrfToken = '{{ csrf_token }}';
+                    fetch(`/questionaire/question/${questionId}/${commentId}/delete/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrfToken
+                        },
+                        body: JSON.stringify({})
+                    }).then(response => {
+                        if (response.ok) {
+                            element = document.getElementById('comment-'+commentId.toString())
+                            element.remove()
+                        } else {
+                            alert('yorumunu silemedik gardeş...!');
+                        }
+                    }).catch(error => {
+                        console.error('hocam koment patladi');
+                        alert('error deleting comms');
+                    });
+
+                }
             </script>
 
             <div class="comments">
@@ -255,7 +278,7 @@
                                 <strong>{{ comment.author }}</strong>: {{ comment.content }}
                             </div>
                             {% if comment.author == request.user %}
-                                <a href="javascript:void(0);" class="delete-comment" data-question-id="{{ question.id }}"
+                                <a href="javascript:deleteComment({{ question.id }}, {{ comment.id }});" class="delete-comment" data-question-id="{{ question.id }}"
                                    data-comment-id="{{ comment.id }}">
                                     <img src="{% static 'qa/15.gif' %}" alt="Delete">
                                 </a>
