@@ -11,5 +11,4 @@ urlpatterns = [
     path('question/<int:question_id>/vote/', QuestionVoteView.as_view(), name='question_vote'),
     path('question/<int:question_id>/<int:comment_id>/delete/', CommentDeleteView.as_view(), name='delete_comment'),
     path("question/<int:question_id>/delete/", QuestionDeleteView.as_view(), name="delete_question"),
-    path("question/<int:question_id>/create_comment/", CommentCreateView.as_view(), name="create_comment"),
 ]

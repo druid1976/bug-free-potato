@@ -193,31 +193,30 @@
 
             <script>
                 function sendVote(voteType, questionId) {
-    const csrfToken = '{{ csrf_token }}';
-
-    fetch(`/questionaire/question/${questionId}/vote/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrfToken,
-        },
-        body: JSON.stringify({
-            'vote_type': voteType
-        })
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error('Failed to fetch valid JSON response');
-        }
-    })
-    .then(data => {
-        document.getElementById('upvote-count').innerText = data.up_votes;
-        document.getElementById('downvote-count').innerText = data.down_votes;
-    })
-    .catch(error => console.error('Error:', error));
-}
+                    const csrfToken = '{{ csrf_token }}';
+                    fetch(`/questionaire/question/${questionId}/vote/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrfToken,
+                        },
+                        body: JSON.stringify({
+                            'vote_type': voteType
+                        })
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                return response.json();
+                            } else {
+                                throw new Error('Failed to fetch valid JSON response');
+                            }
+                        })
+                        .then(data => {
+                            document.getElementById('upvote-count').innerText = data.up_votes;
+                            document.getElementById('downvote-count').innerText = data.down_votes;
+                        })
+                        .catch(error => console.error('Error:', error));
+                }
 
 
                 function deleteQuestion(questionId) {
@@ -265,24 +264,72 @@
                         console.error('hocam koment patladi');
                         alert('error deleting comms');
                     });
-
                 }
-            </script>
 
-            <div class="comments">
+                function createComment(questionId) {
+                    const csrfToken = '{{ csrf_token }}'
+                    let formData = new FormData
+                    let image = document.getElementById('in_image').files[0]
+                    let content = document.getElementById('in_text').value
+                    formData.append('image', image);
+                    formData.append('text', content);
+                    fetch(`/questionaire/question/${questionId}/`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrfToken,
+                        },
+                        body: formData
+                        })
+                        .then(response => {
+                            if(response.ok) {
+                                return response.json()
+                            } else {
+                                alert("Something miserably failed.");
+                                throw new Error('Failed to fetch valid JSON response');
+                            }
+                        }).then(data => {
+                            let comments = document.getElementById('comms');
+                            let newCom = document.createElement('div');
+                            newCom.id = `comment-{$data.comment.id}`;
+                            newCom.innerHTML=`
+                            <div class="comment-content"> {%  if data.comment.image  %}
+                                <img src="${data.comment.image_url}" alt="Uploaded image">
+                                {% endif %}
+                                <strong>${data.comment.author}</strong> : ${data.comment.content}
+                            </div>
+                            `;
+                            comments.appendChild(newComw);
+
+
+                    }).catch(error => {
+                            console.error("damn..."+ error)
+
+                    });
+                }
+
+
+
+
+            </script>
+            <div id="comms" class="comments">
                 <h3>Comments</h3>
                 <ul>
                     {% for comment in comments %}
                         <li class="comment-item" id="comment-{{ comment.id }}">
                             <div class="comment-content">
+                                {% if comment.image  %}
+                                    <img src="{{ comment.image.url }}" alt="Uploaded Image for Question">
+                                {% endif %}
                                 <strong>{{ comment.author }}</strong>: {{ comment.content }}
                             </div>
                             {% if comment.author == request.user %}
-                                <a href="javascript:deleteComment({{ question.id }}, {{ comment.id }});" class="delete-comment" data-question-id="{{ question.id }}"
+                                <!-- js böyle bir şey işte amk !-->
+                                <a href="javascript:deleteComment({{ question.id }},{{ comment.id }})" class="delete-comment" data-question-id="{{ question.id }}"
                                    data-comment-id="{{ comment.id }}">
                                     <img src="{% static 'qa/15.gif' %}" alt="Delete">
                                 </a>
                             {% endif %}
+
                         </li>
                     {% endfor %}
                 </ul>
@@ -290,9 +337,11 @@
 
             <div class="comment-form">
                 <h4>Add a Comment</h4>
-                <form method="post">
+                <form method="post" enctype="multipart/form-data" onsubmit="event.preventDefault(); createComment({{ question.id }});">
+    {% csrf_token %}
                     {% csrf_token %}
-                    {{ comment_form.as_p }}
+                    <textarea name="content" id="in_text" placeholder="Enter damn comment"></textarea>
+                    <input type="file" id="in_image" name="image">
                     <button name="comment_submit" type="submit">Add Comment</button>
                 </form>
             </div>

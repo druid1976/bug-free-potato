@@ -144,7 +144,7 @@ Bugün yapılacaklar:
         2.7- Tags uzat create
         2.8 edit question
         2.9 zaman olursa paginatorlar ajax yapılabilir
-
+filter by tags
 
 Image ayrı bir model yapılsın!!!
 
@@ -169,8 +169,8 @@ earth 2
 
 collab not alma?!
 websocket
-comment ya da post contextinin görünüşünü ayarlama??? -markdown support ???
-
+comment ya da post contextinin görünüşünü ayarlama? ?? -markdown support ???
+faded deletion for comments and questions http://vanilla-js.com/
 
 
 

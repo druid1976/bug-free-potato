@@ -6,7 +6,7 @@ from accounts.models import CustomUser
 
 
 # Create your models here.
-
+#vakit olursa modellerden imageI söküp yeni model yapacam
 
 class Question(models.Model):
     STATUS = ((0, "OPEN"),
