@@ -169,9 +169,19 @@
             <div class="title-bar-text">{{ question.question }}</div>
 
             {% if question.author == request.user %}
-            <button class="delete-btn" onclick="deleteQuestion({{ question.id }})">
-                <img src="{% static 'qa/15.gif' %}" alt="Delete">
-            </button>
+
+                    <button class="btn btn-primary toggle-status" data-id= "{{ question.id }} "onclick="toggleMaker()">
+                    Status:
+                        {% if question.status == 0 %}
+                            Close
+                        {% else %}
+                            Open
+
+                        {% endif %}
+                    </button>
+                <button class="delete-btn" onclick="deleteQuestion({{ question.id }})">
+                    <img src="{% static 'qa/15.gif' %}" alt="Delete">
+                </button>
             {% endif %}
         </div>
 
@@ -318,6 +328,10 @@
 
                 }
                 function answerchoser() {
+
+                }
+
+                function toggleMaker() {
 
                 }
 
