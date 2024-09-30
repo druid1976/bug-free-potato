@@ -56,7 +56,6 @@
             padding: 20px;
         }
 
-        /* Add your question-item and other styles here */
         .question-item {
             background-color: #f9f9f9;
             border: 1px solid #ccc;
@@ -122,6 +121,43 @@
             border-radius: 4px;
             margin: 0 5px;
         }
+
+        #courseResults {
+            display: none;
+        }
+
+        .search-bar .field {
+        display: inline-block;
+        background-color: #c0c0c0;
+        border: 2px solid #000;
+        padding: 2px;
+        margin-bottom: 10px;
+        }
+
+        #courseSearchBar {
+            border: none;
+            width: 100%;
+            padding: 3px;
+        }
+
+    .search-results {
+        display: none;
+        background-color: #f9f9f9;
+        border: 2px solid #ccc;
+        padding: 10px;
+    }
+
+    .search-result-item {
+        padding: 5px;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+    }
+
+    .search-result-item:hover {
+        background-color: #e0e0e0;
+    }
+
+
     </style>
 </head>
 <body>
@@ -137,9 +173,17 @@
         </div>
 
         <div class="window-body">
+            <div class="search-bar field">
+                <input type="text" id="courseSearchBar"
+                       placeholder="Search for question/author..."
+                       onkeyup="handleSearch(event)"
+                >
+                <div class="search-results" id="searchResults"></div>
+            </div>
             {% block content %}
             {% endblock %}
         </div>
     </div>
+<script src= "{% static 'qa/js/searcher.js' %}" > </script>
 </body>
 </html>

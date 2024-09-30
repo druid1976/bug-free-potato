@@ -10,6 +10,26 @@ import json
 # Create your views here.
 
 
+from django.urls import reverse
+
+#bunu arama fonksiyonun implemente edebilmek için eklemek zorunda kaldım no hate
+
+class QuestionNamesViaJson(LoginRequiredMixin, View):
+    def get(self, request):
+        questions = Question.objects.all()
+        questions_list = []
+
+        for question in questions:
+            #reverse ile url çekiyorum, js'te isme tıklandığında direkt sayfaya yönlendirsin diye
+            question_url = reverse('qa:detailed_question', kwargs={'question_id': question.id})
+            variable_name = question.author
+            name = variable_name.username
+            questions_list.append({"question": question.question, "id": question.id, "url": question_url, "author": name})
+            #idyi belki bir işime yarar diye gönderiyorum (bence gerek olmayacak da)
+        context = {"questions": questions_list}
+        return JsonResponse(context)
+
+
 class QuestionAllView(View):
 
     @staticmethod

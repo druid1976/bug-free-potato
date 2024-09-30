@@ -167,8 +167,28 @@ justice league 3000
 earth 2
 
 
-collab not alma?!
-websocket
+
+02.09 - 03.09
+DEXTER !!! ----v
+               kaldığın dersler
+               alman gereken dersler
+               backtracking algorithm
+
+30.09 - 01.09
+collab ---v
+          http üzerinden dosya gönderimi
+          eski mesajların gösterimi
+
+30.09
+qa ---v
+      add comment patlak!!!
+      uppvote downvote görsel olacak
+      create kısmında tags iç içe düzeltilecek
+      edit question?
+
+
+   BONUS = gemi/uçak vs oyunu
+
 comment ya da post contextinin görünüşünü ayarlama? ?? -markdown support ???
 faded deletion for comments and questions http://vanilla-js.com/
 
