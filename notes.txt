@@ -170,23 +170,23 @@ earth 2
 
 02.09 - 03.09
 DEXTER !!! ----v
-               kaldığın dersler
-               alman gereken dersler
-               backtracking algorithm
-               iş bitince mail olarak gönderimi
+               3- kaldığın dersler
+               4- alman gereken dersler
+               5- backtracking algorithm
+               6- iş bitince mail olarak gönderimi
 
 30.09 - 01.09
 collab ---v
-          http üzerinden dosya gönderimi
-          eski mesajların gösterimi
+          2- http üzerinden dosya gönderimi
+          1- eski mesajların gösterimi
 
 30.09
 qa ---v
-      SORU KAPATILAMIYOR AMK !!!! (SORU KAPATMA + KAPANMIŞ SORULARI UPVOTELARINA BAKMADAN EN ARKAYA ATMA)
-      uppvote downvote görsel olacak
-      create kısmında tags iç içe düzeltilecek
-      question yazarı answer seçebilmeli, seçilen answer commentler arasında en üstte olmalı ya da diğer commentler
-      direkt silinmeli
+      2- SORU KAPATILAMIYOR AMK !!!! (SORU KAPATMA + KAPANMIŞ SORULARI UPVOTELARINA BAKMADAN EN ARKAYA ATMA)
+      4- uppvote downvote görsel olacak
+      1- create kısmında tags iç içe düzeltilecek
+      3- question yazarı answer seçebilmeli, seçilen answer commentler arasında en üstte olmalı ya da diğer commentler
+
 
       zaman yeterse comment ve soru imageleri kendi bir modele taşınabilir!!!
       //lüks// edit question? (sonra)

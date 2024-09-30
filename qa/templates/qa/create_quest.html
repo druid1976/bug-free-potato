@@ -93,6 +93,15 @@
         form button:hover {
             background-color: #003580;
         }
+
+        #id_tags {
+            display: inline-block;
+            width: 100%;
+            height: auto;
+            padding: 5px;
+            font-size: 14px;
+        }
+
     </style>
 </head>
 <body>
@@ -107,7 +116,7 @@
             <h2>Ask a Question</h2>
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form.as_p }}
+                {{ form.as_div }}
                 <button type="submit">Submit</button>
             </form>
         </div>
