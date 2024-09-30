@@ -173,6 +173,7 @@ DEXTER !!! ----v
                kaldığın dersler
                alman gereken dersler
                backtracking algorithm
+               iş bitince mail olarak gönderimi
 
 30.09 - 01.09
 collab ---v
@@ -181,10 +182,14 @@ collab ---v
 
 30.09
 qa ---v
-      add comment patlak!!!
+      SORU KAPATILAMIYOR AMK !!!! (SORU KAPATMA + KAPANMIŞ SORULARI UPVOTELARINA BAKMADAN EN ARKAYA ATMA)
       uppvote downvote görsel olacak
       create kısmında tags iç içe düzeltilecek
-      edit question?
+      question yazarı answer seçebilmeli, seçilen answer commentler arasında en üstte olmalı ya da diğer commentler
+      direkt silinmeli
+
+      zaman yeterse comment ve soru imageleri kendi bir modele taşınabilir!!!
+      //lüks// edit question? (sonra)
 
 
    BONUS = gemi/uçak vs oyunu

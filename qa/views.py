@@ -1,3 +1,5 @@
+import os
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
@@ -12,7 +14,8 @@ import json
 
 from django.urls import reverse
 
-#bunu arama fonksiyonun implemente edebilmek için eklemek zorunda kaldım no hate
+# bunu arama fonksiyonun implemente edebilmek için eklemek zorunda kaldım no hate
+
 
 class QuestionNamesViaJson(LoginRequiredMixin, View):
     def get(self, request):
@@ -20,12 +23,15 @@ class QuestionNamesViaJson(LoginRequiredMixin, View):
         questions_list = []
 
         for question in questions:
-            #reverse ile url çekiyorum, js'te isme tıklandığında direkt sayfaya yönlendirsin diye
+            # reverse ile url çekiyorum, js'te isme tıklandığında direkt sayfaya yönlendirsin diye
             question_url = reverse('qa:detailed_question', kwargs={'question_id': question.id})
             variable_name = question.author
             name = variable_name.username
-            questions_list.append({"question": question.question, "id": question.id, "url": question_url, "author": name})
-            #idyi belki bir işime yarar diye gönderiyorum (bence gerek olmayacak da)
+            questions_list.append({"question": question.question,
+                                   "id": question.id,
+                                   "url": question_url,
+                                   "author": name})
+            # idyi belki bir işime yarar diye gönderiyorum (bence gerek olmayacak da)
         context = {"questions": questions_list}
         return JsonResponse(context)
 
@@ -63,13 +69,10 @@ class QuestionDetailView(View):
     def get(request, question_id):
 
         question = get_object_or_404(Question, id=question_id)
-        comments = Comment.objects.filter(question=question)  # comment getter of q
-        comment_form = CommentForm()
-
+        comments = Comment.objects.filter(question=question)
         return render(request, 'qa/detailed_question.html', {
             'question': question,
             'comments': comments,
-            'comment_form': comment_form,
         })
 
     def post(self, request, question_id):
@@ -81,10 +84,12 @@ class QuestionDetailView(View):
             return JsonResponse({'message': 'Content not provided'})
 
         comment = Comment(content=content, author=request.user, question=question)
+        if image:
+            comment.image = image
         comment.save()
         return JsonResponse({'message': 'Comment created',
                              'comment': {
-                                 'author': request.user.username,
+                                 'author': request.user.first_name,
                                  'content': content,
                                  'image': comment.image.url if image else None,
                                  'id': comment.id,
@@ -146,6 +151,8 @@ class CommentDeleteView(LoginRequiredMixin, View):
             return HttpResponseForbidden('You are not authorized to delete this comment')
         else:
             try:
+                if comment.image:
+                    os.remove(comment.image.path)
                 comment.delete()
                 return JsonResponse({'message': 'Comment deleted'})
             except Comment.DoesNotExist:
@@ -188,10 +195,6 @@ class QuestionVoteView(View):
                 'up_votes': question.up_votes,
                 'down_votes': question.down_votes
             })
-
-        except FileNotFoundError as e:
-            print(f"File not found: {str(e)}")
-            return JsonResponse({'error': 'File not found, missing image'}, status=404)
 
         except Exception as e:
             print(f"Error: {str(e)}")

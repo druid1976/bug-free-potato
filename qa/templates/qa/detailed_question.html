@@ -266,13 +266,20 @@
                     });
                 }
 
+
+                function commentSubmitter() {
+                    const questionId = {{ question.id }};
+                    createComment(questionId);
+                }
+
                 function createComment(questionId) {
+                    console.log('fonksiyon cagirilamadi')
                     const csrfToken = '{{ csrf_token }}'
                     let formData = new FormData
                     let image = document.getElementById('in_image').files[0]
                     let content = document.getElementById('in_text').value
                     formData.append('image', image);
-                    formData.append('text', content);
+                    formData.append('content', content);
                     fetch(`/questionaire/question/${questionId}/`, {
                         method: 'POST',
                         headers: {
@@ -282,33 +289,37 @@
                         })
                         .then(response => {
                             if(response.ok) {
+                                console.log('bunu yapıyor')
                                 return response.json()
                             } else {
                                 alert("Something miserably failed.");
                                 throw new Error('Failed to fetch valid JSON response');
                             }
                         }).then(data => {
+                            console.log(data.comment.image)
                             let comments = document.getElementById('comms');
                             let newCom = document.createElement('div');
-                            newCom.id = `comment-{$data.comment.id}`;
+                            newCom.id = `comment-${data.comment.id}`;
+                            newCom.classList.add('comment-item');
+                            let imageHTML = data.comment.image ? `<img src="${data.comment.image}" alt="Uploaded image"/>` : '';
                             newCom.innerHTML=`
-                            <div class="comment-content"> {%  if data.comment.image  %}
-                                <img src="${data.comment.image_url}" alt="Uploaded image">
-                                {% endif %}
+                            <div class="comment-content"> ${imageHTML}
                                 <strong>${data.comment.author}</strong> : ${data.comment.content}
                             </div>
                             `;
-                            comments.appendChild(newComw);
-
+                            comments.appendChild(newCom);
 
                     }).catch(error => {
                             console.error("damn..."+ error)
-
                     });
                 }
 
+                function answerSubmitter() {
 
+                }
+                function answerchoser() {
 
+                }
 
             </script>
             <div id="comms" class="comments">
@@ -337,12 +348,11 @@
 
             <div class="comment-form">
                 <h4>Add a Comment</h4>
-                <form method="post" enctype="multipart/form-data" onsubmit="event.preventDefault(); createComment({{ question.id }});">
-    {% csrf_token %}
+                <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <textarea name="content" id="in_text" placeholder="Enter damn comment"></textarea>
-                    <input type="file" id="in_image" name="image">
-                    <button name="comment_submit" type="submit">Add Comment</button>
+                    <textarea name="content" id="in_text" placeholder="Enter your comment"></textarea>
+                    <input type="file" id="in_image" name="image" >
+                    <button type="button" onclick="commentSubmitter()">Add Comment</button>
                 </form>
             </div>
         </div>

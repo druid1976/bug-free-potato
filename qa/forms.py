@@ -32,26 +32,6 @@ class QuestionForm(forms.ModelForm):
         }
 
 
-class CommentForm(forms.ModelForm):
-    class Meta:
-        model = Comment
-        fields = ['content', 'image']
-        widgets = {
-            'content': forms.Textarea(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter your comment here...',
-                'rows': 4,
-            }),
-            'image': forms.ClearableFileInput(attrs={
-                'class': 'form-control-file',
-            })
-        }
-        labels = {
-            'content': 'Your Comment',
-            'image': 'Attach Image to comment...',
-        }
-
-
 class FileForm(forms.ModelForm):
     class Meta:
         model = File

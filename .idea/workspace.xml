@@ -5,19 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0cce1db-1d13-4a70-acfb-88e0dc584203" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/qa/static/qa/js/searcher.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/90db3303-50b3-4c8c-9b2e-281d2c0e1d46.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/90db3303-50b3-4c8c-9b2e-281d2c0e1d46/storage_v2/_src_/database/datta_baseuk.goXf9g.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/90db3303-50b3-4c8c-9b2e-281d2c0e1d46/storage_v2/_src_/database/datta_baseuk.goXf9g/schema/public.abK9xQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ede05679-0cc8-44ac-90f7-d87113dfc226.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ede05679-0cc8-44ac-90f7-d87113dfc226/storage_v2/_src_/database/datta_baseuk.goXf9g.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ede05679-0cc8-44ac-90f7-d87113dfc226/storage_v2/_src_/database/datta_baseuk.goXf9g/schema/public.abK9xQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ede05679-0cc8-44ac-90f7-d87113dfc226/storage_v2/_src_/database/datta_baseuk.goXf9g/schema/public.abK9xQ.zip" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/notes.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qa/templates/qa/all_questions.html" beforeDir="false" afterPath="$PROJECT_DIR$/qa/templates/qa/all_questions.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qa/templates/qa/base_questions.html" beforeDir="false" afterPath="$PROJECT_DIR$/qa/templates/qa/base_questions.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qa/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/qa/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qa/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/qa/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qa/templates/qa/detailed_question.html" beforeDir="false" afterPath="$PROJECT_DIR$/qa/templates/qa/detailed_question.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qa/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/qa/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -205,7 +196,7 @@
       <workItem from="1727335173870" duration="1265000" />
       <workItem from="1727336458381" duration="16213000" />
       <workItem from="1727421656365" duration="19467000" />
-      <workItem from="1727524178620" duration="9821000" />
+      <workItem from="1727524178620" duration="19276000" />
     </task>
     <servers />
   </component>
