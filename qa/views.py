@@ -42,7 +42,7 @@ class QuestionAllView(View):
     def get(request):
         # GOT EM ACCORDING TO VOTESTATION
         # AGGREGATE = 1 TIME ANNOTATE = QUERY SET
-        questions = Question.objects.annotate(vote_score=F('up_votes') - F('down_votes')).order_by('-vote_score')
+        questions = Question.objects.annotate(vote_score=F('up_votes') - F('down_votes')).order_by('status', '-vote_score')
         paginator = Paginator(questions, 5)
         page_number = request.GET.get('page')
         questions = paginator.get_page(page_number)
@@ -54,7 +54,7 @@ class MyQuestionAllView(LoginRequiredMixin, View):
 
     @staticmethod
     def get(request):
-        questions = Question.objects.annotate(vote_score=F('up_votes') - F('down_votes')).order_by('-vote_score')
+        questions = Question.objects.annotate(vote_score=F('up_votes') - F('down_votes')).order_by('status','-vote_score')
         q = questions.filter(author=request.user)
         paginator = Paginator(q, 5)
         page_number = request.GET.get('page')
@@ -136,6 +136,20 @@ class QuestionDeleteView(LoginRequiredMixin, View):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
 
+
+class QuestionStatusTogglerView(LoginRequiredMixin, View):
+    login_url = 'accounts:login'
+
+    def post(self, request, question_id):
+        question = get_object_or_404(Question, id=question_id)
+        if question.status == 0:
+            question.status = 1
+        else:
+            question.status = 0
+        context = {'status': question.status}
+        if context:
+            question.save()
+            return JsonResponse(context)
 
 
 class CommentDeleteView(LoginRequiredMixin, View):

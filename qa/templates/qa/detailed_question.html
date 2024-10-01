@@ -7,11 +7,17 @@
     <title>{{ question.question }}</title>
     <link rel="stylesheet" href="https://unpkg.com/98.css" />
 
+
     <style>
         body {
             background-image: url("{% static 'accounts/starry.jpg' %}");
             padding: 20px;
             margin: 0;
+        }
+
+
+        .toggle-status {
+            color: white;
         }
 
         .tab-bar {
@@ -56,24 +62,22 @@
         }
 
         .delete-btn {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    margin-left: 10px;
-    width: 24px;  /* Set the width of the button */
-    height: 24px; /* Set the height of the button */
-    display: inline-block;
-    overflow: hidden; /* Prevent the image from exceeding the button's bounds */
-}
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 10px;
+            width: 24px;  /* Set the width of the button */
+            height: 24px; /* Set the height of the button */
+            display: inline-block;
+            overflow: hidden; /* Prevent the image from exceeding the button's bounds */
+        }
 
-.delete-btn img {
-    width: 100%;  /* Make the image fill the button */
-    height: 100%; /* Make the image fill the button */
-    display: block; /* Remove any inline padding/margin */
-}
-
-
+        .delete-btn img {
+            width: 100%;  /* Make the image fill the button */
+            height: 100%; /* Make the image fill the button */
+            display: block; /* Remove any inline padding/margin */
+        }
 
         .window-body {
             padding: 20px;
@@ -162,23 +166,33 @@
 <body>
     <div class="tab-bar">
         <a href="{% url 'qa:all_questions' %}">Back to All Questions</a>
+
     </div>
 
     <div class="container window">
         <div class="title-bar">
-            <div class="title-bar-text">{{ question.question }}</div>
-
+            <div class="title-bar-text">{{ question.question }}
             {% if question.author == request.user %}
+            {% if question.status == 0 %}
+                <a href="javascript:toggleMaker({{ question.id }})" class="toggle-status" data-question-id="{{ question.id }}">
+                [OPEN]
+                </a>
 
-                    <button class="btn btn-primary toggle-status" data-id= "{{ question.id }} "onclick="toggleMaker()">
-                    Status:
-                        {% if question.status == 0 %}
-                            Close
-                        {% else %}
-                            Open
+            {% else %}
+            <a href="javascript:toggleMaker({{ question.id }})" class= "toggle-status" data-question-id="{{ question.id }}">
+            [CLOSED]
+            </a>
 
-                        {% endif %}
-                    </button>
+        {% endif %}
+        {% else %}
+            {% if question.status == 0 %}
+                [OPEN]
+            {% else %}
+                [CLOSED]
+            {% endif %}
+        {% endif %}
+            </div>
+            {% if question.author == request.user %}
                 <button class="delete-btn" onclick="deleteQuestion({{ question.id }})">
                     <img src="{% static 'qa/15.gif' %}" alt="Delete">
                 </button>
@@ -197,6 +211,7 @@
                 Upvotes: <span id="upvote-count">{{ question.up_votes }}</span> |
                 Downvotes: <span id="downvote-count">{{ question.down_votes }}</span>
 
+                    </button>
                 <button onclick="sendVote('upvote', {{ question.id }})">Upvote</button>
                 <button onclick="sendVote('downvote', {{ question.id }})">Downvote</button>
             </div>
@@ -306,7 +321,6 @@
                                 throw new Error('Failed to fetch valid JSON response');
                             }
                         }).then(data => {
-                            console.log(data.comment.image)
                             let comments = document.getElementById('comms');
                             let newCom = document.createElement('div');
                             newCom.id = `comment-${data.comment.id}`;
@@ -324,15 +338,44 @@
                     });
                 }
 
-                function answerSubmitter() {
+             //   function answerSubmitter() {
 
-                }
-                function answerchoser() {
+             //   }
+             //   function answerchoser() {
 
-                }
+               // }
 
-                function toggleMaker() {
+                function toggleMaker(questionId) {
+                    const csrfToken = '{{ csrf_token }}'
+                    const button = document.querySelector(`.toggle-status[data-question-id="${questionId}"]`);
 
+                    if (button) {
+                        button.innerHTML="Processing...";
+                        button.style.pointerEvents = "none";
+
+                    }
+                    fetch(`/questionaire/question/${questionId}/question_status/`, {
+                        method: "POST",
+                        headers: {
+                            'X-CSRFToken': csrfToken,
+                        }
+                    }).then(response => {
+                        if (response.ok) {
+                            console.log("Status changed")
+                            return response.json();
+                        } else {
+                            alert("Smth miserably failed");
+                            }
+                    }).then(data => {
+                        button.innerHTML = data.status === 0 ? '[OPEN]' : '[CLOSED]';
+                        button.style.pointerEvents = '';
+                        console.log(data.status)
+
+                    }).catch(error => {
+                        button.innerHTML = button.dataset.originalText || '[CLOSED]';
+                        button.style.pointerEvents = '';
+                        console.error("Error: ", error);
+                    });
                 }
 
             </script>

@@ -182,13 +182,14 @@ collab ---v
 
 30.09
 qa ---v
-      2- SORU KAPATILAMIYOR AMK !!!! (SORU KAPATMA + KAPANMIŞ SORULARI UPVOTELARINA BAKMADAN EN ARKAYA ATMA)
       4- uppvote downvote görsel olacak
-      1- create kısmında tags iç içe düzeltilecek
-      3- question yazarı answer seçebilmeli, seçilen answer commentler arasında en üstte olmalı ya da diğer commentler
+
+      sonra//
+           question yazarı answer seçebilmeli, seçilen answer commentler arasında en üstte olmalı ya da diğer commentler
+           css soru kapanınca bütün renk grileşmeli ya da turunculaşmalı
 
 
-      zaman yeterse comment ve soru imageleri kendi bir modele taşınabilir!!!
+      zaman yeterse comment ve soru imageleri kendi bir modele taşınabilir!!! (yetmeyecek)
       //lüks// edit question? (sonra)
 
 

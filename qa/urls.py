@@ -12,4 +12,5 @@ urlpatterns = [
     path('question/<int:question_id>/<int:comment_id>/delete/', CommentDeleteView.as_view(), name='delete_comment'),
     path("question/<int:question_id>/delete/", QuestionDeleteView.as_view(), name="delete_question"),
     path('json_pull_request/', QuestionNamesViaJson.as_view(), name='json_pull_request'),
+    path('question/<int:question_id>/question_status/', QuestionStatusTogglerView.as_view(), name='question_status'),
 ]
