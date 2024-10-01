@@ -30,10 +30,10 @@ class RoomsView(LoginRequiredMixin, View):
 
 # HTTP ÜZERİNDEN FİLE YÜKLEMEK
 
-class FileFormTransporter(View):
+class FileTransporter(View):
     form_class = FileForm
 
-    def post(self, request, room_name):
+    def post(self, request, *args, **kwargs):
         form = FileForm()
         if request.method == 'POST':
             form = FileForm(request.POST, request.FILES)

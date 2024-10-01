@@ -177,7 +177,6 @@ DEXTER !!! ----v
 
 30.09 - 01.09
 collab ---v
-          2- http üzerinden dosya gönderimi
           1- eski mesajların gösterimi
 
 30.09
