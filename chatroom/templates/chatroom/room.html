@@ -18,44 +18,22 @@
             margin: 0 auto;
         }
 
-        .window {
+
+        .win {
             position: absolute; /* Allows the window to move */
-            top: 100px; /* Initial top position */
+            top: 400px; /* Initial top position */
             left: 100px; /* Initial left position */
             width: 400px; /* Initial width */
             height: 400px; /* Initial height */
             border: 2px solid #000;
             background-color: #f0f0f0;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
-            cursor: move; /* Cursor changes when hovering over the window */
+            cursor: move;
             resize: none;
         }
 
-        .title-bar {
-            background-color: #0078d7; /* Windows 7 blue */
-            color: #fff;
-            padding: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #000;
-            cursor: move; /* Make title bar draggable */
-        }
 
-        .title-bar-text {
-            font-size: 1.4rem;
-        }
-
-        .title-bar-controls button {
-            width: 15px;
-            height: 15px;
-            border: none;
-            background-color: #fff;
-            margin-left: 5px;
-            border-radius: 2px;
-        }
-
-        .window-body {
+        .win-body {
             padding: 20px;
             background-color: #fff;
             border-top: 2px solid #000;
@@ -73,10 +51,11 @@
             resize: none;
             margin-bottom: 10px;
             overflow-y: auto;
+            font-size: 20px;
         }
 
         #chat-message-input {
-            width: calc(100% - 22px); /* Full width minus padding */
+            width: calc(100% - 22px); /* Full width - padding */
             padding: 8px;
             border: 2px solid #0078d7;
             margin-bottom: 10px;
@@ -84,9 +63,6 @@
         }
 
         #chat-message-submit {
-            padding: 8px 15px;
-            border: 2px solid #0078d7;
-            background-color: #f0f0f0;
             cursor: pointer;
         }
 
@@ -94,18 +70,19 @@
             background-color: #e0e0e0;
         }
 
+
+
+
         #note {
             margin-right: 5px;
         }
 
-        label {
-            font-size: 14px;
-        }
+
 
         /* Resizable handle styling */
         .resizer {
-            width: 20px;
-            height: 20px;
+            width: 10px;
+            height: 10px;
             background-color: #0078d7;
             position: absolute;
             bottom: 0;
@@ -116,10 +93,46 @@
 </head>
 <body>
 
+<div class="window active">
+    <div class="title-bar">
+        <div class="title-bar-text">Old Notes</div>
+    </div>
+    <div class="window-body has-space has-scrollbar">
+        <menu role="tablist" aria-label="Window with Tabs">
+            <button role="tab" aria-controls="text" aria-selected="true">Old Texts</button>
+            <button role="tab" aria-controls="files" aria-selected="false">Old Files</button>
+        </menu>
+        <article role="tabpanel" id="text" aria-hidden="false">
+            <p>Here are the messages that existed before you:</p>
+            {% for message in messages %}
+                <ul id="message-list"></ul>
+            {% endfor %}
+
+        </article>
+        <article role="tabpanel" hidden id="files" aria-hidden="true">
+            {% for file_name, file_url in file_urls %}
+                <ul>
+                    <li>
+                        <a href="{{ MEDIA_URL }}{{ file_url }}">
+                            {{file_name}}
+                        </a>
+                    </li>
+                </ul>
+            {% endfor %}
+
+        </article>
+    <div id="pagination-controls">
+                    <button id="prev-page">prev</button>
+                    <span id="page-info"></span>
+                    <button id="next-page">next</button>
+                </div>
+    </div>
+</div>
+
 
 
     <div class="container">
-        <div class="window" id="chatWindow">
+        <div class="window win" id="chatWindow">
             <div class="title-bar" id="titleBar">
                 <div class="title-bar-text">Chat Room</div>
                 <div class="title-bar-controls">
@@ -127,7 +140,7 @@
 
                 </div>
             </div>
-            <div class="window-body">
+            <div class="window-body win-body">
                 <textarea id="chat-log" class="textarea" readonly></textarea><br>
                 <input id="chat-message-input" class="input" type="text" placeholder="Type your message here..."><br>
                 <input type="checkbox" id="note" class="checkbox">
@@ -144,6 +157,7 @@
         const chatWindow = document.getElementById("chatWindow");
         const titleBar = document.getElementById("titleBar");
         const resizer = document.getElementById("resizer");
+        const chatLog = document.getElementById("chat-log");
         let isDragging = false, isResizing = false;
         let offsetX = 0, offsetY = 0;
         let initialWidth, initialHeight, mouseX, mouseY;
@@ -189,8 +203,77 @@
                 const newHeight = initialHeight + (e.clientY - mouseY);
                 chatWindow.style.width = newWidth + 'px';
                 chatWindow.style.height = newHeight + 'px';
+                const newFontSize = chatWindow.offsetWidth * 0.05;
+                chatLog.style.fontSize = newFontSize + "px";
             }
         }
+
+        document.querySelectorAll('button[role="tab"]').forEach(button => {
+            button.addEventListener('click', () => {
+                const tabPanelId = button.getAttribute('aria-controls');
+
+                document.querySelectorAll('article[role="tabpanel"]').forEach(panel => {
+                    panel.hidden = true;
+                    panel.setAttribute('aria-hidden', 'true');
+                });
+                document.getElementById(tabPanelId).hidden = false;
+                document.getElementById(tabPanelId).setAttribute('aria-hidden', 'false');
+                document.querySelectorAll('button[role="tab"]').forEach(btn => {
+                btn.setAttribute('aria-selected', 'false');
+                });
+                button.setAttribute('aria-selected', 'true');
+            });
+        });
+let currentPage = 1;
+const messagesPerPage = 10; // Number of messages per page
+const messages = [
+    {% for message in messages %}
+        "{{ messages.user }} {{ message }}",
+    {% endfor %}
+];
+
+// Function to render the messages for the current page
+function renderMessages() {
+    const messageList = document.getElementById('message-list');
+    messageList.innerHTML = ""; // Clear the current message list
+
+    // Calculate start and end index for the messages on this page
+    const startIndex = (currentPage - 1) * messagesPerPage;
+    const endIndex = Math.min(startIndex + messagesPerPage, messages.length);
+
+    // Display only the messages for the current page
+    for (let i = startIndex; i < endIndex; i++) {
+        const li = document.createElement('li');
+        li.textContent = messages[i];
+        messageList.appendChild(li);
+    }
+
+    // Update page info
+    document.getElementById('page-info').textContent = `Page ${currentPage} of ${Math.ceil(messages.length / messagesPerPage)}`;
+}
+
+// Function to go to the next page
+function nextPage() {
+    if (currentPage * messagesPerPage < messages.length) {
+        currentPage++;
+        renderMessages();
+    }
+}
+
+// Function to go to the previous page
+function prevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        renderMessages();
+    }
+}
+
+// Attach event listeners to pagination buttons
+document.getElementById('next-page').addEventListener('click', nextPage);
+document.getElementById('prev-page').addEventListener('click', prevPage);
+
+// Initially render the first page of messages
+renderMessages();
 
 
         const roomName = JSON.parse(document.getElementById('room-name').textContent);

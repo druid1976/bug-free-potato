@@ -6,24 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="d0cce1db-1d13-4a70-acfb-88e0dc584203" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/blank.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/blank.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/signup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/user_details.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/user_details.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/user_update.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/user_update.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatroom/holdmecon.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatroom/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatroom/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatroom/templates/chatroom/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/chatroom/templates/chatroom/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chatroom/templates/chatroom/room.html" beforeDir="false" afterPath="$PROJECT_DIR$/chatroom/templates/chatroom/room.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatroom/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatroom/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chatroom/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatroom/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/courses/templates/courses/course_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/courses/templates/courses/course_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/courses/templates/courses/course_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/courses/templates/courses/course_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/courses/templates/courses/curriculum.html" beforeDir="false" afterPath="$PROJECT_DIR$/courses/templates/courses/curriculum.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/courses/templates/courses/dexter.html" beforeDir="false" afterPath="$PROJECT_DIR$/courses/templates/courses/dexter.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/courses/templates/courses/my_courses.html" beforeDir="false" afterPath="$PROJECT_DIR$/courses/templates/courses/my_courses.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/notes.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qa/templates/qa/base_questions.html" beforeDir="false" afterPath="$PROJECT_DIR$/qa/templates/qa/base_questions.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qa/templates/qa/create_quest.html" beforeDir="false" afterPath="$PROJECT_DIR$/qa/templates/qa/create_quest.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qa/templates/qa/detailed_question.html" beforeDir="false" afterPath="$PROJECT_DIR$/qa/templates/qa/detailed_question.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +64,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.customizations",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PyCharm 2024.2.0.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   },
@@ -213,7 +199,8 @@
       <workItem from="1727524178620" duration="19652000" />
       <workItem from="1727711102198" duration="93000" />
       <workItem from="1727711966683" duration="4812000" />
-      <workItem from="1727728381521" duration="22535000" />
+      <workItem from="1727728381521" duration="22569000" />
+      <workItem from="1727806212592" duration="18658000" />
     </task>
     <servers />
   </component>

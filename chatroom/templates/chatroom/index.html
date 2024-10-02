@@ -1,16 +1,48 @@
 <!DOCTYPE html>
 <html>
+{% load static %}
 <head>
+    <link rel="stylesheet" href="https://khang-nd.github.io/7.css/7.css">
     <meta charset="utf-8"/>
     <title>Backrooms</title>
 </head>
+<style>
+    body {
+        background-image: url("{% static 'accounts/starry.jpg' %}");
+    }
+    .window {
+        margin: auto;
+        margin-top: 200px;
+    }
+</style>
 <body>
-<div id="all-rooms">
-    <div id="rooms-list">
-        {% for room in rooms %}
-            <p><a href="/backrooms/{{ room.name }}">{{ room.name }}</a> <br>
-            {{ room.description }}</p>
-        {% endfor %}
+<div class="window active" style="max-width: 300px;">
+    <div class="title-bar">
+        <div class="title-bar-text">Backrooms List</div>
+        <div class="title-bar-controls">
+            <button aria-label="Minimize"></button>
+            <button aria-label="Maximize"></button>
+            <button aria-label="Close"></button>
+        </div>
+    </div>
+    <div class="window-body has-space" style="max-height: 400px; overflow-y: auto;">
+        <ul class="tree-view has-collapse-button has-connector has-container">
+            <details open="">
+                <summary>Backrooms</summary>
+                <ul>
+                    {% for room in rooms %}
+                    <li>
+                        <details>
+                            <summary><a href="/backrooms/{{ room.name }}">{{ room.name }}</a></summary>
+                            <ul>
+                                <li>{{ room.description }}</li>
+                            </ul>
+                        </details>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </details>
+        </ul>
     </div>
 </div>
 </body>

@@ -23,8 +23,13 @@ class RoomsView(LoginRequiredMixin, View):
 
     def get(self, request, room_name):
 
+        messages = Message.objects.filter(room__name=room_name)
+        files = File.objects.filter(room__name=room_name)
+        nameNurl = [(file.name, file.url) for file in files]
         return render(request, 'chatroom/room.html', {
             "room_name": room_name,
+            'messages': messages,
+            'nameNurl': nameNurl,
         })
 
 
@@ -34,19 +39,19 @@ class FileTransporter(View):
     form_class = FileForm
 
     def post(self, request, *args, **kwargs):
-        form = FileForm()
-        if request.method == 'POST':
-            form = FileForm(request.POST, request.FILES)
-            if form.is_valid():
-                room = Room.objects.get(name=room_name)
-                file = form.save(commit=False)
-                file.owner = request.user
-                file.room = room
-                file.save()
 
-                return JsonResponse({
+        room_name = request.POST['room_name']
+        form = FileForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            room = Room.objects.get(name=room_name)
+            file = form.save(commit=False)
+            file.owner = request.user
+            file.room = room
+            file.save()
+
+            return JsonResponse({
                     'file_url': file.file.url,
                     'user': request.user.username,
-                })
-            return JsonResponse({'error': 'Invalid Form'})
-        return JsonResponse({'error': 'Inv req method'})
+            })
+        return JsonResponse({'error': 'Invalid Form'})

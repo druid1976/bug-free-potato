@@ -4,7 +4,7 @@ from accounts.models import CustomUser
 
 
 class Room(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     room_maker = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
