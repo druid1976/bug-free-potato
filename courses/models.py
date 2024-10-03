@@ -1,3 +1,5 @@
+from email._header_value_parser import Section
+
 from django.db import models
 from accounts.models import CustomUser
 # from datetime import time --> this is for creating time(9,0)
@@ -58,6 +60,15 @@ class Section(models.Model):
 
 #silinecekti ama kaldı
 
+class SectionPacket(models.Model):
+    course = models.ForeignKey(Course,
+                               on_delete=models.CASCADE,)
+    section = models.ManyToManyField(Section)
+
+    def __str__(self):
+        sections = ", ".join([str(s.section_number) for s in self.section.all()])
+        return f"{self.course.title}, Sections: {sections}"
+
 class Semester(models.Model):
     semester_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
@@ -79,6 +90,10 @@ class CurriculumCourseSemester(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.program_name} ({self.program_code}) - {self.course.title} for {self.semester.name}"
+
+
 
 class GivenCoursesAndTheSemestersOfThem(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="given_courses")
@@ -88,10 +103,21 @@ class GivenCoursesAndTheSemestersOfThem(models.Model):
 class AcademicDream(models.Model):
     student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='student_academic_dream')
     curriculum_course_semester = models.ForeignKey(CurriculumCourseSemester, on_delete=models.CASCADE,
-                                                 related_name="semcor_academic_dream")
+                                                   related_name="semcor_academic_dream")
     grade = models.IntegerField(default=-1, blank=True)
-    section = models.ForeignKey(Section, related_name='section_academic_dream',
-                                on_delete=models.SET_NULL, blank=True, null=True)
+    section_packet = models.ForeignKey(SectionPacket, related_name='section_academic_dream',
+                                       on_delete=models.SET_NULL, blank=True, null=True)
+
+    def __str__(self):
+        course_info = f"{self.curriculum_course_semester}"
+        section_info = f", Section: {self.section_packet}" if self.section_packet else ""
+        grade_info = f", Grade: {self.grade}" if self.grade != -1 else ", Grade: N/A"
+        return f"{self.student.get_full_name()} - {course_info}{section_info}{grade_info}"
+
+    def status(self):
+        grade_info = f", Grade: {self.grade}" if self.grade != -1 else ", Grade: N/A"
+        return grade_info
+
     # program_code gelecek buraya kayıt sırasında
 
     def calculate_grade(self):

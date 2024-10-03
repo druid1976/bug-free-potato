@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ course.title }} Details</title>
+    <title>{{ course.title }} </title>
     <link rel="stylesheet" href="https://jdan.github.io/98.css/98.css" />
 
     <style>
@@ -81,7 +81,6 @@
             background-color: #003580;
         }
 
-        /* Additional Styling for grouped sections */
         .grouped-section {
             margin-bottom: 15px;
             background-color: #f1f1f1;
@@ -102,7 +101,7 @@
 <body>
     <div class="container window">
         <div class="title-bar">
-            <div class="title-bar-text">{{ course.title }} Details</div>
+            <div class="title-bar-text">Details of {{ course.title }}</div>
         </div>
 
         <div class="window-body">
@@ -135,8 +134,10 @@
 
             <div class="section">
                 <div class="section-title">Semester:</div>
-                <div class="section-content">{{ course.semester.name }} ({{ course.semester.start_date }} - {{ course.semester.end_date }})</div>
+                <div class="section-content">{{ course.semester.name }}</div>
             </div>
+
+
 
             <div class="section">
                 <h3>Sections:</h3>
@@ -156,9 +157,97 @@
                 </div>
             </div>
 
-            <a href="javascript:window.history.back();" class="btn-back">Go back to my curriculum</a>
+            <div class="section">
+                <h3>My Status:</h3>
+                <div class="section-content">
+                    <p>Current status: <span id="status">{{ current_status }}</span></p>
+                    <button onclick="showStatusOptions()">Change My Status</button>
+                </div>
+
+                <div id="status-options" style="display:none;">
+                    <select id="status-selector" onchange="onStatusChange()">
+                        <option value="not_taken">Not Taken</option>
+                        <option value="now_taking">Now Taking</option>
+                        <option value="passed">Passed</option>
+                        <option value="failed">Failed</option>
+                    </select>
+
+                    <div id="grade-input" style="display:none;">
+                        <label for="grade">Enter Grade:</label>
+                        <input type="number" id="grade" min="0" max="100">
+                    </div>
+
+                    <button onclick="changerOfStatus()">Submit</button>
+                </div>
+
+            <a href="{% url 'courses:courses_curriculum' request.user.study %}" class="btn-back">Go back to my curriculum</a>
             <a href="{% url 'accounts:blank' %}" class="btn-back">Back to MAC</a>
         </div>
     </div>
+</div>
+<script>
+    function showStatusOptions() {
+        document.getElementById('status-options').style.display = 'block';
+    }
+
+    function onStatusChange() {
+        const selectedStatus = document.getElementById('status-selector').value;
+        if (selectedStatus === 'passed' || selectedStatus === 'failed') {
+            document.getElementById('grade-input').style.display = 'block';
+        } else {
+            document.getElementById('grade-input').style.display = 'none';
+        }
+    }
+
+    function changerOfStatus() {
+    const statusChange = document.getElementById('status-selector').value;
+    let grade = null;
+
+    if (statusChange === 'passed' || statusChange === 'failed') {
+        grade = document.getElementById('grade').value;
+
+
+        if (grade === "" || grade < 0 || grade > 100) {
+            alert("Please enter a valid grade between 0 and 100.");
+            return;
+        }
+    } else if (statusChange === 'now_taking') {
+        grade = 101;
+    } else {
+        grade = -1;
+    }
+
+    const csrfToken = '{{ csrf_token }}';
+    const courseCode = "{{ course.course_code }}";
+
+    fetch(`/course/${courseCode}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+        },
+        body: JSON.stringify({
+            'status_change': statusChange,
+            'grade': grade,
+        })
+    }).then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Failed to update status');
+        }
+    }).then(data => {
+        document.getElementById('status').innerText = data.status;
+    }).catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+
+</script>
+
+
 </body>
+
+
 </html>

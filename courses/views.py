@@ -28,8 +28,13 @@ class CourseDetailView(LoginRequiredMixin, View):
 
     def get(self, request, course_code):
         course = get_object_or_404(Course, course_code=course_code)
+        curr = CurriculumCourseSemester.objects.get(course=course)
+        try:
+            acad = curr.semcor_academic_dream.get(student=request.user)
+        except AcademicDream.DoesNotExist:
+            acad = AcademicDream.objects.create(student=request.user, curriculum_course_semester=curr, grade=-1)
 
-        # Group sections via numero
+        # Group sections via numeros pre-sectionpacket era
         sections_by_number = {}
         for section in course.sections.all():
             if section.section_number not in sections_by_number:
@@ -39,8 +44,52 @@ class CourseDetailView(LoginRequiredMixin, View):
         context = {
             'course': course,
             'sections_by_number': sections_by_number,
+            'grade': acad.grade,
+            'current_status': self.get_status_from_grade(acad.grade)
         }
         return render(request, self.template_name, context)
+
+    def get_status_from_grade(self, grade):
+        if grade == -1:
+            return "not_taken"
+        elif grade == 101:
+            return "now_taking"
+        elif grade >= 50:
+            return "passed"
+        else:
+            return "failed"
+
+    def post(self, request, course_code):
+        course = get_object_or_404(Course, course_code=course_code)
+        curr = CurriculumCourseSemester.objects.get(course=course)
+        acad, created = AcademicDream.objects.get_or_create(student=request.user, curriculum_course_semester=curr)
+
+        data = json.loads(request.body)
+        status = data.get('status_change')
+        grade = data.get('grade')
+
+        if status == 'not_taken':
+            grade = -1
+        elif status == 'now_taking':
+            grade = 101
+        elif status in ['passed', 'failed']:
+            if grade is None:
+                return JsonResponse({'error': 'Grade must be provided.'}, status=400)
+
+            try:
+                grade = int(grade)
+                if grade < 0 or grade > 100:
+                    return JsonResponse({'error': 'Invalid grade. Grade must be between 0 and 100.'}, status=400)
+            except ValueError:
+                return JsonResponse({'error': 'Grade must be a valid number.'}, status=400)
+
+        acad.grade = grade
+        acad.save()
+
+        return JsonResponse({
+            'status': status,
+            'grade': grade,
+        })
 
 
 class CurriculumView(LoginRequiredMixin, View):
@@ -50,6 +99,7 @@ class CurriculumView(LoginRequiredMixin, View):
     def get(self, request, program_code):
         student = request.user
         # Get all curriculum courses for the student's program
+        # ders objesi gibi düşünülebilinir
         currs = CurriculumCourseSemester.objects.filter(program_code=student.study)
 
         backtobackwtf = []
@@ -61,7 +111,9 @@ class CurriculumView(LoginRequiredMixin, View):
                 academic_dream = academic_dreams.first()
                 if academic_dream.grade == -1:
                     status = 'not_taken'
-                elif academic_dream.grade >= 50:
+                if academic_dream.grade == 101:
+                    status = 'now_taking'
+                elif academic_dream.grade >= 50 and academic_dream.grade <= 100:
                     status = 'passed'
                 else:
                     status = 'failed'
