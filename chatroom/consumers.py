@@ -41,6 +41,24 @@ class ChatConsumer(AsyncWebsocketConsumer):
             }
         )
 
+    async def send_file(self, file_url, file_id, is_image):
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'file_upload',
+                'file_url': file_url,
+                'file_name': file_id,
+                'is_image': is_image
+            }
+        )
+
+    async def file_upload(self, event):
+        await self.send(text_data=json.dumps({
+            'file_url': event['file_url'],
+            'file_id': event['file_id'],
+            'is_image': event['is_image'],
+        }))
+
     async def chat_message(self, event):
         message = event['message']
         user = event['user']

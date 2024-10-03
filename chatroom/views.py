@@ -1,3 +1,5 @@
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -20,23 +22,22 @@ class IndexView(LoginRequiredMixin, View):
 
 class RoomsView(LoginRequiredMixin, View):
     login_url = 'accounts:login'
+    form_class = FileForm
 
     def get(self, request, room_name):
 
         messages = Message.objects.filter(room__name=room_name)
         files = File.objects.filter(room__name=room_name)
-        nameNurl = [(file.name, file.url) for file in files]
+        numberNurl = []
+        for file in files:
+            file_type = file.file.url.split('.')[-1].lower()
+            is_image = file_type in ['jpg', 'jpeg', 'png', 'gif']
+            numberNurl.append((file.id, file.file.url, is_image))
         return render(request, 'chatroom/room.html', {
             "room_name": room_name,
             'messages': messages,
-            'nameNurl': nameNurl,
+            'numberNurl': numberNurl,
         })
-
-
-# HTTP ÜZERİNDEN FİLE YÜKLEMEK
-
-class FileTransporter(View):
-    form_class = FileForm
 
     def post(self, request, *args, **kwargs):
 
@@ -50,8 +51,21 @@ class FileTransporter(View):
             file.room = room
             file.save()
 
+            file_url = file.file.url
+            is_image = file.file.url.lower().endswith(('.png', '.jpg', '.jpeg', 'gif'))
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                f'chat_{room_name}',
+                {
+                    'type': 'file_upload',
+                    'file_url': file_url,
+                    'file_id': file.id,
+                    'is_image': is_image,
+
+                }
+            )
             return JsonResponse({
-                    'file_url': file.file.url,
-                    'user': request.user.username,
+                'file_url': file.file.url,
+                'user': request.user.username,
             })
         return JsonResponse({'error': 'Invalid Form'})

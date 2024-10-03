@@ -110,16 +110,15 @@
 
         </article>
         <article role="tabpanel" hidden id="files" aria-hidden="true">
-            {% for file_name, file_url in file_urls %}
-                <ul>
-                    <li>
-                        <a href="{{ MEDIA_URL }}{{ file_url }}">
-                            {{file_name}}
-                        </a>
-                    </li>
-                </ul>
-            {% endfor %}
-
+            <ul id="file-list">
+                {% for file_id, file_url, is_image in numberNurl %}
+                    {% if is_image %}
+                        <img src="{{ file_url }}" alt="Uploaded imge" style="max-width: 200px"/>
+                    {% else %}
+                    <a href="{{ file_url }}" download> {{file_url}} </a>
+                    {% endif %}
+                {% endfor %}
+            </ul>
         </article>
     <div id="pagination-controls">
                     <button id="prev-page">prev</button>
@@ -147,6 +146,12 @@
                 <label for="note">This is a note</label><br>
                 <input id="chat-message-submit" class="button" type="button" value="Send">
                 {{ room_name|json_script:"room-name" }}
+                <form id="file-upload-form" enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    <input type="file" id="file-input" name="file" accept="image/*,.pdf,.doc,.docx">
+    <input type="hidden" id="room_name" name="room_name" value="{{ room_name }}">
+    <button type="submit" id="upload-file-button">Upload File</button>
+</form>
             </div>
             <div class="resizer" id="resizer"></div> <!-- Resizable handle -->
         </div>
@@ -276,6 +281,7 @@ document.getElementById('prev-page').addEventListener('click', prevPage);
 renderMessages();
 
 
+
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
         let note = 0;
 
@@ -288,11 +294,38 @@ renderMessages();
         );
 
         chatSocket.onmessage = function(e) {
-            const data = JSON.parse(e.data);
-            const chatLog = document.querySelector('#chat-log');
-            chatLog.value += (data.user + ": " + data.message + '\n');
-            chatLog.scrollTop = chatLog.scrollHeight; // Auto-scroll to bottom
-        };
+    const data = JSON.parse(e.data);
+
+    if (data.message) {
+        // Handle normal messages
+        const chatLog = document.querySelector('#chat-log');
+        chatLog.value += (data.user + ": " + data.message + '\n');
+        chatLog.scrollTop = chatLog.scrollHeight; // Auto-scroll to bottom
+    }
+
+    if (data.file_url) {
+        // Handle file upload
+        const fileList = document.getElementById('file-list'); // Assume you have a <ul> for files
+        const li = document.createElement('li');
+
+        if (data.is_image) {
+            // If it's an image, show it directly
+            const img = document.createElement('img');
+            img.src = data.file_url;
+            img.style.maxWidth = '200px'; // Limit image size
+            li.appendChild(img);
+        } else {
+            // Otherwise, create a download link
+            const a = document.createElement('a');
+            a.href = data.file_url;
+            a.textContent = data.file_name;
+            a.download = data.file_name;
+            li.appendChild(a);
+        }
+
+        fileList.appendChild(li);
+    }
+};
 
         chatSocket.onclose = function(e) {
             console.error('Chat socket closed unexpectedly');
@@ -318,6 +351,57 @@ renderMessages();
         document.getElementById('note').onclick = function() {
             note = note === 0 ? 1 : 0; // Toggle note
         }
+
+
+    // File Upload Logic
+    document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('file-upload-form');
+    const fileList = document.getElementById('file-list');
+
+    form.onsubmit = async function(event) {
+        event.preventDefault(); // Prevent the form from submitting normally
+
+        const formData = new FormData(form);
+        const uploadUrl = `/backrooms/${roomName}/`; // Use the room_name in the URL
+
+        try {
+            const response = await fetch(uploadUrl, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            if (data.error) {
+                alert("Failed to upload file: " + data.error);
+            } else {
+                const link = document.createElement('a');
+                link.href = data.file_url;
+                link.textContent = data.file_id;
+                link.target = "_blank"; // Open in new tab
+                fileList.appendChild(link);
+
+                if (data.is_image) {
+                    const image = new Image();
+                    image.src = data.file_url;
+                    image.style.maxWidth = "200px"; // Limit image size
+                    fileList.appendChild(image); // Show the image if it's a picture
+                }
+            }
+        } catch (error) {
+            console.error("Upload failed:", error);
+        }
+    };
+});
+
+
     </script>
 
 </body>
