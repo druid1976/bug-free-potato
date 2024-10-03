@@ -9,8 +9,8 @@ class Course(models.Model):
     course_description = models.TextField()
     course_code = models.CharField(max_length=200)
     max_credit_points = models.CharField(max_length=10)
-    is_it_offered = models.BooleanField(default=False)
     language = models.CharField(default="ENG", max_length=10)
+    # Buradaki genel semester bilgisi
     semester = models.ForeignKey("Semester",
                                  on_delete=models.CASCADE,
                                  related_name="courses_for_semester",
@@ -56,6 +56,7 @@ class Section(models.Model):
                 f"on {self.day} {self.starting_hour} between "
                 f"{self.ending_hour}")
 
+#silinecekti ama kaldı
 
 class Semester(models.Model):
     semester_id = models.AutoField(primary_key=True)
@@ -71,25 +72,27 @@ class Semester(models.Model):
 # Can be made as a new app?
 
 
-class Curriculum(models.Model):
-    program_name = models.CharField(max_length=200)
-    program_code = models.CharField(max_length=100)
-    semester = models.ManyToManyField("Semester", related_name='curricula')
-    courses = models.ManyToManyField(Course, related_name='curricula')
+#keep track of the
+class CurriculumCourseSemester(models.Model):
+    program_name = models.CharField(max_length=200, default="Computer science")
+    program_code = models.CharField(max_length=100, default="CENG")
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f"{self.program_name}"
+
+class GivenCoursesAndTheSemestersOfThem(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="given_courses")
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE, related_name="given_courses")
 
 
 class AcademicDream(models.Model):
-    student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='student_academic_dream', null=True)
-    courses = models.ForeignKey(Course, related_name='user_in_course',
-                                on_delete=models.SET_NULL, blank=True, null=True)
+    student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='student_academic_dream')
+    curriculum_course_semester = models.ForeignKey(CurriculumCourseSemester, on_delete=models.CASCADE,
+                                                 related_name="semcor_academic_dream")
     grade = models.IntegerField(default=-1, blank=True)
     section = models.ForeignKey(Section, related_name='section_academic_dream',
                                 on_delete=models.SET_NULL, blank=True, null=True)
-    curriculum = models.ForeignKey("Curriculum", related_name='curry_academic_dream',
-                                   on_delete=models.CASCADE, blank=True, null=True)
+    # program_code gelecek buraya kayıt sırasında
 
     def calculate_grade(self):
         total_note = 0

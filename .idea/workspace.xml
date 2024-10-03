@@ -5,11 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0cce1db-1d13-4a70-acfb-88e0dc584203" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2660d1fb-5efc-4353-8a9a-40ffd9b1783a.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2660d1fb-5efc-4353-8a9a-40ffd9b1783a.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2660d1fb-5efc-4353-8a9a-40ffd9b1783a/storage_v2/_src_/database/datta_baseuk.goXf9g/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2660d1fb-5efc-4353-8a9a-40ffd9b1783a/storage_v2/_src_/database/datta_baseuk.goXf9g/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatroom/consumers.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatroom/consumers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatroom/templates/chatroom/room.html" beforeDir="false" afterPath="$PROJECT_DIR$/chatroom/templates/chatroom/room.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatroom/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatroom/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatroom/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatroom/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/courses/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/courses/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/courses/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/courses/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/courses/static/courses/js/searchCourses.js" beforeDir="false" afterPath="$PROJECT_DIR$/courses/static/courses/js/searchCourses.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/courses/templates/courses/curriculum.html" beforeDir="false" afterPath="$PROJECT_DIR$/courses/templates/courses/curriculum.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/courses/templates/courses/semester_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/courses/templates/courses/academic_pager.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/courses/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/courses/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/courses/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/courses/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/notes.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -205,7 +210,7 @@
       <workItem from="1727890158504" duration="606000" />
       <workItem from="1727893823168" duration="13000" />
       <workItem from="1727898735349" duration="419000" />
-      <workItem from="1727903465805" duration="11634000" />
+      <workItem from="1727903465805" duration="24710000" />
     </task>
     <servers />
   </component>

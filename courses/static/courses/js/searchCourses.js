@@ -219,7 +219,20 @@ function coloredSection(course) {
                 me[noc].push({ div: div, section: section });
 
                 div.classList.add(noc.toString()); // Add a class based on course index
-                div.classList.add('potato');       // Add a 'potato' class for selected
+
+                //potatolasak da mı saklasak potatolamasak da mı saklasak
+
+                if (div.classList.contains('potato')) {
+                    div.classList.add('potato-o');
+                    if (div.classList.contains('potato-o')) {
+                        div.classList.add('potato-oo');
+                    }
+                    else {
+                        div.classList.add('potato-o');
+                    }
+                } else {
+                    div.classList.add('potato');
+                }      // Add a 'potato' class for selected
 
                 console.log(`Added section ${section.section_number} for course ${course.title}`);
                 console.log('Sending me[' + noc + ']: to selection chamber', me[noc]);

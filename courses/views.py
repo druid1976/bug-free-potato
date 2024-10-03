@@ -16,7 +16,6 @@ class CourseView(LoginRequiredMixin, View):
 
 
 class SemesterListView(LoginRequiredMixin, View):
-    template_name = 'courses/semester_list.html'
     login_url = 'accounts:login'
 
     def get(self, request, *args, **kwargs):
@@ -44,51 +43,39 @@ class CourseDetailView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
 
-class CourseListView(LoginRequiredMixin, View):
-    login_url = 'accounts:login'
-    template_name = 'courses/course_list.html'
-
-    def get(self, request):
-        courses = Course.objects.all()
-        return render(request, self.template_name, {'courses': courses})
-
-
 class CurriculumView(LoginRequiredMixin, View):
-    template_name = 'courses/curriculum.html'
     login_url = 'accounts:login'
+    template_name = 'courses/curriculum.html'
 
     def get(self, request, program_code):
-        if request.user is not None:
-            student = request.user
-            curr = Curriculum.objects.get(program_code=student.study)
-            courses = curr.courses.all().order_by('semester__semester_id')
+        student = request.user
+        # Get all curriculum courses for the student's program
+        currs = CurriculumCourseSemester.objects.filter(program_code=student.study)
 
-            ACDC = AcademicDream.objects.filter(courses__in=courses, student=student)
-            ACDC_dict = {ad.courses.id: ad.grade for ad in ACDC}
+        backtobackwtf = []
+        for cur in currs:
+            academic_dreams = cur.semcor_academic_dream.filter(student=student)
+            status = 'not_taken'
 
-            courses_status = []
-            for course in courses:
-                if course.id in ACDC_dict:
-                    grade = ACDC_dict[course.id]
-                    if grade >= 50:
-                        status = 'passed'
-                    elif grade == -1:
-                        status = 'not_taken'
-                    else:
-                        status = 'failed'
-                else:
+            if academic_dreams.exists():
+                academic_dream = academic_dreams.first()
+                if academic_dream.grade == -1:
                     status = 'not_taken'
-                courses_status.append({
-                    'course': course,
-                    'status': status
-                })
-            context = {
-                'courses_status': courses_status,
-                'program_code': program_code
-            }
-            return render(request, self.template_name, context)
-        else:
-            return redirect(reverse('accounts:login'))
+                elif academic_dream.grade >= 50:
+                    status = 'passed'
+                else:
+                    status = 'failed'
+
+            backtobackwtf.append({'course': cur.course, 'status': status})
+
+        context = {
+            'courses_status': backtobackwtf,
+            'program_code': program_code
+        }
+        return render(request, self.template_name, context)
+
+
+
 
 
 class CourseSearchView(LoginRequiredMixin, View):
