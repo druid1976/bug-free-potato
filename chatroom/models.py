@@ -9,6 +9,9 @@ class Room(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     room_maker = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
 
 class Message(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)

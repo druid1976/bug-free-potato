@@ -30,8 +30,7 @@ class RoomsView(LoginRequiredMixin, View):
         files = File.objects.filter(room__name=room_name)
         numberNurl = []
         for file in files:
-            file_type = file.file.url.split('.')[-1].lower()
-            is_image = file_type in ['jpg', 'jpeg', 'png', 'gif']
+            is_image = file.file.url.lower().endswith(('.png', '.jpg', '.jpeg', 'gif'))
             numberNurl.append((file.id, file.file.url, is_image))
         return render(request, 'chatroom/room.html', {
             "room_name": room_name,

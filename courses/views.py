@@ -98,33 +98,31 @@ class CurriculumView(LoginRequiredMixin, View):
 
     def get(self, request, program_code):
         student = request.user
-        # Get all curriculum courses for the student's program
-        # ders objesi gibi düşünülebilinir
         currs = CurriculumCourseSemester.objects.filter(program_code=student.study)
 
         backtobackwtf = []
         for cur in currs:
             academic_dreams = cur.semcor_academic_dream.filter(student=student)
-            status = 'not_taken'
+            status = 'not_taken'  # Default status
 
             if academic_dreams.exists():
                 academic_dream = academic_dreams.first()
                 if academic_dream.grade == -1:
                     status = 'not_taken'
-                if academic_dream.grade == 101:
+                elif academic_dream.grade == 101:
                     status = 'now_taking'
-                elif academic_dream.grade >= 50 and academic_dream.grade <= 100:
+                elif 50 <= academic_dream.grade <= 100:
                     status = 'passed'
                 else:
                     status = 'failed'
-
-            backtobackwtf.append({'course': cur.course, 'status': status})
+            backtobackwtf.append({'curr': cur, 'status': status})
 
         context = {
             'courses_status': backtobackwtf,
             'program_code': program_code
         }
         return render(request, self.template_name, context)
+
 
 
 
@@ -154,4 +152,16 @@ class Dexter(LoginRequiredMixin, View):
     login_url = 'accounts:login'
 
     def get(self, request):
-        return render(request, 'courses/dexter.html')
+        student = request.user
+        curr = CurriculumCourseSemester.objects.filter(program_code =student.study)
+        suggested_courses = []
+        for cur in curr:
+            if cur.semester.semester_id - 2 == student.semester_of_student:
+                suggested_courses.append(cur.course)
+           # if cur.semester.semester_id - 2 < student.semester_of_student :
+
+
+        context = {
+            'suggested_courses': suggested_courses,
+        }
+        return render(request, 'courses/dexter.html', context=context)
