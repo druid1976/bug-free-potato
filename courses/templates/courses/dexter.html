@@ -68,8 +68,26 @@
 }
 
 .subject:hover {
-    background-color: #d0d0ff;
+    background-color: #d0d0ff; }
+
+.section-box {
+  display: inline-block; /* Keep boxes inline */
+  background-color: transparent; /* Make it transparent */
+  padding: 5px; /* Add some padding */
+  cursor: pointer; /* Show pointer on hover */
+  border: 1px solid transparent; /* Default border */
 }
+
+/* Highlighting selected section */
+.section-box:hover {
+  border: 1px solid blue; /* Show a border when hovering */
+}
+
+/* Selected section highlighting */
+.section-box.selected {
+  background-color: lightgreen; /* Highlight the selected section */
+}
+
 
 
         .search-results {
@@ -150,6 +168,12 @@
             text-align: center;
         }
 
+        .subject.active {
+  background-color: #d1f7d1; /* Light green background for active sections */
+  border: 1px solid #4CAF50; /* Green border */
+}
+
+
     </style>
 </head>
 <body>
@@ -161,21 +185,38 @@
             </thead>
             <tbody>
             {% for course in suggested_courses %}
-                <tr><td> {{ course.title }} </td></tr>
+                <tr><td id="{{ course.course_code }}"> {{ course.title }} </td></tr>
             {% endfor %}
             </tbody>
         </table>
 
         <table class="table window sunken-panel">
             <thead>
-                <tr><th>Table 2 Header</th></tr>
+                <tr><th>Old Courses</th></tr>
             </thead>
             <tbody>
-                <tr><td>Row 1</td></tr>
-                <tr><td>Row 2</td></tr>
-                <tr><td>Row 3</td></tr>
+            {% for course in old_courses %}
+                <tr><td id="{{ course.course_code }}">{{ course.title }}</td></tr>
+            {% endfor %}
             </tbody>
         </table>
+    <div id="scheduleListContainer" style="display:none;"></div>
+<table id="scheduleTableContainer" style="display:none;">
+  <thead>
+    <tr>
+      <th>Day</th>
+      <th>Hour</th>
+      <th>Room</th>
+      <th>Building</th>
+      <th>Floor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Schedule rows will be inserted here -->
+  </tbody>
+</table>
+<button id="createSchedulesButton">Create Possible Schedules</button>
+
     </div>
 
 <div class="window">
@@ -304,10 +345,12 @@
         <div class="subject" data-day="5" data-hour="20:30:00"></div>
         </div>
     </div>
+    <button id="submitAcademicDream">Submit Academic Dream</button>
+
 </div>
 
 
 <script src="{% static 'courses/js/searchCourses.js' %}"></script>
-<script src="{% static 'courses/js/dexter.js' %}"></script>
+
 </body>
 </html>

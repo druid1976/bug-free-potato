@@ -5,6 +5,7 @@ app_name = 'courses'
 
 urlpatterns = [
     path('dex/', Dexter.as_view(), name='dexter'),
+    path('submit_academic_dream/', AcademicDreamSubmitView.as_view(), name='submit_academic_dream'),
    # path('page_of_academy/', AcademicPager.as_view(), name='academic_pager'),
     path('search/', CourseSearchView.as_view(), name='course_search'),
     path('semester_list/', SemesterListView.as_view(), name='semester_list'),

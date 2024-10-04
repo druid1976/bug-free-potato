@@ -69,6 +69,7 @@ class SectionPacket(models.Model):
         sections = ", ".join([str(s.section_number) for s in self.section.all()])
         return f"{self.course.title}, Sections: {sections}"
 
+
 class Semester(models.Model):
     semester_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
