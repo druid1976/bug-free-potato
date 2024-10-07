@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.views import View
 import json
 from .models import *
+import logging
 
 # Create your views here.
 
@@ -124,44 +125,114 @@ class CurriculumView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
 
-
-
-
-
 class CourseSearchView(LoginRequiredMixin, View):
     login_url = 'accounts:login'
 
     def get(self, request):
-        courses = Course.objects.all()
-        course_data = []
+        # Fetch all courses and prefetch related section packets and sections in one query
+        courses = Course.objects.prefetch_related(
+            Prefetch('sectionpacket_set', queryset=SectionPacket.objects.prefetch_related('section'))
+        )
 
+        course_data = []
         for course in courses:
-            section_query = Section.objects.filter(course=course)
-            section_list = list(section_query.values('section_number', 'day', 'starting_hour',
-                                                     'room_name', 'building_name', 'floor_name'))
+            packet_list = []
+            for packet in course.sectionpacket_set.all():
+                sections = packet.section.values('section_number', 'day', 'starting_hour',
+                                                 'room_name', 'building_name', 'floor_name')
+                packet_list.append({
+                    'packet_id': packet.id,
+                    'sections': list(sections)
+                })
+
             course_data.append({
                 'title': course.title,
-                'sections': section_list
+                'course_code': course.course_code,
+                'section_packets': packet_list
             })
-        context = {'course_data': course_data}
-        return JsonResponse(context)
+        
+        return JsonResponse({'course_data': course_data})
 
 
 class Dexter(LoginRequiredMixin, View):
-
     login_url = 'accounts:login'
 
     def get(self, request):
         student = request.user
-        curr = CurriculumCourseSemester.objects.filter(program_code =student.study)
+        curr = CurriculumCourseSemester.objects.filter(program_code=student.study)
         suggested_courses = []
+        old_courses = []
         for cur in curr:
             if cur.semester.semester_id - 2 == student.semester_of_student:
-                suggested_courses.append(cur.course)
-           # if cur.semester.semester_id - 2 < student.semester_of_student :
+                try:
+                    academic_dream = cur.semcor_academic_dream.get(student=student)
+                    if academic_dream.grade <= 50:
+                        suggested_courses.append(cur.course)
+                except AcademicDream.DoesNotExist:
+                    academic_dream = AcademicDream.objects.create(student=request.user, curriculum_course_semester=cur,
+                                                                  grade=-1)
+                    suggested_courses.append(cur.course)
 
+            if cur.semester.semester_id - 2 < student.semester_of_student:
+                try:
+                    academic_dream = cur.semcor_academic_dream.get(student=student)
+                    if academic_dream.grade <= 50:
+                        old_courses.append(cur.course)
+                except AcademicDream.DoesNotExist:
+                    academic_dream = AcademicDream.objects.create(student=request.user, curriculum_course_semester=cur,
+                                                                  grade=-1)
+                    old_courses.append(cur.course)
 
         context = {
             'suggested_courses': suggested_courses,
+            'old_courses': old_courses
         }
         return render(request, 'courses/dexter.html', context=context)
+
+
+class AcademicDreamSubmitView(LoginRequiredMixin, View):
+    login_url = 'accounts:login'
+
+    def post(self, request):
+        print("Request received")  # Debug statement
+        try:
+            data = json.loads(request.body)  # Parse the JSON body
+            print("Data received:", data)  # Log the incoming data
+
+            for entry in data:
+                course_code = entry['course_code']
+                section_packet_id = entry['section_packet_id']  # Use the correct key
+                grade = entry['grade']
+
+                # Fetch the course and curriculum semester
+                course = Course.objects.get(course_code=course_code)
+                curriculum_course_semester = CurriculumCourseSemester.objects.filter(course=course).first()
+
+                # Fetch the SectionPacket instance
+                section_packet = SectionPacket.objects.filter(id=section_packet_id).first()
+
+                if curriculum_course_semester and section_packet:
+                    # Update or create AcademicDream instance
+                    academic_dream, created = AcademicDream.objects.update_or_create(
+                        student=request.user,
+                        curriculum_course_semester=curriculum_course_semester,
+                        defaults={
+                            'grade': grade,
+                            'section_packet': section_packet,
+                        }
+                    )
+                    if created:
+                        print("Created new AcademicDream instance:", academic_dream)
+                    else:
+                        print("Updated existing AcademicDream instance:", academic_dream)
+                else:
+                    return JsonResponse({"success": False, "message": "Invalid course or section packet."}, status=400)
+
+            return JsonResponse({"success": True, "message": "Academic Dream(s) processed successfully!"})
+
+        except json.JSONDecodeError:
+            return JsonResponse({"success": False, "message": "Invalid JSON data"}, status=400)
+        except ValidationError as ve:
+            return JsonResponse({"success": False, "message": f"Validation error: {str(ve)}"}, status=400)
+        except Exception as e:
+            return JsonResponse({"success": False, "message": str(e)}, status=400)
