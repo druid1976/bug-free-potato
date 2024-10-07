@@ -125,28 +125,24 @@ class CurriculumView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
 
-
-
-
-
 class CourseSearchView(LoginRequiredMixin, View):
     login_url = 'accounts:login'
 
     def get(self, request):
-        courses = Course.objects.all()
+        # Fetch all courses and prefetch related section packets and sections in one query
+        courses = Course.objects.prefetch_related(
+            Prefetch('sectionpacket_set', queryset=SectionPacket.objects.prefetch_related('section'))
+        )
+
         course_data = []
-
         for course in courses:
-            section_packets = SectionPacket.objects.filter(course=course)
             packet_list = []
-
-            for packet in section_packets:
-                sections = packet.section.all().values('section_number', 'day', 'starting_hour',
-                                                       'room_name', 'building_name', 'floor_name')
-                section_list = list(sections)
+            for packet in course.sectionpacket_set.all():
+                sections = packet.section.values('section_number', 'day', 'starting_hour',
+                                                 'room_name', 'building_name', 'floor_name')
                 packet_list.append({
                     'packet_id': packet.id,
-                    'sections': section_list
+                    'sections': list(sections)
                 })
 
             course_data.append({
@@ -154,10 +150,8 @@ class CourseSearchView(LoginRequiredMixin, View):
                 'course_code': course.course_code,
                 'section_packets': packet_list
             })
-
-        context = {'course_data': course_data}
-        return JsonResponse(context)
-
+        
+        return JsonResponse({'course_data': course_data})
 
 
 class Dexter(LoginRequiredMixin, View):
