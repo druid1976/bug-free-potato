@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0cce1db-1d13-4a70-acfb-88e0dc584203" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dcan.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dcan.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/courses/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/courses/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/courses/static/courses/js/dexter.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/courses/static/courses/js/searchCourses.js" beforeDir="false" afterPath="$PROJECT_DIR$/courses/static/courses/js/searchCourses.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/courses/templates/courses/dexter.html" beforeDir="false" afterPath="$PROJECT_DIR$/courses/templates/courses/dexter.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/courses/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/courses/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/courses/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/courses/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -59,8 +57,8 @@
     "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "com.codeium.enabled": "true",
-    "git-widget-placeholder": "dexter",
-    "last_opened_file_path": "C:/Users/erenk/PycharmProjects/dcan/accounts/static/accounts/css",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/eren/Desktop/arac",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -125,8 +123,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-PY-242.21829.153" />
-        <option value="bundled-python-sdk-464836ebc622-b74155a9e76b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.21829.153" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-PY-242.23339.19" />
+        <option value="bundled-python-sdk-0029f7779945-399fe30bd8c1-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.23339.19" />
       </set>
     </attachedChunks>
   </component>
@@ -209,6 +207,7 @@
       <workItem from="1727903465805" duration="24856000" />
       <workItem from="1727981440833" duration="17264000" />
       <workItem from="1728010378869" duration="15618000" />
+      <workItem from="1728901502416" duration="938000" />
     </task>
     <servers />
   </component>

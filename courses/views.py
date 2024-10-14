@@ -131,7 +131,7 @@ class CourseSearchView(LoginRequiredMixin, View):
     def get(self, request):
         # Fetch all courses and prefetch related section packets and sections in one query
         courses = Course.objects.prefetch_related(
-            Prefetch('sectionpacket_set', queryset=SectionPacket.objects.prefetch_related('section'))
+           # Prefetch('sectionpacket_set', queryset=SectionPacket.objects.prefetch_related('section'))
         )
 
         course_data = []
@@ -232,7 +232,5 @@ class AcademicDreamSubmitView(LoginRequiredMixin, View):
 
         except json.JSONDecodeError:
             return JsonResponse({"success": False, "message": "Invalid JSON data"}, status=400)
-        except ValidationError as ve:
-            return JsonResponse({"success": False, "message": f"Validation error: {str(ve)}"}, status=400)
         except Exception as e:
             return JsonResponse({"success": False, "message": str(e)}, status=400)
